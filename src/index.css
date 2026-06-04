@@ -592,19 +592,458 @@ body {
   margin-bottom: 0;
 }
 
-/* ── 7. Placeholder ──────────────────────── */
-.s-placeholder {
-  min-height: 36vh;
+/* ── 7. SelfTest — 자가진단 ──────────────── */
+.s-selftest {
+  background: #f5f7fb;
+  padding: 96px 28px;
+  text-align: center;
+  border-top: 1px solid #e8ecf2;
+}
+
+.st-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.st-body {
+  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.04em;
+  color: #1A1A1A;
+  word-break: keep-all;
+}
+
+.st-sub {
+  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: -0.015em;
+  color: #666;
+  word-break: keep-all;
+}
+
+.st-btn {
+  display: inline-block;
+  background: #D76618;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: clamp(0.95rem, 3.2vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 18px 44px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.st-btn:hover   { background: #c05510; }
+.st-btn:active  { transform: scale(0.97); }
+.st-btn:focus-visible { outline: 2px solid #D76618; outline-offset: 3px; }
+
+/* ── 8. Trust — 신뢰 섹션 ────────────────── */
+
+/* Part 1: 인용구 */
+.tr-quote-wrap {
+  background: #0d1a2e;
+  padding: 80px 28px;
+  border-top: 1px solid #e8ecf2;
+}
+
+.tr-quote {
+  font-size: clamp(1.25rem, 4.6vw, 1.9rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.75;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.85);
+  word-break: keep-all;
+  margin-bottom: 24px;
+}
+
+.tr-attr {
+  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.02em;
+}
+
+/* Part 2: 진료 철학 */
+.tr-philosophy {
+  background: #ffffff;
+  padding: 80px 28px;
+  border-top: 1px solid #e8ecf2;
+}
+
+.tr-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1A3270;
+  opacity: 0.55;
+  margin-bottom: 16px;
+}
+
+.tr-ph-head {
+  font-size: clamp(1.25rem, 4.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.035em;
+  color: #1A1A1A;
+  word-break: keep-all;
+  margin-bottom: 56px;
+}
+
+.tr-ph-list {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.tr-ph-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.tr-ph-num {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #1A3270;
+  opacity: 0.45;
+  padding-top: 5px;
+}
+
+.tr-ph-title {
+  font-size: clamp(1rem, 3.6vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+  word-break: keep-all;
+}
+
+.tr-ph-body {
+  font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+  font-weight: 300;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  color: #555;
+  word-break: keep-all;
+}
+
+/* Part 3: 원장 프로필 */
+.tr-profile {
+  background: #f4f6fb;
+  padding: 64px 28px;
+  border-top: 1px solid #e8ecf2;
+}
+
+.tr-prof-name {
+  font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #1A1A1A;
+  margin-bottom: 6px;
+}
+
+.tr-prof-sub {
+  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+  color: #999;
+  letter-spacing: -0.005em;
+  margin-bottom: 28px;
+}
+
+.tr-prof-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.tr-prof-list li {
+  font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #444;
+  padding-left: 16px;
+  position: relative;
+  word-break: keep-all;
+}
+
+.tr-prof-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.58em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1A3270;
+  opacity: 0.5;
+}
+
+/* Part 4: 유튜브 */
+.tr-youtube {
+  background: #ffffff;
+  padding: 64px 28px 80px;
+  border-top: 1px solid #e8ecf2;
+}
+
+.tr-yt-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(145deg, #0d1929 0%, #1a2d4a 100%);
+  border-radius: 10px;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: opacity 0.2s ease;
+}
+.tr-yt-thumb:hover { opacity: 0.85; }
+
+.tr-yt-play {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
-  padding: 0 28px;
-  border-top: 1px solid var(--line);
+  justify-content: center;
 }
-.ph-line {
-  display: block;
-  width: 28px;
-  height: 1.5px;
-  background: #d4d4d4;
+.tr-yt-play::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.8);
+  margin-left: 4px;
+}
+
+.tr-yt-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.tr-yt-more {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1A3270;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: opacity 0.2s;
+}
+.tr-yt-more:hover { opacity: 0.6; }
+
+/* ── 9. FAQ ───────────────────────────────── */
+.s-faq {
+  background: #ffffff;
+  padding: 80px 28px;
+  border-top: 1px solid #e8ecf2;
+}
+
+.faq-head {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+  color: #1A1A1A;
+  word-break: keep-all;
+  margin-bottom: 48px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-top: 1px solid #ebebeb;
+}
+.faq-item:last-child {
+  border-bottom: 1px solid #ebebeb;
+}
+
+.faq-q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: clamp(0.95rem, 3.4vw, 1.15rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  word-break: keep-all;
+}
+
+.faq-icon {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #1A3270;
+  line-height: 1;
+  margin-top: 1px;
+  transition: color 0.2s;
+}
+.faq-item.open .faq-icon { color: #D76618; }
+
+/* CSS grid accordion trick */
+.faq-a-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-item.open .faq-a-wrap {
+  grid-template-rows: 1fr;
+}
+
+.faq-a {
+  overflow: hidden;
+}
+
+.faq-a p {
+  padding: 0 0 24px;
+  font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+  font-weight: 300;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  color: #555;
+  word-break: keep-all;
+}
+
+/* ── 10. KakaoConsult ─────────────────────── */
+.s-kakao {
+  background: #0d1a2e;
+  padding: 96px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kk-inner {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.kk-body {
+  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+.kk-sub {
+  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.48);
+  letter-spacing: -0.01em;
+  margin-top: -16px;
+}
+
+.kk-btn {
+  display: inline-block;
+  background: #FEE500;
+  color: #1A1A1A;
+  font-family: inherit;
+  font-size: clamp(0.95rem, 3.2vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 18px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.kk-btn:hover  { opacity: 0.88; }
+.kk-btn:active { transform: scale(0.97); }
+.kk-btn:focus-visible { outline: 2px solid #FEE500; outline-offset: 3px; }
+
+.kk-notes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kk-notes li {
+  font-size: clamp(0.78rem, 2.6vw, 0.88rem);
+  color: rgba(255, 255, 255, 0.32);
+  letter-spacing: -0.005em;
+  padding-left: 14px;
+  position: relative;
+  word-break: keep-all;
+}
+.kk-notes li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── 11. Footer ───────────────────────────── */
+.s-footer {
+  background: #111827;
+  padding: 52px 28px 44px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ft-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+.ft-info {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 28px;
+}
+
+.ft-info li {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: -0.005em;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.ft-copy {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.01em;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 20px;
 }
 
 /* ── Desktop ─────────────────────────────── */
@@ -631,6 +1070,36 @@ body {
   .sym-head,
   .sym-tabs,
   .sym-content {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* SelfTest */
+  .s-selftest { padding-left: 28px; padding-right: 28px; }
+
+  /* Trust */
+  .tr-quote-wrap,
+  .tr-philosophy,
+  .tr-profile,
+  .tr-youtube {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* FAQ */
+  .s-faq {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* KakaoConsult */
+  .s-kakao {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* Footer */
+  .s-footer {
     padding-left: max(64px, calc(50vw - 380px));
     padding-right: max(64px, calc(50vw - 380px));
   }

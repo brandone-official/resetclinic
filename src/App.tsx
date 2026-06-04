@@ -320,11 +320,224 @@ function Symptoms() {
   )
 }
 
-// ── 7. Placeholder ───────────────────────────────────
-function Placeholder() {
+// ── 7. SelfTest — 자가진단 진입 ──────────────────────
+function SelfTest() {
   return (
-    <footer className="s-placeholder" aria-hidden="true">
-      <span className="ph-line" />
+    <section className="s-selftest">
+      <div className="st-inner">
+        <Reveal>
+          <p className="st-body">
+            같은 갱년기라도<br />
+            사람마다 몸이 다르게 반응합니다.
+          </p>
+        </Reveal>
+        <Reveal>
+          <p className="st-sub">
+            나는 어떤 유형인지<br />
+            1분이면 알 수 있어요.
+          </p>
+        </Reveal>
+        <Reveal>
+          <a href="#" className="st-btn">내 유형 확인하기</a>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// ── 8. Trust — 신뢰 섹션 ─────────────────────────────
+const PHILOSOPHY = [
+  {
+    num: '01',
+    title: '데이터부터 봅니다',
+    line1: '혈당 곡선, 인바디 그래프, 혈액검사 결과지.',
+    line2: '이 세 가지를 같이 보고 나서야 한약을 짓습니다.',
+  },
+  {
+    num: '02',
+    title: '20대 방식을 50대 몸에 쓰지 않습니다',
+    line1: '호르몬이 흔들리는 몸에 굶주림을 더하면 오히려 더 깊어집니다.',
+    line2: '의지의 문제가 아닙니다.',
+  },
+  {
+    num: '03',
+    title: '한의학과 생화학을 같이 씁니다',
+    line1: '음양과 기혈, 호르몬과 효소.',
+    line2: '같은 몸을 다른 각도에서 부르는 이름입니다.',
+  },
+] as const
+
+function Trust() {
+  return (
+    <section className="s-trust">
+
+      {/* Part 1: 인용구 */}
+      <div className="tr-quote-wrap">
+        <Reveal>
+          <blockquote className="tr-quote">
+            "갱년기는 끝이 아니라<br />
+            몸을 다시 시작하는 자리입니다.<br />
+            데이터를 같이 봅니다.<br />
+            처방은 그 다음입니다."
+          </blockquote>
+          <p className="tr-attr">— 박승현 원장</p>
+        </Reveal>
+      </div>
+
+      {/* Part 2: 진료 철학 */}
+      <div className="tr-philosophy">
+        <Reveal>
+          <p className="tr-eyebrow">원장의 진료 철학</p>
+          <p className="tr-ph-head">
+            처방전을 드리기 전에,<br />
+            저와 함께 데이터를<br />
+            들여다보는 시간이 있습니다.
+          </p>
+        </Reveal>
+        <div className="tr-ph-list">
+          {PHILOSOPHY.map(item => (
+            <Reveal key={item.num}>
+              <div className="tr-ph-item">
+                <span className="tr-ph-num">{item.num}</span>
+                <div>
+                  <p className="tr-ph-title">{item.title}</p>
+                  <p className="tr-ph-body">{item.line1}<br />{item.line2}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* Part 3: 원장 프로필 */}
+      <div className="tr-profile">
+        <Reveal>
+          <p className="tr-prof-name">박승현 원장</p>
+          <p className="tr-prof-sub">전주W한의원 · 리셋다이어트</p>
+          <ul className="tr-prof-list">
+            <li>갱년기 다이어트 전문 진료</li>
+            <li>동료 의사·한의사 생화학 스터디 운영</li>
+            <li>데이터 기반 환자 맞춤 진료</li>
+          </ul>
+        </Reveal>
+      </div>
+
+      {/* Part 4: 유튜브 */}
+      <div className="tr-youtube">
+        <Reveal>
+          <a
+            href="https://www.youtube.com/@리셋다이어트"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tr-yt-thumb"
+            aria-label="리셋다이어트 유튜브 채널 바로가기"
+          >
+            <div className="tr-yt-play" aria-hidden="true" />
+            <p className="tr-yt-label">리셋다이어트 유튜브</p>
+          </a>
+          <a
+            href="https://www.youtube.com/@리셋다이어트"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tr-yt-more"
+          >
+            더 많은 영상 보기 →
+          </a>
+        </Reveal>
+      </div>
+
+    </section>
+  )
+}
+
+// ── 9. FAQ ────────────────────────────────────────────
+const FAQ_ITEMS = [
+  {
+    q: '갱년기인데 한약 다이어트 해도 되나요?',
+    a: '됩니다. 오히려 갱년기에 가장 잘 맞는 방법 중 하나입니다. 호르몬 흐름을 보정하면서 살을 빼기 때문에 열감·불면 같은 증상도 함께 좋아집니다.',
+  },
+  {
+    q: '호르몬 치료(HRT)와 같이 해도 되나요?',
+    a: '병행 가능합니다. 현재 복용 중인 호르몬제 정보를 상담 시 알려주시면 처방에 반영합니다.',
+  },
+  {
+    q: '한 달에 얼마나 빠지나요?',
+    a: '개인 상태에 따라 다릅니다. 리셋다이어트는 체중계 숫자만 보지 않습니다. 내장지방·근육량·갱년기 증상을 함께 봅니다.',
+  },
+  {
+    q: '요요는 안 오나요?',
+    a: '요요는 다이어트 방식이 만듭니다. 리셋다이어트는 마무리 단계에서 식사법을 일상에 정착시키기 때문에 끝나도 흔들리지 않도록 설계되어 있습니다.',
+  },
+] as const
+
+function FAQSection() {
+  const [open, setOpen] = useState<number | null>(0)
+  const toggle = (i: number) => setOpen(open === i ? null : i)
+
+  return (
+    <section className="s-faq">
+      <Reveal>
+        <p className="faq-head">상담 전에 많이 물어보시는 것들</p>
+      </Reveal>
+      <div className="faq-list">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
+            <button className="faq-q" onClick={() => toggle(i)}>
+              <span>{item.q}</span>
+              <span className="faq-icon" aria-hidden="true">{open === i ? '−' : '+'}</span>
+            </button>
+            <div className="faq-a-wrap">
+              <div className="faq-a">
+                <p>{item.a}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// ── 10. KakaoConsult ─────────────────────────────────
+function KakaoConsult() {
+  return (
+    <section className="s-kakao">
+      <div className="kk-inner">
+        <Reveal>
+          <p className="kk-body">
+            지금 내 몸 상태가 궁금하다면<br />
+            편하게 물어보세요.
+          </p>
+          <p className="kk-sub">원장이 직접 답합니다.</p>
+        </Reveal>
+        <Reveal>
+          <a href="#" className="kk-btn">카카오톡으로 상담하기</a>
+        </Reveal>
+        <Reveal>
+          <ul className="kk-notes">
+            <li>비용 없이 궁금한 점부터 물어보실 수 있습니다</li>
+            <li>진료 예약 강요 없습니다</li>
+            <li>평일 진료시간 내 빠른 답변</li>
+          </ul>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// ── 11. SiteFooter ────────────────────────────────────
+function SiteFooter() {
+  return (
+    <footer className="s-footer">
+      <p className="ft-name">전주W한의원</p>
+      <ul className="ft-info">
+        <li>의료기관명: 전주더블유(W)한의원</li>
+        <li>대표자: 박승현</li>
+        <li>주소: 전북 전주시 완산구 홍산1길 21 207호 (효자동 서희스타일스 상가)</li>
+        <li>대표전화: 063-221-7500</li>
+        <li>사업자등록번호: 887-23-01841</li>
+      </ul>
+      <p className="ft-copy">© 2026 Jeonju W Korean Medicine Clinic. All rights reserved.</p>
     </footer>
   )
 }
@@ -332,14 +545,20 @@ function Placeholder() {
 // ── App ──────────────────────────────────────────────
 export default function App() {
   return (
-    <main>
-      <Hero />
-      <Bridge />
-      <Empathy />
-      <Bridge2 />
-      <Cause />
-      <Symptoms />
-      <Placeholder />
-    </main>
+    <>
+      <main>
+        <Hero />
+        <Bridge />
+        <Empathy />
+        <Bridge2 />
+        <Cause />
+        <Symptoms />
+        <SelfTest />
+        <Trust />
+        <FAQSection />
+        <KakaoConsult />
+      </main>
+      <SiteFooter />
+    </>
   )
 }
