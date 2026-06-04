@@ -494,6 +494,16 @@ function FAQSection() {
           </div>
         ))}
       </div>
+      <Reveal>
+        <a
+          href="https://pf.kakao.com/_xjxcgpxl"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="faq-kakao"
+        >
+          더 궁금한 점은 카카오톡으로 물어보세요 →
+        </a>
+      </Reveal>
     </section>
   )
 }
@@ -511,7 +521,7 @@ function KakaoConsult() {
           <p className="kk-sub">원장이 직접 답합니다.</p>
         </Reveal>
         <Reveal>
-          <a href="#" className="kk-btn">카카오톡으로 상담하기</a>
+          <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="kk-btn">카카오톡으로 상담하기</a>
         </Reveal>
         <Reveal>
           <ul className="kk-notes">
