@@ -7,11 +7,13 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --text: #1a1a1a;
+  --white:  #ffffff;
+  --text:   #1a1a1a;
+  --muted:  #aaa;
+  --soft:   #666;
   --orange: #d76618;
-  --navy: #1a3270;
-  --muted: #9a9a9a;
+  --navy:   #1a3270;
+  --line:   #ebebeb;
 }
 
 html {
@@ -19,7 +21,7 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: var(--white);
   color: var(--text);
   font-family:
     'PretendardVariable',
@@ -45,149 +47,176 @@ body {
   transform: none;
 }
 
+/* ── 핵심 단어 강조 ──────────────────────── */
+.hi-orange { color: var(--orange); }
+.hi-navy   { color: var(--navy); }
+
+.hi-orange {
+  position: relative;
+  display: inline;
+}
+.hi-orange::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.1em;
+  height: 2px;
+  width: 0;
+  background: var(--orange);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+}
+.reveal.visible .hi-orange::after {
+  width: 100%;
+}
+
 /* ── 1. Hero ─────────────────────────────── */
 .s-hero {
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 32px;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 28px 80px;
 }
 
-.hero-text {
-  text-align: center;
+.hero-kicker {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 32px;
 }
 
 .hero-text p {
-  font-size: clamp(2.2rem, 8vw, 4rem);
+  font-size: clamp(2.6rem, 9.8vw, 5.2rem);
   font-weight: 700;
-  line-height: 1.38;
-  letter-spacing: -0.04em;
+  line-height: 1.2;
+  letter-spacing: -0.045em;
   word-break: keep-all;
-  color: #1a1a1a;
+  color: var(--text);
 }
 
 /* ── 2. Bridge ───────────────────────────── */
-/*
-  장식 효과: 배경에 큰 여는 따옴표(")
-  텍스트 3줄은 각각 크기·무게가 달라 자연스러운 읽기 흐름 생성
-*/
 .s-bridge {
-  padding: 88px 32px 108px;
+  padding: 96px 28px 112px;
+  border-top: 1px solid var(--line);
+}
+
+.bridge-inner {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  position: relative;
-  overflow: hidden;
+  gap: 28px;
 }
 
-/* 배경 따옴표 장식 */
-.s-bridge::before {
-  content: '\201C'; /* " */
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: clamp(9rem, 26vw, 20rem);
-  line-height: 0.85;
-  color: #f0f0f0;
-  font-weight: 700;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-}
-
-/* 텍스트가 장식 위에 오도록 */
-.s-bridge .reveal {
-  position: relative;
-  z-index: 1;
-}
-
-/* 문장 1: 부드럽게 시작 */
 .bp-1 {
-  font-size: clamp(1.05rem, 3.8vw, 1.55rem);
-  font-weight: 400;
-  line-height: 1.65;
-  letter-spacing: -0.02em;
+  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: -0.015em;
   word-break: keep-all;
-  color: var(--text);
+  color: var(--soft);
 }
-
-/* 문장 2: 핵심 진술, 크고 굵게 */
 .bp-2 {
-  font-size: clamp(1.7rem, 6.2vw, 2.6rem);
+  font-size: clamp(1.9rem, 7vw, 3.2rem);
   font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.04em;
+  line-height: 1.25;
+  letter-spacing: -0.045em;
   word-break: keep-all;
   color: var(--text);
 }
-
-/* 문장 3: 원장님 목소리, 네이비 */
 .bp-3 {
-  font-size: clamp(1.05rem, 3.8vw, 1.55rem);
-  font-weight: 400;
-  line-height: 1.65;
-  letter-spacing: -0.02em;
+  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: -0.015em;
   word-break: keep-all;
   color: var(--navy);
 }
 
-/* ── 3. Empathy ──────────────────────────── */
-/*
-  섹션 시작: 짧은 주황 접선으로 Bridge와 시각적 구분
-  각 문장: min-height 없이 padding만으로 자연스러운 높이
-  마지막 문장: 등장 시 #1a1a1a → #d76618 색상 전환
-*/
-.s-empathy {
-  padding-bottom: 80px;
+/* ── 3. Empathy — Sticky Scroll ─────────── */
+
+/* 스크롤 공간 래퍼 */
+.s-empathy-wrap {
+  height: 600vh;
+  position: relative;
+  border-top: 1px solid var(--line);
 }
 
-/* 섹션 접선 */
-.s-empathy::before {
-  content: '';
-  display: block;
-  width: 36px;
-  height: 2px;
-  background: var(--orange);
-  margin: 0 32px 80px;
+/* 뷰포트에 고정되는 무대 */
+.s-empathy-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
 }
 
-.empathy-zone {
-  padding: clamp(44px, 6vh, 64px) 32px;
-}
-
-.em {
-  line-height: 1.35;
-  letter-spacing: -0.038em;
+/* 각 문장: 절대 중앙, 기본 투명 */
+.emp-sentence {
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  right: 28px;
+  transform: translateY(-50%);
+  line-height: 1.22;
+  letter-spacing: -0.04em;
   word-break: keep-all;
+  color: var(--text);
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.emp-sentence.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.em[data-step='1'] { font-size: clamp(1.55rem, 5.8vw, 2.4rem);  font-weight: 300; color: var(--text); }
-.em[data-step='2'] { font-size: clamp(1.85rem, 6.8vw, 2.8rem);  font-weight: 400; color: var(--text); }
-.em[data-step='3'] { font-size: clamp(2.15rem, 8vw, 3.3rem);    font-weight: 500; color: var(--text); }
-.em[data-step='4'] { font-size: clamp(2.5rem, 9.2vw, 3.8rem);   font-weight: 600; color: var(--text); }
-
-/* 마지막 문장: 나타날 때 dark → orange 전환 */
-.em[data-step='5'] {
-  font-size: clamp(3.4rem, 12.5vw, 5.2rem);
+/* 크기·무게 단계적 증가 */
+.emp-sentence[data-step='1'] { font-size: clamp(1.5rem, 5.5vw, 2.2rem);  font-weight: 300; }
+.emp-sentence[data-step='2'] { font-size: clamp(1.9rem, 7vw, 2.9rem);    font-weight: 400; }
+.emp-sentence[data-step='3'] { font-size: clamp(2.4rem, 9vw, 3.8rem);    font-weight: 500; }
+.emp-sentence[data-step='4'] { font-size: clamp(3rem, 11vw, 5rem);       font-weight: 600; }
+.emp-sentence[data-step='5'] {
+  font-size: clamp(3.4rem, 13vw, 6.5rem);
   font-weight: 800;
   color: var(--text);
-  transition: color 0.75s ease 0.4s;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.7s ease 0.2s;
 }
-.reveal.visible .em[data-step='5'] {
+.emp-sentence[data-step='5'].active {
   color: var(--orange);
+}
+
+/* 진행 표시 바 */
+.emp-prog {
+  position: absolute;
+  bottom: 40px;
+  left: 28px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.prog-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--line);
+  border-radius: 1px;
+  transition: background 0.3s ease, width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.prog-bar.filled {
+  background: var(--orange);
+  width: 32px;
 }
 
 /* ── 4. Placeholder ──────────────────────── */
 .s-placeholder {
-  min-height: 40vh;
+  min-height: 36vh;
   display: flex;
   align-items: center;
-  padding: 0 32px;
-  border-top: 1px solid #ebebeb;
+  padding: 0 28px;
+  border-top: 1px solid var(--line);
 }
-
 .ph-line {
   display: block;
   width: 28px;
@@ -200,20 +229,16 @@ body {
   .s-hero,
   .s-bridge,
   .s-placeholder {
-    padding-left: max(64px, calc(50vw - 360px));
-    padding-right: max(64px, calc(50vw - 360px));
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
   }
 
-  .s-bridge::before {
-    left: max(20px, calc(50vw - 400px));
+  .emp-sentence {
+    left: max(64px, calc(50vw - 380px));
+    right: max(64px, calc(50vw - 380px));
   }
 
-  .s-empathy::before {
-    margin-left: max(64px, calc(50vw - 360px));
-  }
-
-  .empathy-zone {
-    padding-left: max(64px, calc(50vw - 360px));
-    padding-right: max(64px, calc(50vw - 360px));
+  .emp-prog {
+    left: max(64px, calc(50vw - 380px));
   }
 }
