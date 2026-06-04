@@ -6,34 +6,136 @@
   padding: 0;
 }
 
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --orange: #d76618;
+  --navy: #1a3270;
+  --muted: #9a9a9a;
+}
+
 html {
-  -webkit-text-size-adjust: 100%;
-  font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  background: #F8F9FB;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    'PretendardVariable',
+    'Pretendard',
+    -apple-system,
+    'Apple SD Gothic Neo',
+    'Malgun Gothic',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
-#root {
+/* ── Reveal ──────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 1. Hero ─────────────────────────────── */
+.s-hero {
+  min-height: 100vh;
   min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
 }
 
-img,
-svg {
+.hero-text p {
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: -0.04em;
+  word-break: keep-all;
+  color: var(--text);
+}
+
+/* ── 2. Bridge ───────────────────────────── */
+.s-bridge {
+  padding: 96px 28px 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.bridge-p {
+  font-size: clamp(1.3rem, 4.8vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.62;
+  letter-spacing: -0.025em;
+  word-break: keep-all;
+  color: var(--text);
+}
+
+/* ── 3. Empathy ──────────────────────────── */
+.s-empathy {
+  padding-bottom: 40px;
+}
+
+.empathy-zone {
+  min-height: 62vh;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+}
+
+.em {
+  line-height: 1.38;
+  letter-spacing: -0.038em;
+  word-break: keep-all;
+  color: var(--text);
+}
+
+/* size grows with each step */
+.em[data-step='1'] { font-size: clamp(1.55rem, 5.8vw, 2.4rem); }
+.em[data-step='2'] { font-size: clamp(1.85rem, 6.8vw, 2.8rem); }
+.em[data-step='3'] { font-size: clamp(2.15rem, 8vw, 3.3rem);   }
+.em[data-step='4'] { font-size: clamp(2.5rem, 9.2vw, 3.8rem);  }
+.em[data-step='5'] {
+  font-size: clamp(2.9rem, 10.5vw, 4.4rem);
+  color: var(--orange);
+}
+
+/* ── 4. Placeholder ──────────────────────── */
+.s-placeholder {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.ph-line {
   display: block;
-  max-width: 100%;
+  width: 28px;
+  height: 1.5px;
+  background: #d0d0d0;
 }
 
-button {
-  font-family: inherit;
-}
+/* ── Desktop ─────────────────────────────── */
+@media (min-width: 640px) {
+  .s-hero,
+  .s-bridge,
+  .s-placeholder {
+    padding-left: max(60px, calc(50vw - 360px));
+    padding-right: max(60px, calc(50vw - 360px));
+  }
 
-a {
-  color: inherit;
+  .empathy-zone {
+    padding-left: max(60px, calc(50vw - 360px));
+    padding-right: max(60px, calc(50vw - 360px));
+  }
 }
