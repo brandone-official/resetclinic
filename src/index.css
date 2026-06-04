@@ -230,17 +230,17 @@ body {
   right: 28px;
   transform: translateY(-50%);
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.4;
   letter-spacing: -0.04em;
   word-break: keep-all;
   color: var(--text);
 }
 
-.emp-text[data-step='1'] { font-size: clamp(1.5rem, 5.5vw, 2.2rem);  font-weight: 300; }
-.emp-text[data-step='2'] { font-size: clamp(1.9rem, 7vw, 2.9rem);    font-weight: 400; }
-.emp-text[data-step='3'] { font-size: clamp(2.4rem, 9vw, 3.8rem);    font-weight: 500; }
-.emp-text[data-step='4'] { font-size: clamp(3rem, 11vw, 5rem);       font-weight: 600; }
-.emp-text[data-step='5'] { font-size: clamp(3.4rem, 13vw, 6.5rem);   font-weight: 800; color: var(--orange); }
+.emp-text[data-step='1'] { font-size: clamp(1.5rem, 5.5vw, 2.2rem);  font-weight: 300; line-height: 1.4;  }
+.emp-text[data-step='2'] { font-size: clamp(1.9rem, 7vw, 2.9rem);    font-weight: 400; line-height: 1.45; }
+.emp-text[data-step='3'] { font-size: clamp(2.4rem, 9vw, 3.8rem);    font-weight: 500; line-height: 1.5;  }
+.emp-text[data-step='4'] { font-size: clamp(3rem, 11vw, 5rem);       font-weight: 600; line-height: 1.55; }
+.emp-text[data-step='5'] { font-size: clamp(3.4rem, 13vw, 6.5rem);   font-weight: 800; line-height: 1.6;  color: var(--orange); }
 
 /* 진행 바 — 정중앙 하단 */
 .emp-prog {
