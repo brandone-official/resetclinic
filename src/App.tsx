@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // ── Scroll Reveal ────────────────────────────────────
 function useReveal(threshold = 0.3) {
@@ -247,7 +247,80 @@ function Cause() {
   )
 }
 
-// ── 6. Placeholder ───────────────────────────────────
+// ── 6. Symptoms — 탭형 슬라이드 ──────────────────────
+const SYM_TABS = [
+  {
+    label: '열감',
+    patient: '갑자기 얼굴이 화끈, 등에선 식은땀이 나요.',
+    lines: [
+      '시상하부가 체온 신호를 잘못 읽는 겁니다.',
+      '실제로 덥지 않은데 몸이 열을 빼내려 과민 반응해요.',
+    ],
+  },
+  {
+    label: '불면',
+    patient: '새벽 3시, 또 이유없이 깼습니다.',
+    lines: [
+      '심부체온이 안정되지 않으면 깊은 잠에 들 수 없습니다.',
+      '자다 깨고, 또 자다 깨고. 그게 반복되는 거예요.',
+    ],
+  },
+  {
+    label: '뱃살',
+    patient: '먹는 건 비슷한데 배만 늘었어요.',
+    lines: [
+      '에스트로겐이 줄면 지방이 배로 먼저 축적됩니다.',
+      '인슐린 저항성까지 높아져 더 빠르게 쌓여요.',
+    ],
+  },
+  {
+    label: '피로',
+    patient: '아무것도 하기 싫고 종일 피곤합니다.',
+    lines: [
+      '수면 분절이 코르티솔 리듬을 교란시킵니다.',
+      '푹 잔 것 같은데도 아침에 무거운 이유가 여기 있어요.',
+    ],
+  },
+] as const
+
+function Symptoms() {
+  const [active, setActive] = useState(0)
+
+  return (
+    <section className="s-symptoms">
+      <div className="sym-head">
+        <p className="sym-kicker">증상과 원인</p>
+        <p className="sym-title">왜 이런 일이 생기는 걸까요?</p>
+      </div>
+
+      <div className="sym-tabs" role="tablist">
+        {SYM_TABS.map((tab, i) => (
+          <button
+            key={i}
+            role="tab"
+            aria-selected={i === active}
+            className={`sym-tab${i === active ? ' active' : ''}`}
+            onClick={() => setActive(i)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div key={active} className="sym-content" role="tabpanel">
+        <p className="sym-patient">"{SYM_TABS[active].patient}"</p>
+        <span className="sym-rule" aria-hidden="true" />
+        <div className="sym-explain">
+          {SYM_TABS[active].lines.map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── 7. Placeholder ───────────────────────────────────
 function Placeholder() {
   return (
     <footer className="s-placeholder" aria-hidden="true">
@@ -265,6 +338,7 @@ export default function App() {
       <Empathy />
       <Bridge2 />
       <Cause />
+      <Symptoms />
       <Placeholder />
     </main>
   )

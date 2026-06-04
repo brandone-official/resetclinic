@@ -476,7 +476,123 @@ body {
   border-top: 1px solid #e8ecf2;
 }
 
-/* ── 6. Placeholder ──────────────────────── */
+/* ── 6. Symptoms (탭 슬라이드) ──────────────── */
+.s-symptoms {
+  background: #111827;
+  color: #e8edf4;
+}
+
+/* 섹션 헤더 */
+.sym-head {
+  padding: 64px 28px 36px;
+}
+
+.sym-kicker {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 12px;
+}
+
+.sym-title {
+  font-size: clamp(1.5rem, 5.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+/* 탭 바 — sticky */
+.sym-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  background: #111827;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 28px;
+}
+
+.sym-tab {
+  flex: 1;
+  padding: 18px 4px;
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  font-family: inherit;
+  font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.22s ease, border-color 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.sym-tab:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sym-tab.active {
+  color: #D76618;
+  border-bottom-color: #D76618;
+}
+
+/* 콘텐츠 — 탭 전환 시 fade+rise */
+@keyframes sym-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sym-content {
+  padding: 52px 28px 80px;
+  min-height: 280px;
+  animation: sym-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 환자 목소리 */
+.sym-patient {
+  font-size: clamp(1.15rem, 4.2vw, 1.8rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.55);
+  word-break: keep-all;
+  margin-bottom: 32px;
+}
+
+/* 주황 구분선 */
+.sym-rule {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: #D76618;
+  margin-bottom: 32px;
+}
+
+/* 원인 설명 */
+.sym-explain p {
+  font-size: clamp(1.05rem, 3.9vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.88);
+  word-break: keep-all;
+  margin-bottom: 14px;
+}
+
+.sym-explain p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── 7. Placeholder ──────────────────────── */
 .s-placeholder {
   min-height: 36vh;
   display: flex;
@@ -507,6 +623,14 @@ body {
   }
 
   .s-bridge2 {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* Symptoms */
+  .sym-head,
+  .sym-tabs,
+  .sym-content {
     padding-left: max(64px, calc(50vw - 380px));
     padding-right: max(64px, calc(50vw - 380px));
   }
