@@ -1092,13 +1092,16 @@ body {
   padding-top: 20px;
 }
 
-.mobile-br { display: inline; }
-.pc-br { display: none; }
+.br-mobile { display: none; }
+.br-pc { display: block; height: 0; }
+
+@media (max-width: 639px) {
+  .br-mobile { display: block; height: 0; }
+  .br-pc { display: none; }
+}
 
 /* ── Desktop ─────────────────────────────── */
 @media (min-width: 640px) {
-  .mobile-br { display: none; }
-  .pc-br { display: inline; }
 
   .s-hero,
   .s-bridge,
