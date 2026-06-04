@@ -1092,12 +1092,12 @@ body {
   padding-top: 20px;
 }
 
-.br-mobile { display: none; }
-.br-pc { display: block; height: 0; }
+.mob { display: none; }
+.pc  { display: block; }
 
 @media (max-width: 639px) {
-  .br-mobile { display: block; height: 0; }
-  .br-pc { display: none; }
+  .pc  { display: none; }
+  .mob { display: block; }
 }
 
 /* ── Desktop ─────────────────────────────── */
