@@ -256,15 +256,15 @@ body {
 
 .prog-bar {
   display: block;
-  width: 26px;
-  height: 5px;
+  width: 14px;
+  height: 3px;
   background: var(--line);
-  border-radius: 3px;
+  border-radius: 2px;
   transition: background 0.3s ease, width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .prog-bar.filled {
   background: var(--navy);
-  width: 48px;
+  width: 24px;
 }
 
 /* ── 4. Bridge2 ──────────────────────────── */
