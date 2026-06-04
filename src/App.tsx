@@ -70,11 +70,11 @@ const EMPATHY = [
 ] as const
 
 const EMP_CFG = [
-  { bg: '#ffffff',  scale: 0.04 },
-  { bg: '#fefcfa',  scale: 0.12 },
-  { bg: '#fdf9f4',  scale: 0.21 },
-  { bg: '#fbf4ec',  scale: 0.32 },
-  { bg: '#f8ede1',  scale: 0.44 },
+  { bg: '#fdf9f2',  scale: 0.18 },
+  { bg: '#faf2e5',  scale: 0.32 },
+  { bg: '#f6ebd6',  scale: 0.48 },
+  { bg: '#f0e0c2',  scale: 0.64 },
+  { bg: '#e9d3aa',  scale: 0.80 },
 ] as const
 
 function Empathy() {
@@ -95,7 +95,18 @@ function Empathy() {
 
     const show = (idx: number) => {
       if (idx === cur) return
-      scenes.forEach((s, i) => s.classList.toggle('active', i === idx))
+      const prev = cur
+      scenes.forEach((s, i) => {
+        if (i === idx) {
+          s.classList.remove('exit')
+          s.classList.add('active')
+        } else if (i === prev && prev >= 0) {
+          s.classList.remove('active')
+          s.classList.add('exit')
+        } else {
+          s.classList.remove('active', 'exit')
+        }
+      })
       bars.forEach((b, i) => b.classList.toggle('filled', i <= idx))
       sticky.style.backgroundColor = EMP_CFG[idx].bg
       breath.style.opacity   = '1'
