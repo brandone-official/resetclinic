@@ -235,7 +235,177 @@ body {
   width: 32px;
 }
 
-/* ── 4. Placeholder ──────────────────────── */
+/* ── 4. Bridge2 ──────────────────────────── */
+.s-bridge2 {
+  min-height: 100vh;
+  min-height: 100svh;
+  background: #1A3270;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 28px;
+}
+
+.b2-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.b2-answer {
+  font-size: clamp(1.05rem, 3.8vw, 1.65rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.5);
+  word-break: keep-all;
+}
+
+.b2-first {
+  font-size: clamp(1.8rem, 6.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  color: #D76618;
+  word-break: keep-all;
+}
+
+.b2-body {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  word-break: keep-all;
+}
+
+/* ── 5. Cause Section ────────────────────── */
+.s-cause {
+  background: #ffffff;
+  color: #1A1A1A;
+}
+
+.cause-part {
+  padding: 80px 28px;
+}
+
+.cause-p1 {
+  border-top: 1px solid #e8ecf2;
+}
+
+.cause-p2 {
+  background: #f5f7fb;
+  border-top: 1px solid #e8ecf2;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.cause-p3 {
+  border-top: 1px solid #e8ecf2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Part 1 */
+.cp1-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.cp1-img {
+  width: 100%;
+  max-width: 480px;
+  display: block;
+  border-radius: 10px;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.cp1-credit {
+  margin-top: 6px;
+  font-size: 0.6rem;
+  color: #c8c8c8;
+  letter-spacing: 0.02em;
+}
+
+.cp1-ko {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #1A3270;
+  margin-bottom: 6px;
+  word-break: keep-all;
+}
+
+.cp1-en {
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1A3270;
+  opacity: 0.5;
+  margin-bottom: 28px;
+}
+
+.cp1-body {
+  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.95;
+  letter-spacing: -0.01em;
+  color: #444;
+  word-break: keep-all;
+}
+
+/* Part 2 */
+.cp2-main {
+  font-size: clamp(1rem, 3.8vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.8;
+  letter-spacing: -0.02em;
+  color: #555;
+  word-break: keep-all;
+}
+
+.cp2-focus {
+  font-size: clamp(1.4rem, 5.2vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.04em;
+  color: #1A1A1A;
+  word-break: keep-all;
+}
+
+/* Part 3 */
+.cp3-svg {
+  width: 100%;
+  max-width: 480px;
+  display: block;
+  margin: 0 auto;
+}
+
+.cp3-body {
+  font-size: clamp(0.95rem, 3.4vw, 1.25rem);
+  font-weight: 300;
+  line-height: 2;
+  letter-spacing: -0.01em;
+  color: #555;
+  word-break: keep-all;
+}
+
+.cp3-conclusion {
+  font-size: clamp(1.2rem, 4.5vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.035em;
+  color: #1A3270;
+  word-break: keep-all;
+}
+
+/* ── 6. Placeholder ──────────────────────── */
 .s-placeholder {
   min-height: 36vh;
   display: flex;
@@ -265,4 +435,28 @@ body {
     right: max(64px, calc(50vw - 380px));
   }
 
+  .s-bridge2 {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  .s-cause .cause-part {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  .cp1-grid {
+    flex-direction: row;
+    align-items: center;
+    gap: 52px;
+  }
+
+  .cp1-img-wrap {
+    flex: 0 0 auto;
+    width: 280px;
+  }
+
+  .cp1-text {
+    flex: 1;
+  }
 }

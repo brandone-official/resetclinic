@@ -142,7 +142,131 @@ function Empathy() {
   )
 }
 
-// ── 4. Placeholder ───────────────────────────────────
+// ── 4. Bridge2 ───────────────────────────────────────
+function Bridge2() {
+  return (
+    <section className="s-bridge2">
+      <div className="b2-inner">
+        <Reveal><p className="b2-answer">답은 분명히 있습니다.</p></Reveal>
+        <Reveal><p className="b2-first">그 전에 한 가지만 먼저!</p></Reveal>
+        <Reveal>
+          <p className="b2-body">
+            지금 내 몸에서 정확히<br />
+            무슨 일이 일어나고 있는지<br />
+            알고 가야 합니다.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// ── 5. Cause ─────────────────────────────────────────
+function Cause() {
+  return (
+    <section className="s-cause">
+
+      {/* Part 1: 시상하부 소개 */}
+      <div className="cause-part cause-p1">
+        <Reveal>
+          <div className="cp1-grid">
+            <div className="cp1-img-wrap">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/71/Blausen_0536_HypothalamusLocation.png"
+                alt="뇌 속 시상하부 위치 — Blausen Medical"
+                className="cp1-img"
+              />
+              <p className="cp1-credit">© Blausen Medical / Wikimedia Commons (CC BY 3.0)</p>
+            </div>
+            <div className="cp1-text">
+              <p className="cp1-ko">시상하부 (視床下部)</p>
+              <p className="cp1-en">Hypothalamus</p>
+              <p className="cp1-body">
+                뇌 한가운데, 새끼손가락 끝만한 크기.<br />
+                체온 · 식욕 · 수면 · 자율신경<br />
+                이 모든 것을 여기서 조절합니다.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* Part 2: 갱년기와의 연결 */}
+      <div className="cause-part cause-p2">
+        <Reveal>
+          <p className="cp2-main">
+            갱년기에 에스트로겐이 감소하면<br />
+            시상하부의 조절 기능이 불안정해집니다.
+          </p>
+        </Reveal>
+        <Reveal>
+          <p className="cp2-focus">
+            우리는 <span className="hi-orange">호르몬</span> 변화에 집중해야 합니다.
+          </p>
+        </Reveal>
+      </div>
+
+      {/* Part 3: 증상 연결 인포그래픽 */}
+      <div className="cause-part cause-p3">
+        <Reveal>
+          <div className="cp3-chart" aria-hidden="true">
+            <svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" className="cp3-svg">
+              {/* Root */}
+              <rect x="100" y="8" width="160" height="48" rx="8" fill="#1A3270" />
+              <text x="180" y="31" textAnchor="middle" fontFamily="inherit" fontSize="15" fontWeight="700" fill="#fff">시상하부</text>
+              <text x="180" y="47" textAnchor="middle" fontFamily="inherit" fontSize="8.5" fill="rgba(255,255,255,0.65)">視床下部 · Hypothalamus</text>
+
+              {/* Trunk + branch divider */}
+              <line x1="180" y1="56" x2="180" y2="84" stroke="#1A3270" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
+              <circle cx="180" cy="84" r="3.5" fill="#1A3270" opacity="0.6" />
+              <line x1="180" y1="84" x2="55"  y2="120" stroke="#1A3270" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
+              <line x1="180" y1="84" x2="180" y2="120" stroke="#1A3270" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
+              <line x1="180" y1="84" x2="305" y2="120" stroke="#1A3270" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
+
+              {/* 열감 */}
+              <rect x="10" y="120" width="90" height="82" rx="8" fill="none" stroke="#1A3270" strokeWidth="1.5" />
+              <text x="55" y="149" textAnchor="middle" fontFamily="inherit" fontSize="17" fontWeight="700" fill="#1A3270">열감</text>
+              <text x="55" y="168" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="#888">체온 조절</text>
+              <text x="55" y="181" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="#888">흐트러짐</text>
+
+              {/* 불면 (강조) */}
+              <rect x="135" y="120" width="90" height="82" rx="8" fill="#1A3270" />
+              <text x="180" y="149" textAnchor="middle" fontFamily="inherit" fontSize="17" fontWeight="700" fill="#fff">불면</text>
+              <text x="180" y="168" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="rgba(255,255,255,0.7)">수면 리듬</text>
+              <text x="180" y="181" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="rgba(255,255,255,0.7)">붕괴</text>
+
+              {/* 복부지방 */}
+              <rect x="260" y="120" width="90" height="82" rx="8" fill="none" stroke="#1A3270" strokeWidth="1.5" />
+              <text x="305" y="144" textAnchor="middle" fontFamily="inherit" fontSize="17" fontWeight="700" fill="#1A3270">복부</text>
+              <text x="305" y="164" textAnchor="middle" fontFamily="inherit" fontSize="17" fontWeight="700" fill="#1A3270">지방</text>
+              <text x="305" y="186" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="#888">대사 균형</text>
+
+              {/* Caption */}
+              <line x1="20" y1="216" x2="340" y2="216" stroke="#e0e4ee" strokeWidth="1" />
+              <text x="180" y="232" textAnchor="middle" fontFamily="inherit" fontSize="9" fill="#bbb">하나의 뿌리, 세 가지 결과</text>
+            </svg>
+          </div>
+        </Reveal>
+        <Reveal>
+          <p className="cp3-body">
+            체온 조절이 흐트러지면서 열감이 나타나고,<br />
+            수면 리듬이 깨지면서 불면이 옵니다.<br />
+            대사 균형이 무너지면서 복부에 지방이 축적됩니다.
+          </p>
+        </Reveal>
+        <Reveal>
+          <p className="cp3-conclusion">
+            세 가지는 따로 오는 증상이 아닙니다.<br />
+            시상하부 하나에서 비롯된 결과입니다.
+          </p>
+        </Reveal>
+      </div>
+
+    </section>
+  )
+}
+
+// ── 6. Placeholder ───────────────────────────────────
 function Placeholder() {
   return (
     <footer className="s-placeholder" aria-hidden="true">
@@ -158,6 +282,8 @@ export default function App() {
       <Hero />
       <Bridge />
       <Empathy />
+      <Bridge2 />
+      <Cause />
       <Placeholder />
     </main>
   )
