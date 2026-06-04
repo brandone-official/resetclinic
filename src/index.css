@@ -287,57 +287,52 @@ body {
   color: #1A1A1A;
 }
 
+/* 각 파트: 최소 한 화면 */
 .cause-part {
-  padding: 80px 28px;
-}
-
-.cause-p1 {
-  border-top: 1px solid #e8ecf2;
-}
-
-.cause-p2 {
-  background: #f5f7fb;
-  border-top: 1px solid #e8ecf2;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.cause-p3 {
-  border-top: 1px solid #e8ecf2;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
 /* Part 1 */
-.cp1-grid {
+.cause-p1 {
+  border-top: 1px solid #e8ecf2;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+}
+
+.cp1-img-wrap {
+  flex: 0 0 auto;
 }
 
 .cp1-img {
   width: 100%;
-  max-width: 480px;
+  height: 55vh;
+  height: 55svh;
+  object-fit: cover;
   display: block;
-  border-radius: 10px;
-  filter: saturate(0.85) contrast(1.05);
+  filter: saturate(0.88) contrast(1.04);
 }
 
 .cp1-credit {
-  margin-top: 6px;
+  padding: 6px 20px;
   font-size: 0.6rem;
   color: #c8c8c8;
   letter-spacing: 0.02em;
 }
 
+.cp1-text {
+  flex: 1;
+  padding: 52px 28px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .cp1-ko {
-  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   color: #1A3270;
-  margin-bottom: 6px;
   word-break: keep-all;
 }
 
@@ -347,62 +342,110 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #1A3270;
-  opacity: 0.5;
-  margin-bottom: 28px;
+  opacity: 0.45;
+  margin-top: 2px;
+  margin-bottom: 16px;
 }
 
 .cp1-body {
-  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  font-size: clamp(1.05rem, 3.8vw, 1.45rem);
   font-weight: 300;
-  line-height: 1.95;
-  letter-spacing: -0.01em;
+  line-height: 2;
+  letter-spacing: -0.015em;
   color: #444;
   word-break: keep-all;
 }
 
 /* Part 2 */
+.cause-p2 {
+  background: #f5f7fb;
+  border-top: 1px solid #e8ecf2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 44px;
+  padding: 100px 28px;
+}
+
 .cp2-main {
-  font-size: clamp(1rem, 3.8vw, 1.5rem);
+  font-size: clamp(1.2rem, 4.6vw, 2rem);
   font-weight: 300;
   line-height: 1.8;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: #555;
   word-break: keep-all;
 }
 
 .cp2-focus {
-  font-size: clamp(1.4rem, 5.2vw, 2.2rem);
+  font-size: clamp(1.7rem, 6.5vw, 3rem);
   font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.04em;
+  line-height: 1.3;
+  letter-spacing: -0.045em;
   color: #1A1A1A;
   word-break: keep-all;
 }
 
 /* Part 3 */
-.cp3-svg {
-  width: 100%;
-  max-width: 480px;
-  display: block;
-  margin: 0 auto;
+.cause-p3 {
+  border-top: 1px solid #e8ecf2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 28px;
 }
 
-.cp3-body {
-  font-size: clamp(0.95rem, 3.4vw, 1.25rem);
+.cp3-lead {
+  font-size: clamp(1.1rem, 4vw, 1.7rem);
   font-weight: 300;
-  line-height: 2;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  color: #999;
+  word-break: keep-all;
+  margin-bottom: 60px;
+}
+
+.cp3-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 64px;
+}
+
+.cp3-item {
+  padding-bottom: 48px;
+}
+
+.cp3-item:last-child {
+  padding-bottom: 0;
+}
+
+.cp3-mech {
+  font-size: clamp(0.9rem, 3.2vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
   letter-spacing: -0.01em;
-  color: #555;
+  color: #aaa;
+  word-break: keep-all;
+  margin-bottom: 4px;
+}
+
+.cp3-sym {
+  font-size: clamp(2.8rem, 10vw, 5.2rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  color: #1A3270;
   word-break: keep-all;
 }
 
 .cp3-conclusion {
-  font-size: clamp(1.2rem, 4.5vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: -0.035em;
-  color: #1A3270;
+  font-size: clamp(1.1rem, 4.2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.03em;
+  color: #1A1A1A;
   word-break: keep-all;
+  padding-top: 40px;
+  border-top: 1px solid #e8ecf2;
 }
 
 /* ── 6. Placeholder ──────────────────────── */
@@ -440,23 +483,32 @@ body {
     padding-right: max(64px, calc(50vw - 380px));
   }
 
-  .s-cause .cause-part {
+  /* Cause: Part 2, 3 — 좌우 여백 */
+  .cause-p2,
+  .cause-p3 {
     padding-left: max(64px, calc(50vw - 380px));
     padding-right: max(64px, calc(50vw - 380px));
   }
 
-  .cp1-grid {
+  /* Cause Part 1: 이미지 좌 / 텍스트 우 */
+  .cause-p1 {
     flex-direction: row;
-    align-items: center;
-    gap: 52px;
   }
 
   .cp1-img-wrap {
-    flex: 0 0 auto;
-    width: 280px;
+    flex: 0 0 48%;
+    overflow: hidden;
+  }
+
+  .cp1-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .cp1-text {
     flex: 1;
+    padding: 80px max(64px, calc(50vw - 380px)) 80px 64px;
+    justify-content: center;
   }
 }
