@@ -62,11 +62,11 @@ function Bridge() {
 
 // ── 3. Empathy — D(온기 원) × F(네이비 수직 바) ──────
 const EMPATHY = [
-  '작년에 입던 옷이 올해는 안 맞아요.',
-  '밥도 줄였는데 체중계 숫자는 그대로예요.',
-  <>운동도 시작했는데<br className="pc-br" />배는 오히려 더 나왔어요.</>,
-  <>뭘 해도 안 되는 건지<br className="pc-br" />나만 이상한 건지.</>,
-  <>답을 찾고 싶어서<br className="pc-br" />오늘도 막연하게<br className="pc-br" />검색하고 있어요.</>,
+  <>작년에 입던 옷이<br className="mobile-br" />올해는 안 맞아요.</>,
+  <>밥도 줄였는데<br className="mobile-br" />체중계 숫자는 그대로예요.</>,
+  <>운동도 시작했는데<br className="pc-br" /><br className="mobile-br" />배는 오히려<br className="mobile-br" />더 나왔어요.</>,
+  <>뭘 해도<br className="mobile-br" />안 되는 건지<br className="pc-br" /><br className="mobile-br" />나만<br className="mobile-br" />이상한 건지.</>,
+  <>답을 찾고 싶어서<br className="pc-br" /><br className="mobile-br" />오늘도 막연하게<br className="pc-br" /><br className="mobile-br" />검색하고 있어요.</>,
 ]
 
 const EMP_CFG = [
