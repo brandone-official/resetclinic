@@ -30,15 +30,13 @@ function Reveal({ children }: { children: React.ReactNode }) {
 function Hero() {
   return (
     <section className="s-hero">
-      <Reveal><p className="hero-kicker">전주W한의원</p></Reveal>
       <div className="hero-text">
         <Reveal><p>지금 이 순간에도</p></Reveal>
         <Reveal><p>답답한 마음에</p></Reveal>
         <Reveal><p>이유라도 알고 싶어서</p></Reveal>
-        <Reveal>
-          <p><span className="hi-orange">여기까지</span> 오셨나요?</p>
-        </Reveal>
+        <Reveal><p>여기까지 오셨나요?</p></Reveal>
       </div>
+      <div className="hero-scroll-hint" aria-hidden="true">↓</div>
     </section>
   )
 }
