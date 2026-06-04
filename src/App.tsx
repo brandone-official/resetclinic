@@ -205,34 +205,36 @@ function Cause() {
         </Reveal>
       </div>
 
-      {/* Part 3: 증상 4가지 — 텍스트 흐름 */}
+      {/* Part 3: 증상 4가지 — 인포그래픽 카드 */}
       <div className="cause-part cause-p3">
-        <div className="cp3-list">
-          <Reveal>
-            <div className="cp3-item">
-              <p className="cp3-mech">체온 조절이 흐트러지면서</p>
+        <Reveal>
+          <p className="cp3-eyebrow">시상하부 조절 이상</p>
+          <p className="cp3-htitle">4가지 신호</p>
+        </Reveal>
+        <Reveal>
+          <div className="cp3-grid">
+            <div className="cp3-card" data-num="01">
+              <span className="cp3-num">01</span>
               <p className="cp3-sym">열감</p>
+              <p className="cp3-mech">체온 조절이<br />흐트러지면서</p>
             </div>
-          </Reveal>
-          <Reveal>
-            <div className="cp3-item">
-              <p className="cp3-mech">수면 리듬이 깨지면서</p>
+            <div className="cp3-card" data-num="02">
+              <span className="cp3-num">02</span>
               <p className="cp3-sym">불면</p>
+              <p className="cp3-mech">수면 리듬이<br />깨지면서</p>
             </div>
-          </Reveal>
-          <Reveal>
-            <div className="cp3-item">
-              <p className="cp3-mech">대사 균형이 무너지면서</p>
+            <div className="cp3-card" data-num="03">
+              <span className="cp3-num">03</span>
               <p className="cp3-sym">복부지방</p>
+              <p className="cp3-mech">대사 균형이<br />무너지면서</p>
             </div>
-          </Reveal>
-          <Reveal>
-            <div className="cp3-item">
-              <p className="cp3-mech">만성 피로가 쌓이면서</p>
+            <div className="cp3-card" data-num="04">
+              <span className="cp3-num">04</span>
               <p className="cp3-sym">피로</p>
+              <p className="cp3-mech">만성 피로가<br />쌓이면서</p>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
         <Reveal>
           <p className="cp3-conclusion">
             네 가지는 따로 오는 증상이 아닙니다.<br />

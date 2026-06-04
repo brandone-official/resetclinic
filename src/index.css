@@ -301,6 +301,8 @@ body {
 
 .cp1-img {
   width: 100%;
+  max-height: 60vw;
+  object-fit: cover;
   display: block;
 }
 
@@ -312,7 +314,7 @@ body {
 }
 
 .cp1-ko {
-  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   color: #1A3270;
@@ -330,7 +332,7 @@ body {
 }
 
 .cp1-body {
-  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
   font-weight: 300;
   line-height: 2;
   letter-spacing: -0.01em;
@@ -343,9 +345,10 @@ body {
   background: #f4f6fb;
   border-top: 1px solid #e8ecf2;
   border-bottom: 1px solid #e8ecf2;
-  padding: 72px 28px;
+  padding: 120px 28px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 36px;
 }
 
@@ -367,53 +370,110 @@ body {
   word-break: keep-all;
 }
 
-/* Part 3 — 증상 4가지 */
+/* Part 3 — 증상 인포그래픽 */
 .cause-p3 {
   padding: 72px 28px 80px;
 }
 
-.cp3-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-bottom: 60px;
-}
-
-.cp3-item {
-  padding: 36px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.cp3-item:first-child {
-  padding-top: 0;
-}
-
-.cp3-mech {
-  font-size: clamp(0.85rem, 3vw, 1.05rem);
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: -0.005em;
-  color: #b0b0b0;
-  word-break: keep-all;
+.cp3-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1A3270;
+  opacity: 0.45;
   margin-bottom: 8px;
 }
 
-.cp3-sym {
-  font-size: clamp(2.4rem, 9vw, 4.8rem);
+.cp3-htitle {
+  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
   font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #1A1A1A;
+  margin-bottom: 40px;
+}
+
+/* 2×2 카드 그리드 */
+.cp3-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 52px;
+}
+
+.cp3-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #dde3ef;
+  border-radius: 6px;
+  padding: 24px 20px 22px;
+  overflow: hidden;
+}
+
+/* 상단 accent 바 */
+.cp3-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #1A3270;
+}
+
+/* 워터마크 ghost 숫자 */
+.cp3-card::before {
+  content: attr(data-num);
+  position: absolute;
+  bottom: -12px;
+  right: 6px;
+  font-size: 5rem;
+  font-weight: 900;
   color: #1A3270;
+  opacity: 0.06;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cp3-num {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #1A3270;
+  opacity: 0.5;
+  margin-bottom: 12px;
+}
+
+.cp3-sym {
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #1A1A1A;
+  margin-bottom: 10px;
+  word-break: keep-all;
+}
+
+.cp3-mech {
+  font-size: clamp(0.72rem, 2.5vw, 0.85rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #aaa;
   word-break: keep-all;
 }
 
 .cp3-conclusion {
   font-size: clamp(1.05rem, 3.9vw, 1.65rem);
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.7;
   letter-spacing: -0.025em;
   color: #1A1A1A;
   word-break: keep-all;
+  padding-top: 40px;
+  border-top: 1px solid #e8ecf2;
 }
 
 /* ── 6. Placeholder ──────────────────────── */
@@ -472,6 +532,7 @@ body {
   .cp1-img {
     width: 100%;
     height: 100%;
+    max-height: none;
     object-fit: cover;
   }
 
