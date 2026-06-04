@@ -166,20 +166,19 @@ function Cause() {
   return (
     <section className="s-cause">
 
-      {/* Part 1: 시상하부 소개 */}
+      {/* Part 1: 시상하부 */}
       <div className="cause-part cause-p1">
         <div className="cp1-img-wrap">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/7/71/Blausen_0536_HypothalamusLocation.png"
-            alt="뇌 속 시상하부 위치 — Blausen Medical"
+            src="/images/hypothalamus.png"
+            alt="시상하부 위치 — 뇌 단면 의학 이미지"
             className="cp1-img"
           />
-          <p className="cp1-credit">© Blausen Medical / Wikimedia Commons (CC BY 3.0)</p>
         </div>
         <div className="cp1-text">
           <Reveal>
             <p className="cp1-ko">시상하부 (視床下部)</p>
-            <p className="cp1-en">Hypothalamus</p>
+            <p className="cp1-en">HYPOTHALAMUS</p>
           </Reveal>
           <Reveal>
             <p className="cp1-body">
@@ -206,14 +205,8 @@ function Cause() {
         </Reveal>
       </div>
 
-      {/* Part 3: 증상 연결 — 텍스트 흐름 */}
+      {/* Part 3: 증상 4가지 — 텍스트 흐름 */}
       <div className="cause-part cause-p3">
-        <Reveal>
-          <p className="cp3-lead">
-            시상하부 하나가<br />
-            세 가지 증상을 만듭니다.
-          </p>
-        </Reveal>
         <div className="cp3-list">
           <Reveal>
             <div className="cp3-item">
@@ -233,10 +226,16 @@ function Cause() {
               <p className="cp3-sym">복부지방</p>
             </div>
           </Reveal>
+          <Reveal>
+            <div className="cp3-item">
+              <p className="cp3-mech">만성 피로가 쌓이면서</p>
+              <p className="cp3-sym">피로</p>
+            </div>
+          </Reveal>
         </div>
         <Reveal>
           <p className="cp3-conclusion">
-            세 가지는 따로 오는 증상이 아닙니다.<br />
+            네 가지는 따로 오는 증상이 아닙니다.<br />
             시상하부 하나에서 비롯된 결과입니다.
           </p>
         </Reveal>
