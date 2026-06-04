@@ -47,7 +47,7 @@ body {
   transform: none;
 }
 
-/* ── 핵심 단어 강조 ──────────────────────── */
+/* ── 키워드 강조 ──────────────────────────── */
 .hi-orange { color: var(--orange); }
 .hi-navy   { color: var(--navy); }
 
@@ -134,7 +134,7 @@ body {
   color: var(--navy);
 }
 
-/* ── 3. Empathy — Sticky Scroll ─────────── */
+/* ── 3. Empathy — D × F 병합 ─────────────── */
 
 /* 스크롤 공간 래퍼 */
 .s-empathy-wrap {
@@ -143,59 +143,116 @@ body {
   border-top: 1px solid var(--line);
 }
 
-/* 뷰포트에 고정되는 무대 */
+/* 뷰포트 고정 무대 — 배경 색온도 전환 (D) */
 .s-empathy-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  transition: background-color 1.1s ease;
 }
 
-/* 각 문장: 절대 중앙, 기본 투명 */
-.emp-sentence {
+/* 온기 원 (D) */
+.emp-breath {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200vmax;
+  height: 200vmax;
+  transform: translate(-50%, -50%) scale(0.04);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(215, 102, 24, 0.09) 0%,
+    rgba(215, 102, 24, 0.04) 35%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition:
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity   1.2s ease;
+}
+
+/* 수직 바 레일 (F, 네이비) */
+.emp-rail {
+  position: absolute;
+  left: 20px;
+  top: 15%;
+  bottom: 15%;
+  width: 2px;
+  background: rgba(26, 50, 112, 0.12);
+  z-index: 3;
+}
+
+.emp-rail-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20%;
+  background: var(--navy);
+  transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.emp-rail-tick {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 2px;
+  background: var(--navy);
+}
+
+/* 씬 */
+.emp-scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+.emp-scene.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 텍스트 — 정중앙 */
+.emp-text {
   position: absolute;
   top: 50%;
   left: 28px;
   right: 28px;
   transform: translateY(-50%);
+  text-align: center;
   line-height: 1.22;
   letter-spacing: -0.04em;
   word-break: keep-all;
   color: var(--text);
-  opacity: 0;
-  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-.emp-sentence.active {
-  opacity: 1;
-  pointer-events: auto;
 }
 
-/* 크기·무게 단계적 증가 */
-.emp-sentence[data-step='1'] { font-size: clamp(1.5rem, 5.5vw, 2.2rem);  font-weight: 300; }
-.emp-sentence[data-step='2'] { font-size: clamp(1.9rem, 7vw, 2.9rem);    font-weight: 400; }
-.emp-sentence[data-step='3'] { font-size: clamp(2.4rem, 9vw, 3.8rem);    font-weight: 500; }
-.emp-sentence[data-step='4'] { font-size: clamp(3rem, 11vw, 5rem);       font-weight: 600; }
-.emp-sentence[data-step='5'] {
-  font-size: clamp(3.4rem, 13vw, 6.5rem);
-  font-weight: 800;
-  color: var(--text);
-  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.7s ease 0.2s;
-}
-.emp-sentence[data-step='5'].active {
-  color: var(--orange);
-}
+.emp-text[data-step='1'] { font-size: clamp(1.5rem, 5.5vw, 2.2rem);  font-weight: 300; }
+.emp-text[data-step='2'] { font-size: clamp(1.9rem, 7vw, 2.9rem);    font-weight: 400; }
+.emp-text[data-step='3'] { font-size: clamp(2.4rem, 9vw, 3.8rem);    font-weight: 500; }
+.emp-text[data-step='4'] { font-size: clamp(3rem, 11vw, 5rem);       font-weight: 600; }
+.emp-text[data-step='5'] { font-size: clamp(3.4rem, 13vw, 6.5rem);   font-weight: 800; color: var(--orange); }
 
-/* 진행 표시 바 */
+/* 진행 바 — 정중앙 하단 */
 .emp-prog {
   position: absolute;
   bottom: 40px;
-  left: 28px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 7px;
   align-items: center;
+  z-index: 3;
 }
+
 .prog-bar {
   display: block;
   width: 18px;
@@ -233,12 +290,14 @@ body {
     padding-right: max(64px, calc(50vw - 380px));
   }
 
-  .emp-sentence {
+  /* 텍스트: 콘텐츠 영역 안에서 가운데 정렬 */
+  .emp-text {
     left: max(64px, calc(50vw - 380px));
     right: max(64px, calc(50vw - 380px));
   }
 
-  .emp-prog {
-    left: max(64px, calc(50vw - 380px));
+  /* 레일: 콘텐츠 영역 왼쪽 여백에 위치 */
+  .emp-rail {
+    left: calc(max(32px, calc(50vw - 420px)));
   }
 }
