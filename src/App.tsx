@@ -49,9 +49,9 @@ function Hero() {
 function Bridge() {
   return (
     <section className="s-bridge">
-      <Reveal><p className="bridge-p">여러분은 잘못한 게 없어요.</p></Reveal>
-      <Reveal><p className="bridge-p">몸이 바뀐 겁니다.</p></Reveal>
-      <Reveal><p className="bridge-p">저도 진료실에서 매일 드는 말이 있어요.</p></Reveal>
+      <Reveal><p className="bp-1">여러분은 잘못한 게 없어요.</p></Reveal>
+      <Reveal><p className="bp-2">몸이 바뀐 겁니다.</p></Reveal>
+      <Reveal><p className="bp-3">저도 진료실에서 매일 드는 말이 있어요.</p></Reveal>
     </section>
   )
 }

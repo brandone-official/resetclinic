@@ -35,10 +35,10 @@ body {
 /* ── Reveal ──────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
   transition:
-    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.visible {
   opacity: 1;
@@ -52,7 +52,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 28px;
+  padding: 0 32px;
 }
 
 .hero-text {
@@ -69,69 +69,130 @@ body {
 }
 
 /* ── 2. Bridge ───────────────────────────── */
+/*
+  장식 효과: 배경에 큰 여는 따옴표(")
+  텍스트 3줄은 각각 크기·무게가 달라 자연스러운 읽기 흐름 생성
+*/
 .s-bridge {
-  padding: 72px 28px 80px;
+  padding: 88px 32px 108px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-.bridge-p {
-  font-size: clamp(1.3rem, 4.8vw, 1.9rem);
+/* 배경 따옴표 장식 */
+.s-bridge::before {
+  content: '\201C'; /* " */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: clamp(9rem, 26vw, 20rem);
+  line-height: 0.85;
+  color: #f0f0f0;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* 텍스트가 장식 위에 오도록 */
+.s-bridge .reveal {
+  position: relative;
+  z-index: 1;
+}
+
+/* 문장 1: 부드럽게 시작 */
+.bp-1 {
+  font-size: clamp(1.05rem, 3.8vw, 1.55rem);
   font-weight: 400;
-  line-height: 1.62;
-  letter-spacing: -0.025em;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
   word-break: keep-all;
   color: var(--text);
 }
 
-.s-bridge .reveal:last-child .bridge-p {
+/* 문장 2: 핵심 진술, 크고 굵게 */
+.bp-2 {
+  font-size: clamp(1.7rem, 6.2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.04em;
+  word-break: keep-all;
+  color: var(--text);
+}
+
+/* 문장 3: 원장님 목소리, 네이비 */
+.bp-3 {
+  font-size: clamp(1.05rem, 3.8vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
   color: var(--navy);
 }
 
 /* ── 3. Empathy ──────────────────────────── */
+/*
+  섹션 시작: 짧은 주황 접선으로 Bridge와 시각적 구분
+  각 문장: min-height 없이 padding만으로 자연스러운 높이
+  마지막 문장: 등장 시 #1a1a1a → #d76618 색상 전환
+*/
 .s-empathy {
-  padding-bottom: 40px;
+  padding-bottom: 80px;
+}
+
+/* 섹션 접선 */
+.s-empathy::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 32px 80px;
 }
 
 .empathy-zone {
-  min-height: 31vh;
-  display: flex;
-  align-items: center;
-  padding: 0 28px;
+  padding: clamp(44px, 6vh, 64px) 32px;
 }
 
 .em {
-  line-height: 1.38;
+  line-height: 1.35;
   letter-spacing: -0.038em;
   word-break: keep-all;
-  color: var(--text);
 }
 
-/* size grows with each step */
-.em[data-step='1'] { font-size: clamp(1.55rem, 5.8vw, 2.4rem); }
-.em[data-step='2'] { font-size: clamp(1.85rem, 6.8vw, 2.8rem); }
-.em[data-step='3'] { font-size: clamp(2.15rem, 8vw, 3.3rem);   }
-.em[data-step='4'] { font-size: clamp(2.5rem, 9.2vw, 3.8rem);  }
+.em[data-step='1'] { font-size: clamp(1.55rem, 5.8vw, 2.4rem);  font-weight: 300; color: var(--text); }
+.em[data-step='2'] { font-size: clamp(1.85rem, 6.8vw, 2.8rem);  font-weight: 400; color: var(--text); }
+.em[data-step='3'] { font-size: clamp(2.15rem, 8vw, 3.3rem);    font-weight: 500; color: var(--text); }
+.em[data-step='4'] { font-size: clamp(2.5rem, 9.2vw, 3.8rem);   font-weight: 600; color: var(--text); }
+
+/* 마지막 문장: 나타날 때 dark → orange 전환 */
 .em[data-step='5'] {
   font-size: clamp(3.4rem, 12.5vw, 5.2rem);
+  font-weight: 800;
+  color: var(--text);
+  transition: color 0.75s ease 0.4s;
+}
+.reveal.visible .em[data-step='5'] {
   color: var(--orange);
 }
 
 /* ── 4. Placeholder ──────────────────────── */
 .s-placeholder {
-  min-height: 50vh;
+  min-height: 40vh;
   display: flex;
   align-items: center;
-  padding: 0 28px;
-  border-top: 1px dashed #e0e0e0;
+  padding: 0 32px;
+  border-top: 1px solid #ebebeb;
 }
 
 .ph-line {
   display: block;
   width: 28px;
   height: 1.5px;
-  background: #d0d0d0;
+  background: #d4d4d4;
 }
 
 /* ── Desktop ─────────────────────────────── */
@@ -139,12 +200,20 @@ body {
   .s-hero,
   .s-bridge,
   .s-placeholder {
-    padding-left: max(60px, calc(50vw - 360px));
-    padding-right: max(60px, calc(50vw - 360px));
+    padding-left: max(64px, calc(50vw - 360px));
+    padding-right: max(64px, calc(50vw - 360px));
+  }
+
+  .s-bridge::before {
+    left: max(20px, calc(50vw - 400px));
+  }
+
+  .s-empathy::before {
+    margin-left: max(64px, calc(50vw - 360px));
   }
 
   .empathy-zone {
-    padding-left: max(60px, calc(50vw - 360px));
-    padding-right: max(60px, calc(50vw - 360px));
+    padding-left: max(64px, calc(50vw - 360px));
+    padding-right: max(64px, calc(50vw - 360px));
   }
 }
