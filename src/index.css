@@ -51,7 +51,12 @@ body {
   min-height: 100svh;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 28px;
+}
+
+.hero-text {
+  text-align: center;
 }
 
 .hero-text p {
@@ -60,15 +65,15 @@ body {
   line-height: 1.38;
   letter-spacing: -0.04em;
   word-break: keep-all;
-  color: var(--text);
+  color: #1a1a1a;
 }
 
 /* ── 2. Bridge ───────────────────────────── */
 .s-bridge {
-  padding: 96px 28px 112px;
+  padding: 72px 28px 80px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
 }
 
 .bridge-p {
@@ -80,13 +85,17 @@ body {
   color: var(--text);
 }
 
+.s-bridge .reveal:last-child .bridge-p {
+  color: var(--navy);
+}
+
 /* ── 3. Empathy ──────────────────────────── */
 .s-empathy {
   padding-bottom: 40px;
 }
 
 .empathy-zone {
-  min-height: 62vh;
+  min-height: 31vh;
   display: flex;
   align-items: center;
   padding: 0 28px;
@@ -105,7 +114,7 @@ body {
 .em[data-step='3'] { font-size: clamp(2.15rem, 8vw, 3.3rem);   }
 .em[data-step='4'] { font-size: clamp(2.5rem, 9.2vw, 3.8rem);  }
 .em[data-step='5'] {
-  font-size: clamp(2.9rem, 10.5vw, 4.4rem);
+  font-size: clamp(3.4rem, 12.5vw, 5.2rem);
   color: var(--orange);
 }
 

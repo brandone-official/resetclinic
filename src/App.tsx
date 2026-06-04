@@ -62,7 +62,7 @@ const EMPATHY = [
   { text: '밥도 줄였는데 체중계 숫자는 그대로예요.', weight: 400, step: 2 },
   { text: '운동도 시작했는데 배는 오히려 더 나왔어요.', weight: 500, step: 3 },
   { text: '뭘 해도 안 되는 건지 나만 이상한 건지.', weight: 600, step: 4 },
-  { text: '답을 찾고 싶어서 오늘도 검색하고 있어요.', weight: 700, step: 5 },
+  { text: '답을 찾고 싶어서 오늘도 검색하고 있어요.', weight: 800, step: 5 },
 ] as const
 
 function Empathy() {
