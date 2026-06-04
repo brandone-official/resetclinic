@@ -83,31 +83,6 @@ body{
     opacity   1.2s ease;
 }
 
-/* 수직 바 레일 (F, 네이비) — 왼쪽 여백에 위치 */
-.emp-rail{
-  position:absolute;
-  left:20px;
-  top:15%;bottom:15%;
-  width:2px;
-  background:rgba(26,50,112,.12);
-  z-index:3;
-}
-.emp-rail-fill{
-  position:absolute;
-  left:0;right:0;bottom:0;
-  height:20%;
-  background:var(--navy);
-  transition:height .9s cubic-bezier(.22,1,.36,1);
-}
-/* 현재 위치 틱 */
-.emp-rail-tick{
-  position:absolute;
-  left:50%;top:0;
-  transform:translate(-50%,-50%);
-  width:8px;height:2px;
-  background:var(--navy);
-}
-
 /* 씬 */
 .emp-scene{
   position:absolute;inset:0;
@@ -144,7 +119,7 @@ body{
   z-index:3;
 }
 .prog-bar{display:block;width:18px;height:2px;background:var(--line);border-radius:1px;transition:background .3s ease,width .3s cubic-bezier(.22,1,.36,1)}
-.prog-bar.filled{background:var(--orange);width:32px}
+.prog-bar.filled{background:var(--navy);width:32px}
 
 /* ── 4. Placeholder ──────────────────────── */
 .s-placeholder{min-height:36vh;display:flex;align-items:center;padding:0 28px;border-top:1px solid var(--line)}
@@ -157,8 +132,6 @@ body{
     left:max(64px,calc(50vw - 380px));
     right:max(64px,calc(50vw - 380px));
   }
-  /* 레일: 콘텐츠 영역 왼쪽 엣지보다 안쪽, 여백에 위치 */
-  .emp-rail{left:calc(max(32px,calc(50vw - 420px)))}
 }
 </style>
 </head>
@@ -192,13 +165,6 @@ body{
     <!-- D: 온기 원 -->
     <div class="emp-breath" id="breath"></div>
 
-    <!-- F: 수직 바 (네이비) -->
-    <div class="emp-rail" aria-hidden="true">
-      <div class="emp-rail-fill" id="railFill">
-        <div class="emp-rail-tick"></div>
-      </div>
-    </div>
-
     <div class="emp-scene active"><p class="emp-text" data-step="1">작년에 입던 옷이 올해는 안 맞아요.</p></div>
     <div class="emp-scene">       <p class="emp-text" data-step="2">밥도 줄였는데 체중계 숫자는 그대로예요.</p></div>
     <div class="emp-scene">       <p class="emp-text" data-step="3">운동도 시작했는데 배는 오히려 더 나왔어요.</p></div>
@@ -228,33 +194,29 @@ const ro = new IntersectionObserver(entries=>{
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
 // Sticky Empathy — D + F 병합
-const wrap     = document.querySelector('.s-empathy-wrap');
-const sticky   = document.getElementById('sticky');
-const breath   = document.getElementById('breath');
-const railFill = document.getElementById('railFill');
-const scenes   = [...document.querySelectorAll('.emp-scene')];
-const bars     = [...document.querySelectorAll('.prog-bar')];
-const N        = scenes.length;
-let cur        = -1;
+const wrap   = document.querySelector('.s-empathy-wrap');
+const sticky = document.getElementById('sticky');
+const breath = document.getElementById('breath');
+const scenes = [...document.querySelectorAll('.emp-scene')];
+const bars   = [...document.querySelectorAll('.prog-bar')];
+const N      = scenes.length;
+let cur      = -1;
 
 const cfg = [
-  {bg:'#ffffff',     scale:.04},
-  {bg:'#fefcfa',     scale:.12},
-  {bg:'#fdf9f4',     scale:.21},
-  {bg:'#fbf4ec',     scale:.32},
-  {bg:'#f8ede1',     scale:.44},
+  {bg:'#ffffff', scale:.04},
+  {bg:'#fefcfa', scale:.12},
+  {bg:'#fdf9f4', scale:.21},
+  {bg:'#fbf4ec', scale:.32},
+  {bg:'#f8ede1', scale:.44},
 ];
-const fillH = ['20%','40%','60%','80%','100%'];
 
 function show(idx){
   if(idx===cur) return;
   scenes.forEach((s,i)=>s.classList.toggle('active',i===idx));
   bars.forEach((b,i)=>b.classList.toggle('filled',i<=idx));
-  const c=cfg[idx];
-  sticky.style.backgroundColor=c.bg;
+  sticky.style.backgroundColor=cfg[idx].bg;
   breath.style.opacity='1';
-  breath.style.transform=`translate(-50%,-50%) scale(${c.scale})`;
-  railFill.style.height=fillH[idx];
+  breath.style.transform=`translate(-50%,-50%) scale(${cfg[idx].scale})`;
   cur=idx;
 }
 

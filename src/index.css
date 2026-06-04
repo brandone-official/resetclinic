@@ -176,37 +176,6 @@ body {
     opacity   1.2s ease;
 }
 
-/* 수직 바 레일 (F, 네이비) */
-.emp-rail {
-  position: absolute;
-  left: 20px;
-  top: 15%;
-  bottom: 15%;
-  width: 2px;
-  background: rgba(26, 50, 112, 0.12);
-  z-index: 3;
-}
-
-.emp-rail-fill {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 20%;
-  background: var(--navy);
-  transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.emp-rail-tick {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 2px;
-  background: var(--navy);
-}
-
 /* 씬 */
 .emp-scene {
   position: absolute;
@@ -262,7 +231,7 @@ body {
   transition: background 0.3s ease, width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .prog-bar.filled {
-  background: var(--orange);
+  background: var(--navy);
   width: 32px;
 }
 
@@ -296,8 +265,4 @@ body {
     right: max(64px, calc(50vw - 380px));
   }
 
-  /* 레일: 콘텐츠 영역 왼쪽 여백에 위치 */
-  .emp-rail {
-    left: calc(max(32px, calc(50vw - 420px)));
-  }
 }

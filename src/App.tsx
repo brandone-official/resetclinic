@@ -79,21 +79,17 @@ const EMP_CFG = [
   { bg: '#f8ede1',  scale: 0.44 },
 ] as const
 
-const FILL_H = ['20%', '40%', '60%', '80%', '100%'] as const
-
 function Empathy() {
   const wrapRef   = useRef<HTMLDivElement>(null)
   const stickyRef = useRef<HTMLDivElement>(null)
   const breathRef = useRef<HTMLDivElement>(null)
-  const fillRef   = useRef<HTMLDivElement>(null)
   const N         = EMPATHY.length
 
   useEffect(() => {
     const wrap   = wrapRef.current
     const sticky = stickyRef.current
     const breath = breathRef.current
-    const fill   = fillRef.current
-    if (!wrap || !sticky || !breath || !fill) return
+    if (!wrap || !sticky || !breath) return
 
     const scenes = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
     const bars   = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
@@ -106,7 +102,6 @@ function Empathy() {
       sticky.style.backgroundColor = EMP_CFG[idx].bg
       breath.style.opacity   = '1'
       breath.style.transform = `translate(-50%,-50%) scale(${EMP_CFG[idx].scale})`
-      fill.style.height      = FILL_H[idx]
       cur = idx
     }
 
@@ -129,13 +124,6 @@ function Empathy() {
 
         {/* D: 온기 원 */}
         <div className="emp-breath" ref={breathRef} />
-
-        {/* F: 수직 바 (네이비) */}
-        <div className="emp-rail" aria-hidden="true">
-          <div className="emp-rail-fill" ref={fillRef}>
-            <div className="emp-rail-tick" />
-          </div>
-        </div>
 
         {EMPATHY.map((text, i) => (
           <div key={i} className={`emp-scene${i === 0 ? ' active' : ''}`}>
