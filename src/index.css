@@ -86,10 +86,14 @@ body {
 .hero-text p {
   font-size: clamp(2.6rem, 9.8vw, 5.2rem);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.35;
   letter-spacing: -0.045em;
   word-break: keep-all;
   color: #FFFFFF;
+}
+
+.hero-text p.hero-last {
+  color: #D76618;
 }
 
 .hero-scroll-hint {
