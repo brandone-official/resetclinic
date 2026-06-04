@@ -64,8 +64,8 @@ function Bridge() {
 const EMPATHY = [
   <>작년에 입던 옷이 <span className="mob" />올해는 안 맞아요.</>,
   <>밥도 줄였는데 <span className="mob" />체중계 숫자는 그대로예요.</>,
-  <>운동도 시작했는데 <span className="pc" /><span className="mob" />배는 오히려 <span className="mob" />더 나왔어요.</>,
-  <>뭘 해도 <span className="mob" />안 되는 건지 <span className="pc" /><span className="mob" />나만 <span className="mob" />이상한 건지.</>,
+  <>운동도 시작했는데 <span className="pc" />배는 <span className="mob" />오히려 더 나왔어요.</>,
+  <>뭘 해도 안 되는 건지 <span className="pc" /><span className="mob" />나만 이상한 건지.</>,
   <>답을 찾고 싶어서 <span className="mob pc" />오늘도 막연하게 <span className="mob pc" />검색하고 있어요.</>,
 ]
 

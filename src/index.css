@@ -1098,6 +1098,9 @@ body {
 @media (max-width: 639px) {
   .pc  { display: none; }
   .mob { display: block; }
+  .emp-text[data-step='3'] { font-size: clamp(1.4rem, 7.5vw, 2.4rem); }
+  .emp-text[data-step='4'] { font-size: clamp(1.5rem, 8.5vw, 3rem); }
+  .emp-text[data-step='5'] { font-size: clamp(1.8rem, 9.5vw, 3.4rem); }
 }
 
 /* ── Desktop ─────────────────────────────── */
