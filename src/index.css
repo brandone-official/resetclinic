@@ -1093,10 +1093,12 @@ body {
 }
 
 .mobile-br { display: inline; }
+.pc-br { display: none; }
 
 /* ── Desktop ─────────────────────────────── */
 @media (min-width: 640px) {
   .mobile-br { display: none; }
+  .pc-br { display: inline; }
 
   .s-hero,
   .s-bridge,
