@@ -146,6 +146,7 @@ body {
   letter-spacing: -0.045em;
   word-break: keep-all;
   color: var(--text);
+  margin-bottom: 20px;
 }
 .bp-3 {
   font-size: clamp(1.3rem, 5vw, 1.8rem);
@@ -1082,8 +1083,12 @@ body {
   padding-top: 20px;
 }
 
+.mobile-br { display: inline; }
+
 /* ── Desktop ─────────────────────────────── */
 @media (min-width: 640px) {
+  .mobile-br { display: none; }
+
   .s-hero,
   .s-bridge,
   .s-placeholder {

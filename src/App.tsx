@@ -53,7 +53,7 @@ function Bridge() {
           <p className="bp-2"><span className="hi-orange">몸이 바뀐</span> 겁니다.</p>
         </Reveal>
         <Reveal>
-          <p className="bp-3">저도 진료실에서 매일 드는 말이 있어요.</p>
+          <p className="bp-3">저도 진료실에서<br className="mobile-br" /> 매일 듣는 말이 있어요.</p>
         </Reveal>
       </div>
     </section>
