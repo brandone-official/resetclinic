@@ -192,7 +192,7 @@ function Cause() {
           <Reveal>
             <p className="cp1-body">
               뇌 한가운데, 새끼손가락 끝만한 크기.<br />
-              체온 · 식욕 · 수면 · 자율신경<br />
+              <span className="cp1-keywords">체온 · 식욕 · 수면 · 자율신경 —</span><br />
               이 모든 것을 여기서 조절합니다.
             </p>
           </Reveal>
