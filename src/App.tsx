@@ -209,7 +209,7 @@ function Cause() {
         </Reveal>
         <Reveal>
           <p className="cp2-focus">
-            우리는 <span className="hi-orange">호르몬</span> 변화에<br className="mob" />집중해야 합니다.
+            우리는 <span className="hi-orange">호르몬</span> 변화에<br />집중해야 합니다.
           </p>
         </Reveal>
       </div>
