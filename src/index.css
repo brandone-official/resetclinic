@@ -529,7 +529,6 @@ body {
 }
 
 .cp3-conc-wrap {
-  border-top: 1px solid #E0E0E0;
   padding: 48px 28px 0;
   text-align: center;
 }
@@ -1233,7 +1232,7 @@ br.pc { display: none; }
 
   /* PC: 가로 트리 */
   .cp3-tree {
-    padding: 0;
+    padding: 48px 0;
   }
 
   .cp3-branches {
