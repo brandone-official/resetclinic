@@ -450,7 +450,7 @@ body {
 
 .cp3-source {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 0;
 }
 
 .cp3-source-text {
@@ -470,7 +470,6 @@ body {
   height: 36px;
   background: #D76618;
   margin: 0 auto;
-  display: none;
 }
 
 /* 모바일: 세로 스택 */
@@ -488,10 +487,7 @@ body {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom,
-    rgba(215, 102, 24, 0.5) 0%,
-    rgba(215, 102, 24, 0.2) 85%,
-    transparent 100%);
+  background: rgba(215, 102, 24, 0.4);
 }
 
 .cp3-branch {
@@ -516,6 +512,17 @@ body {
   width: 20px; height: 1px;
   background: rgba(215, 102, 24, 0.5);
   display: none;
+}
+
+.cp3-branches::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  height: 60px;
+  width: 1px;
+  background: rgba(215, 102, 24, 0.4);
 }
 
 .cp3-num {
@@ -561,6 +568,18 @@ body {
 .cp3-conc-wrap {
   padding: 48px 28px 0;
   text-align: center;
+  position: relative;
+}
+
+.cp3-conc-wrap::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  height: 48px;
+  width: 1px;
+  background: rgba(215, 102, 24, 0.4);
 }
 
 .cp3-chevron {
@@ -1341,9 +1360,17 @@ br.pc { display: none; }
     height: 8px;
   }
 
+  .cp3-branches::after {
+    display: none;
+  }
+
   .cp3-conc-wrap {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .cp3-conc-wrap::before {
+    display: none;
   }
 
   .cp3-conclusion {
