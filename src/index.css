@@ -596,7 +596,7 @@ body {
 .cp3-conclusion {
   font-size: clamp(1.8rem, 6vw, 2.8rem);
   font-weight: 700;
-  line-height: 1.55;
+  line-height: 1.7;
   letter-spacing: -0.025em;
   color: #1A1A1A;
   text-align: center;
