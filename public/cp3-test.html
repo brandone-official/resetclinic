@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CP3 Card Style Test — v2</title>
+  <title>CP3 Infographic Style Test</title>
   <style>
     :root {
       --orange: #D76618;
@@ -11,441 +11,366 @@
       --cream:  #F7F3EE;
       --black:  #1A1A1A;
       --gray:   #666;
-      --line:   #D8D3CC;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
       background: #ECEAE5;
-      padding: 80px 60px;
+      padding: 80px 48px;
       color: var(--black);
     }
+    @media (max-width: 640px) { body { padding: 60px 20px; } }
 
-    .page-title {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: #999;
-      text-transform: uppercase;
-      margin-bottom: 100px;
+    .page-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+      color: #999; text-transform: uppercase; margin-bottom: 100px;
     }
-
     .section { margin-bottom: 120px; }
-
-    .section-label { margin-bottom: 32px; }
-
+    .section-label { margin-bottom: 40px; }
     .style-name {
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      color: var(--orange);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.16em;
+      color: var(--orange); text-transform: uppercase; margin-bottom: 5px;
     }
+    .style-desc { font-size: 0.88rem; font-weight: 300; color: var(--gray); }
 
-    .style-desc {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--gray);
+    /* ─── Scroll Reveal ─── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
+    .reveal.in { opacity: 1; transform: translateY(0); }
 
 
-    /* ════════════════════════════════════════
-       Style A — Side Index
-       좌측 인덱스(좁) + 우측 패널(넓) 2열 구조
-       클릭 시 우측 콘텐츠가 부드럽게 교체됨
-    ════════════════════════════════════════ */
-    .a-wrap {
-      display: flex;
-      height: 300px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
+    /* ══════════════════════════════════════════
+       Style A — 별자리 방사형 다이어그램
+       SVG, 네이비 배경, 중앙 원 → 4방향 선 draw
+    ══════════════════════════════════════════ */
+    .a-stage { background: var(--navy); padding: 48px 32px; }
+
+    .a-svg { width: 100%; max-width: 700px; display: block; margin: 0 auto; }
+
+    .a-line {
+      stroke: var(--orange); stroke-width: 1; fill: none;
+      stroke-dasharray: 300; stroke-dashoffset: 300;
+      transition: stroke-dashoffset 0.9s cubic-bezier(0.4,0,0.2,1) var(--d, 0s);
     }
+    .a-stage.in .a-line { stroke-dashoffset: 0; }
 
-    .a-index {
-      width: 200px;
-      flex-shrink: 0;
-      border-right: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .a-item {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 0 24px;
-      cursor: pointer;
-      border-bottom: 1px solid var(--line);
-      transition: background 0.2s;
-      position: relative;
-    }
-
-    .a-item:last-child { border-bottom: none; }
-
-    .a-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--orange);
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .a-item.active::before { transform: scaleY(1); }
-    .a-item:hover { background: rgba(215, 102, 24, 0.04); }
-
-    .a-item-num {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #bbb;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .a-item.active .a-item-num { color: var(--orange); }
-
-    .a-item-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #aaa;
-      transition: color 0.2s;
-    }
-
-    .a-item.active .a-item-title { color: var(--navy); }
-
-    .a-panel {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      background: var(--cream);
-    }
-
-    .a-panel-item {
-      position: absolute;
-      inset: 0;
-      padding: 0 64px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .a-center {
       opacity: 0;
-      transform: translateX(16px);
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.5s ease 0.2s;
+    }
+    .a-stage.in .a-center { opacity: 1; }
+
+    .a-node {
+      opacity: 0;
+      transition: opacity 0.5s ease var(--d, 0.5s);
+    }
+    .a-stage.in .a-node { opacity: 1; }
+
+
+    /* ══════════════════════════════════════════
+       Style B — 강 삼각주 분기
+       크림 배경, CSS 선으로 소스 → 4가지 분기
+    ══════════════════════════════════════════ */
+    .b-stage { background: var(--cream); padding: 64px 48px 88px; }
+
+    .b-source { text-align: center; }
+    .b-source-kw {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      color: var(--orange); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .b-source-text {
+      font-size: 1.7rem; font-weight: 800; color: var(--navy); letter-spacing: -0.04em;
+    }
+
+    /* 소스 → 가로선 연결 세로축 */
+    .b-trunk {
+      width: 1px; height: 0; background: var(--orange);
+      margin: 0 auto;
+      transition: height 0.45s ease 0.2s;
+    }
+    .b-stage.in .b-trunk { height: 48px; }
+
+    .b-branches { display: flex; position: relative; }
+
+    /* 가로 연결선 */
+    .b-branches::before {
+      content: '';
+      position: absolute; top: 0;
+      left: 12.5%; right: 12.5%;
+      height: 1px; background: var(--orange);
+      transform: scaleX(0);
+      transition: transform 0.45s ease 0.55s;
+    }
+    .b-stage.in .b-branches::before { transform: scaleX(1); }
+
+    .b-branch {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+    }
+
+    /* 각 분기 세로선 */
+    .b-branch::after {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 1px; height: 0; background: var(--orange);
+      transition: height 0.35s ease 0.85s;
+    }
+    .b-stage.in .b-branch::after { height: 40px; }
+
+    .b-item {
+      margin-top: 40px; text-align: center;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .b-stage.in .b-branch:nth-child(1) .b-item { opacity:1; transform:translateY(0); transition-delay:1.05s; }
+    .b-stage.in .b-branch:nth-child(2) .b-item { opacity:1; transform:translateY(0); transition-delay:1.15s; }
+    .b-stage.in .b-branch:nth-child(3) .b-item { opacity:1; transform:translateY(0); transition-delay:1.25s; }
+    .b-stage.in .b-branch:nth-child(4) .b-item { opacity:1; transform:translateY(0); transition-delay:1.35s; }
+
+    .b-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange); margin: 0 auto 14px;
+    }
+    .b-num {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--orange); margin-bottom: 4px;
+    }
+    .b-title {
+      font-size: 1.2rem; font-weight: 800; color: var(--navy);
+      letter-spacing: -0.04em; margin-bottom: 6px; word-break: keep-all;
+    }
+    .b-mech {
+      font-size: 0.78rem; font-weight: 300; color: #888;
+      word-break: keep-all; line-height: 1.55;
+    }
+
+    @media (max-width: 640px) {
+      .b-trunk, .b-branches::before { display: none; }
+      .b-branch::after { display: none; }
+      .b-branches { flex-wrap: wrap; }
+      .b-branch { flex: 0 0 50%; }
+      .b-item { margin-top: 20px; opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+
+    /* ══════════════════════════════════════════
+       Style C — 파급 지그재그
+       블랙 배경, 중앙 세로축 + 좌우 교번 타이포
+    ══════════════════════════════════════════ */
+    .c-stage {
+      background: var(--black);
+      padding: 64px 48px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* 중앙 수직 빛기둥 */
+    .c-spine {
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(215,102,24,0.5) 15%,
+        rgba(215,102,24,0.2) 85%,
+        transparent 100%);
       pointer-events: none;
     }
 
-    .a-panel-item.active {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
+    .c-source {
+      text-align: center; margin-bottom: 64px; position: relative;
+    }
+    .c-source-kw {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      color: var(--orange); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .c-source-text {
+      font-size: 1.5rem; font-weight: 800;
+      color: #fff; letter-spacing: -0.04em;
     }
 
-    .a-panel-tag {
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      color: var(--orange);
-      text-transform: uppercase;
-      margin-bottom: 18px;
+    .c-items { max-width: 740px; margin: 0 auto; position: relative; }
+
+    .c-item {
+      position: relative; margin-bottom: 52px;
+      opacity: 0;
+      transition: opacity 0.6s ease var(--d,0.2s), transform 0.6s ease var(--d,0.2s);
     }
-
-    .a-panel-title {
-      font-size: 3.6rem;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -0.05em;
-      line-height: 1;
-      margin-bottom: 20px;
+    .c-item:nth-child(odd) {
+      padding-right: calc(50% + 28px);
+      text-align: right;
+      transform: translateX(-20px);
     }
-
-    .a-panel-mech {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--gray);
-      letter-spacing: -0.01em;
+    .c-item:nth-child(even) {
+      padding-left: calc(50% + 28px);
+      text-align: left;
+      transform: translateX(20px);
     }
+    .c-stage.in .c-item { opacity: 1; transform: translateX(0); }
 
-
-    /* ════════════════════════════════════════
-       Style B — Toggle Row
-       전체 너비 행에 모든 정보 항상 표시
-       클릭: 네이비 배경 하이라이트 토글
-       여러 개 동시 선택 가능 — 펼침/접힘 없음
-    ════════════════════════════════════════ */
-    .b-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .b-row {
-      display: grid;
-      grid-template-columns: 64px 160px 1fr 36px;
-      align-items: center;
-      column-gap: 32px;
-      padding: 26px 36px;
-      cursor: pointer;
-      background: var(--cream);
-      transition: background 0.32s ease;
-      position: relative;
-    }
-
-    .b-row::before {
+    /* 중앙 노드 */
+    .c-item::after {
       content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 4px;
+      position: absolute; top: 10px;
+      left: 50%; transform: translateX(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
       background: var(--orange);
-      opacity: 0;
-      transition: opacity 0.32s ease;
+      box-shadow: 0 0 0 5px rgba(215,102,24,0.15);
     }
 
-    .b-row.active::before { opacity: 1; }
-    .b-row.active { background: var(--navy); }
-
-    .b-row-num {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: #C8C3B8;
-      letter-spacing: -0.05em;
-      line-height: 1;
-      transition: color 0.32s;
+    .c-num {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--orange); margin-bottom: 4px;
+    }
+    .c-title {
+      font-size: 2.6rem; font-weight: 800; color: #fff;
+      letter-spacing: -0.055em; line-height: 1; margin-bottom: 8px;
+    }
+    .c-mech {
+      font-size: 0.85rem; font-weight: 300;
+      color: rgba(255,255,255,0.38); word-break: keep-all; line-height: 1.55;
     }
 
-    .b-row.active .b-row-num { color: rgba(255,255,255,0.18); }
-
-    .b-row-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--black);
-      letter-spacing: -0.03em;
-      transition: color 0.32s;
-    }
-
-    .b-row.active .b-row-title { color: #fff; }
-
-    .b-row-mech {
-      font-size: 0.88rem;
-      font-weight: 300;
-      color: var(--gray);
-      letter-spacing: -0.01em;
-      transition: color 0.32s;
-    }
-
-    .b-row.active .b-row-mech { color: rgba(255,255,255,0.55); }
-
-    .b-row-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1.5px solid #ccc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: #ccc;
-      transition: border-color 0.32s, color 0.32s, transform 0.32s, background 0.32s;
-      flex-shrink: 0;
-    }
-
-    .b-row.active .b-row-icon {
-      border-color: var(--orange);
-      color: var(--orange);
-      background: rgba(215, 102, 24, 0.1);
-      transform: rotate(45deg);
-    }
-
-
-    /* ════════════════════════════════════════
-       Style C — Focal Type
-       상단 탭 클릭 → 하단 히어로 배경+타이포 전환
-       항목마다 배경 색상이 완전히 다름
-    ════════════════════════════════════════ */
-    .c-wrap { position: relative; }
-
-    .c-tabs {
-      display: flex;
-      position: relative;
-      background: #E4E0DA;
-    }
-
-    .c-tab {
-      flex: 1;
-      padding: 20px 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-right: 1px solid rgba(0,0,0,0.08);
-      transition: background 0.2s;
-    }
-
-    .c-tab:last-child { border-right: none; }
-    .c-tab:hover { background: rgba(0,0,0,0.04); }
-
-    .c-tab-num {
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      color: #bbb;
-      transition: color 0.25s;
-    }
-
-    .c-tab.active .c-tab-num { color: var(--orange); }
-
-    .c-tab-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #888;
-      transition: color 0.25s;
-    }
-
-    .c-tab.active .c-tab-title { color: var(--black); }
-
-    .c-underline {
-      position: absolute;
-      bottom: 0;
-      height: 3px;
-      background: var(--orange);
-      transition: left 0.38s cubic-bezier(0.4, 0, 0.2, 1),
-                  width 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .c-hero {
-      position: relative;
-      height: 140px;
-      overflow: hidden;
-    }
-
-    .c-hero-item {
-      position: absolute;
-      inset: 0;
-      padding: 24px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: #F7F3EE;
-      opacity: 0;
-      transition: opacity 0.42s ease;
-      pointer-events: none;
-    }
-
-    .c-hero-item.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .c-hero-title {
-      font-size: 4.4rem;
-      font-weight: 800;
-      letter-spacing: -0.055em;
-      line-height: 1;
-      color: #1A3270;
-      margin-bottom: 12px;
-    }
-
-    .c-hero-mech {
-      font-size: 1.1rem;
-      font-weight: 300;
-      letter-spacing: -0.01em;
-      color: #444444;
+    @media (max-width: 640px) {
+      .c-spine { display: none; }
+      .c-item::after { display: none; }
+      .c-item:nth-child(odd),
+      .c-item:nth-child(even) {
+        padding: 0 0 0 20px;
+        text-align: left;
+        transform: none;
+        border-left: 2px solid rgba(215,102,24,0.35);
+      }
+      .c-stage.in .c-item { transform: none; }
+      .c-title { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-<p class="page-title">CP3 Card Style — A / B / C 비교</p>
+<p class="page-label">CP3 Infographic — A / B / C</p>
 
 
 <!-- ── Style A ── -->
 <div class="section">
-  <div class="section-label">
-    <p class="style-name">Style A — Side Index</p>
-    <p class="style-desc">왼쪽 인덱스 클릭 → 오른쪽 패널에 큰 타이포 콘텐츠 교체. 편집적 2열 구조, 공간을 넓게 사용.</p>
+  <div class="section-label reveal">
+    <p class="style-name">Style A — 별자리 다이어그램</p>
+    <p class="style-desc">SVG 방사선으로 하나의 원인에서 4가지 증상이 퍼져나가는 구조를 시각화.</p>
   </div>
 
-  <div class="a-wrap">
-    <div class="a-index">
-      <div class="a-item active" onclick="activateA(0)">
-        <span class="a-item-num">01</span>
-        <span class="a-item-title">열감</span>
-      </div>
-      <div class="a-item" onclick="activateA(1)">
-        <span class="a-item-num">02</span>
-        <span class="a-item-title">불면</span>
-      </div>
-      <div class="a-item" onclick="activateA(2)">
-        <span class="a-item-num">03</span>
-        <span class="a-item-title">복부지방</span>
-      </div>
-      <div class="a-item" onclick="activateA(3)">
-        <span class="a-item-num">04</span>
-        <span class="a-item-title">피로</span>
-      </div>
-    </div>
+  <div class="a-stage">
+    <svg class="a-svg" viewBox="0 0 700 440" xmlns="http://www.w3.org/2000/svg">
 
-    <div class="a-panel">
-      <div class="a-panel-item active">
-        <p class="a-panel-tag">Symptom 01</p>
-        <h2 class="a-panel-title">열감</h2>
-        <p class="a-panel-mech">체온 조절이 흐트러지면서</p>
-      </div>
-      <div class="a-panel-item">
-        <p class="a-panel-tag">Symptom 02</p>
-        <h2 class="a-panel-title">불면</h2>
-        <p class="a-panel-mech">수면 리듬이 깨지면서</p>
-      </div>
-      <div class="a-panel-item">
-        <p class="a-panel-tag">Symptom 03</p>
-        <h2 class="a-panel-title">복부지방</h2>
-        <p class="a-panel-mech">대사 균형이 무너지면서</p>
-      </div>
-      <div class="a-panel-item">
-        <p class="a-panel-tag">Symptom 04</p>
-        <h2 class="a-panel-title">피로</h2>
-        <p class="a-panel-mech">만성 피로가 쌓이면서</p>
-      </div>
-    </div>
+      <!-- 4 radiating lines -->
+      <line class="a-line" style="--d:0s"    x1="350" y1="220" x2="96"  y2="78"/>
+      <line class="a-line" style="--d:0.12s" x1="350" y1="220" x2="604" y2="78"/>
+      <line class="a-line" style="--d:0.24s" x1="350" y1="220" x2="96"  y2="362"/>
+      <line class="a-line" style="--d:0.36s" x1="350" y1="220" x2="604" y2="362"/>
+
+      <!-- center -->
+      <g class="a-center">
+        <circle cx="350" cy="220" r="66" fill="#F7F3EE"/>
+        <text x="350" y="213" text-anchor="middle" fill="#1A3270"
+          font-size="13" font-weight="700"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">호르몬</text>
+        <text x="350" y="232" text-anchor="middle" fill="#1A3270"
+          font-size="13" font-weight="700"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">불균형</text>
+      </g>
+
+      <!-- 불면 (top-left) -->
+      <g class="a-node" style="--d:0.52s">
+        <circle cx="96" cy="78" r="5" fill="#D76618"/>
+        <text x="96" y="54" text-anchor="middle" fill="#fff"
+          font-size="23" font-weight="800"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">불면</text>
+        <text x="96" y="33" text-anchor="middle" fill="rgba(255,255,255,0.36)"
+          font-size="10.5" font-family="Pretendard,Apple SD Gothic Neo,sans-serif">수면 리듬이 깨지면서</text>
+      </g>
+
+      <!-- 열감 (top-right) -->
+      <g class="a-node" style="--d:0.64s">
+        <circle cx="604" cy="78" r="5" fill="#D76618"/>
+        <text x="604" y="54" text-anchor="middle" fill="#fff"
+          font-size="23" font-weight="800"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">열감</text>
+        <text x="604" y="33" text-anchor="middle" fill="rgba(255,255,255,0.36)"
+          font-size="10.5" font-family="Pretendard,Apple SD Gothic Neo,sans-serif">체온 조절이 흐트러지면서</text>
+      </g>
+
+      <!-- 복부지방 (bottom-left) -->
+      <g class="a-node" style="--d:0.76s">
+        <circle cx="96" cy="362" r="5" fill="#D76618"/>
+        <text x="96" y="397" text-anchor="middle" fill="#fff"
+          font-size="23" font-weight="800"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">복부지방</text>
+        <text x="96" y="416" text-anchor="middle" fill="rgba(255,255,255,0.36)"
+          font-size="10.5" font-family="Pretendard,Apple SD Gothic Neo,sans-serif">대사 균형이 무너지면서</text>
+      </g>
+
+      <!-- 피로 (bottom-right) -->
+      <g class="a-node" style="--d:0.88s">
+        <circle cx="604" cy="362" r="5" fill="#D76618"/>
+        <text x="604" y="397" text-anchor="middle" fill="#fff"
+          font-size="23" font-weight="800"
+          font-family="Pretendard,Apple SD Gothic Neo,sans-serif">피로</text>
+        <text x="604" y="416" text-anchor="middle" fill="rgba(255,255,255,0.36)"
+          font-size="10.5" font-family="Pretendard,Apple SD Gothic Neo,sans-serif">만성 피로가 쌓이면서</text>
+      </g>
+    </svg>
   </div>
 </div>
 
 
 <!-- ── Style B ── -->
 <div class="section">
-  <div class="section-label">
-    <p class="style-name">Style B — Toggle Row</p>
-    <p class="style-desc">모든 정보가 항상 표시된 전체 너비 행. 클릭으로 네이비 배경 토글, 여러 개 동시 선택 가능.</p>
+  <div class="section-label reveal">
+    <p class="style-name">Style B — 강 삼각주 분기</p>
+    <p class="style-desc">단일 원인에서 4갈래로 나뉘는 분기 구조. CSS 선 애니메이션으로 흐름을 순서대로 시각화.</p>
   </div>
 
-  <div class="b-wrap">
-    <div class="b-row" onclick="toggleB(this)">
-      <span class="b-row-num">01</span>
-      <span class="b-row-title">열감</span>
-      <span class="b-row-mech">체온 조절이 흐트러지면서</span>
-      <span class="b-row-icon">＋</span>
+  <div class="b-stage">
+    <div class="b-source">
+      <p class="b-source-kw">단일 원인</p>
+      <p class="b-source-text">호르몬 불균형</p>
     </div>
-    <div class="b-row" onclick="toggleB(this)">
-      <span class="b-row-num">02</span>
-      <span class="b-row-title">불면</span>
-      <span class="b-row-mech">수면 리듬이 깨지면서</span>
-      <span class="b-row-icon">＋</span>
-    </div>
-    <div class="b-row" onclick="toggleB(this)">
-      <span class="b-row-num">03</span>
-      <span class="b-row-title">복부지방</span>
-      <span class="b-row-mech">대사 균형이 무너지면서</span>
-      <span class="b-row-icon">＋</span>
-    </div>
-    <div class="b-row" onclick="toggleB(this)">
-      <span class="b-row-num">04</span>
-      <span class="b-row-title">피로</span>
-      <span class="b-row-mech">만성 피로가 쌓이면서</span>
-      <span class="b-row-icon">＋</span>
+    <div class="b-trunk"></div>
+    <div class="b-branches">
+      <div class="b-branch">
+        <div class="b-item">
+          <div class="b-dot"></div>
+          <p class="b-num">01</p>
+          <p class="b-title">열감</p>
+          <p class="b-mech">체온 조절이<br>흐트러지면서</p>
+        </div>
+      </div>
+      <div class="b-branch">
+        <div class="b-item">
+          <div class="b-dot"></div>
+          <p class="b-num">02</p>
+          <p class="b-title">불면</p>
+          <p class="b-mech">수면 리듬이<br>깨지면서</p>
+        </div>
+      </div>
+      <div class="b-branch">
+        <div class="b-item">
+          <div class="b-dot"></div>
+          <p class="b-num">03</p>
+          <p class="b-title">복부지방</p>
+          <p class="b-mech">대사 균형이<br>무너지면서</p>
+        </div>
+      </div>
+      <div class="b-branch">
+        <div class="b-item">
+          <div class="b-dot"></div>
+          <p class="b-num">04</p>
+          <p class="b-title">피로</p>
+          <p class="b-mech">만성 피로가<br>쌓이면서</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -453,48 +378,39 @@
 
 <!-- ── Style C ── -->
 <div class="section">
-  <div class="section-label">
-    <p class="style-name">Style C — Focal Type</p>
-    <p class="style-desc">상단 탭 클릭 → 하단 히어로 영역에서 배경 색상과 대형 타이포가 함께 전환됨.</p>
+  <div class="section-label reveal">
+    <p class="style-name">Style C — 파급 지그재그</p>
+    <p class="style-desc">중앙 수직축을 기준으로 좌우 교번 배치. 원인에서 결과로 파급되는 흐름을 타이포로 강조.</p>
   </div>
 
-  <div class="c-wrap">
-    <div class="c-tabs" id="cTabs">
-      <div class="c-tab active" onclick="activateC(0)">
-        <span class="c-tab-num">01</span>
-        <span class="c-tab-title">열감</span>
-      </div>
-      <div class="c-tab" onclick="activateC(1)">
-        <span class="c-tab-num">02</span>
-        <span class="c-tab-title">불면</span>
-      </div>
-      <div class="c-tab" onclick="activateC(2)">
-        <span class="c-tab-num">03</span>
-        <span class="c-tab-title">복부지방</span>
-      </div>
-      <div class="c-tab" onclick="activateC(3)">
-        <span class="c-tab-num">04</span>
-        <span class="c-tab-title">피로</span>
-      </div>
-      <div class="c-underline" id="cUnderline"></div>
+  <div class="c-stage">
+    <div class="c-spine"></div>
+
+    <div class="c-source reveal">
+      <p class="c-source-kw">단일 원인</p>
+      <p class="c-source-text">호르몬 불균형</p>
     </div>
 
-    <div class="c-hero">
-      <div class="c-hero-item active" data-idx="0">
-        <h2 class="c-hero-title">열감</h2>
-        <p class="c-hero-mech">체온 조절이 흐트러지면서</p>
+    <div class="c-items">
+      <div class="c-item" style="--d:0.2s">
+        <p class="c-num">01</p>
+        <p class="c-title">열감</p>
+        <p class="c-mech">체온 조절이 흐트러지면서</p>
       </div>
-      <div class="c-hero-item" data-idx="1">
-        <h2 class="c-hero-title">불면</h2>
-        <p class="c-hero-mech">수면 리듬이 깨지면서</p>
+      <div class="c-item" style="--d:0.4s">
+        <p class="c-num">02</p>
+        <p class="c-title">불면</p>
+        <p class="c-mech">수면 리듬이 깨지면서</p>
       </div>
-      <div class="c-hero-item" data-idx="2">
-        <h2 class="c-hero-title">복부지방</h2>
-        <p class="c-hero-mech">대사 균형이 무너지면서</p>
+      <div class="c-item" style="--d:0.6s">
+        <p class="c-num">03</p>
+        <p class="c-title">복부지방</p>
+        <p class="c-mech">대사 균형이 무너지면서</p>
       </div>
-      <div class="c-hero-item" data-idx="3">
-        <h2 class="c-hero-title">피로</h2>
-        <p class="c-hero-mech">만성 피로가 쌓이면서</p>
+      <div class="c-item" style="--d:0.8s">
+        <p class="c-num">04</p>
+        <p class="c-title">피로</p>
+        <p class="c-mech">만성 피로가 쌓이면서</p>
       </div>
     </div>
   </div>
@@ -502,35 +418,13 @@
 
 
 <script>
-  function activateA(idx) {
-    document.querySelectorAll('.a-item').forEach((el, i) => el.classList.toggle('active', i === idx));
-    document.querySelectorAll('.a-panel-item').forEach((el, i) => el.classList.toggle('active', i === idx));
-  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in');
+    });
+  }, { threshold: 0.18 });
 
-  function toggleB(el) {
-    el.classList.toggle('active');
-  }
-
-  function activateC(idx) {
-    document.querySelectorAll('.c-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
-    document.querySelectorAll('.c-hero-item').forEach((el, i) => el.classList.toggle('active', i === idx));
-    moveUnderline(idx);
-  }
-
-  function moveUnderline(idx) {
-    const tabs = document.querySelectorAll('.c-tab');
-    const bar = document.getElementById('cUnderline');
-    const wrapRect = document.getElementById('cTabs').getBoundingClientRect();
-    const tabRect = tabs[idx].getBoundingClientRect();
-    bar.style.left  = (tabRect.left - wrapRect.left) + 'px';
-    bar.style.width = tabRect.width + 'px';
-  }
-
-  document.addEventListener('DOMContentLoaded', () => moveUnderline(0));
-  window.addEventListener('resize', () => {
-    const idx = [...document.querySelectorAll('.c-tab')].findIndex(el => el.classList.contains('active'));
-    if (idx >= 0) moveUnderline(idx);
-  });
+  document.querySelectorAll('.a-stage, .b-stage, .c-stage, .reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
