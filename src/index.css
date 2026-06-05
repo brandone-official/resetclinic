@@ -450,6 +450,7 @@ body {
 
 .cp3-source {
   text-align: center;
+  margin-bottom: 48px;
 }
 
 .cp3-source-text {
@@ -469,6 +470,7 @@ body {
   height: 36px;
   background: #D76618;
   margin: 0 auto;
+  display: none;
 }
 
 /* 모바일: 세로 스택 */
@@ -486,12 +488,25 @@ body {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: rgba(215, 102, 24, 0.3);
+  background: linear-gradient(to bottom,
+    rgba(215, 102, 24, 0.5) 0%,
+    rgba(215, 102, 24, 0.2) 85%,
+    transparent 100%);
 }
 
 .cp3-branch {
   position: relative;
-  padding: 16px 0 16px calc(50% + 16px);
+  padding: 20px 0;
+}
+
+.cp3-branch:nth-child(odd) {
+  padding-right: calc(50% + 28px);
+  text-align: right;
+}
+
+.cp3-branch:nth-child(even) {
+  padding-left: calc(50% + 28px);
+  text-align: left;
 }
 
 .cp3-branch::before {
@@ -531,15 +546,16 @@ body {
 }
 
 .cp3-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #D76618;
   position: absolute;
   left: 50%;
-  top: 18px;
+  top: 20px;
   transform: translateX(-50%);
   margin: 0;
+  box-shadow: 0 0 0 4px rgba(215, 102, 24, 0.15);
 }
 
 .cp3-conc-wrap {
@@ -1249,6 +1265,14 @@ br.pc { display: none; }
     padding: 48px 0;
   }
 
+  .cp3-source {
+    margin-bottom: 0;
+  }
+
+  .cp3-trunk {
+    display: block;
+  }
+
   .cp3-branches {
     flex-direction: row;
     align-items: flex-start;
@@ -1272,6 +1296,16 @@ br.pc { display: none; }
     flex-direction: column;
     align-items: center;
     padding: 0;
+  }
+
+  .cp3-branch:nth-child(odd) {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .cp3-branch:nth-child(even) {
+    padding-left: 0;
+    text-align: left;
   }
 
   .cp3-branch::before {
@@ -1301,7 +1335,10 @@ br.pc { display: none; }
     left: auto;
     top: auto;
     transform: none;
+    box-shadow: none;
     margin: 0 auto 10px;
+    width: 8px;
+    height: 8px;
   }
 
   .cp3-conc-wrap {
