@@ -253,7 +253,7 @@ function Cause() {
             <div className="cp3-chevron" aria-hidden="true" />
             <p className="cp3-conclusion">
               4가지 변화는<br />
-              <span className="hi-orange">시상하부 하나에서</span> 비롯된 결과입니다.
+              <span className="hi-orange">시상하부 하나에서</span><br />비롯된 결과입니다.
             </p>
           </div>
         </Reveal>
