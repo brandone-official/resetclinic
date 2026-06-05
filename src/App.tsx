@@ -171,30 +171,14 @@ function Bridge2() {
 }
 
 // ── 5. Cause ─────────────────────────────────────────
-const CP3_CARDS: { num: string; sym: string; mech: React.ReactNode }[] = [
-  { num: '01', sym: '열감',   mech: <>체온 조절이<br />흐트러지면서</> },
-  { num: '02', sym: '불면',   mech: <>수면 리듬이<br />깨지면서</> },
-  { num: '03', sym: '복부지방', mech: <>대사 균형이<br />무너지면서</> },
-  { num: '04', sym: '피로',   mech: <>만성 피로가<br />쌓이면서</> },
+const CP3_ITEMS = [
+  { sym: '열감',    mech: '체온 조절이 흐트러지면서' },
+  { sym: '불면',    mech: '수면 리듬이 깨지면서' },
+  { sym: '복부지방', mech: '대사 균형이 무너지면서' },
+  { sym: '피로',    mech: '만성 피로가 쌓이면서' },
 ]
 
 function Cause() {
-  const [activeCard, setActiveCard] = useState(0)
-  const [slideIndex, setSlideIndex] = useState(0)
-  const gridRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const grid = gridRef.current
-    if (!grid) return
-    const onScroll = () => {
-      const card = grid.querySelector<HTMLElement>('.cp3-card')
-      const cardWidth = card ? card.offsetWidth : 0
-      const idx = Math.round(grid.scrollLeft / (cardWidth + 12))
-      setSlideIndex(Math.min(Math.max(idx, 0), CP3_CARDS.length - 1))
-    }
-    grid.addEventListener('scroll', onScroll, { passive: true })
-    return () => grid.removeEventListener('scroll', onScroll)
-  }, [])
 
   return (
     <section className="s-cause">
@@ -245,23 +229,22 @@ function Cause() {
           <p className="cp3-htitle">갱년기에 호르몬이 만들어내는 <span className="hi-orange">4가지 변화</span></p>
         </Reveal>
         <Reveal>
-          <div className="cp3-grid" ref={gridRef}>
-            {CP3_CARDS.map((card, i) => (
-              <div
-                key={i}
-                className={`cp3-card${activeCard === i ? ' active' : ''}`}
-                onClick={() => setActiveCard(i)}
-              >
-                <span className="cp3-num">{card.num}</span>
-                <p className="cp3-sym">{card.sym}</p>
-                <p className="cp3-mech">{card.mech}</p>
-              </div>
-            ))}
-          </div>
-          <div className="cp3-dots" aria-hidden="true">
-            {CP3_CARDS.map((_, i) => (
-              <span key={i} className={`cp3-dot${slideIndex === i ? ' active' : ''}`} />
-            ))}
+          <div className="cp3-tree">
+            <div className="cp3-source">
+              <span className="cp3-source-text">호르몬 변화</span>
+            </div>
+            <div className="cp3-trunk" />
+            <div className="cp3-branches">
+              {CP3_ITEMS.map((item, i) => (
+                <div key={i} className="cp3-branch">
+                  <div className="cp3-branch-item">
+                    <div className="cp3-dot" />
+                    <p className="cp3-sym">{item.sym}</p>
+                    <p className="cp3-mech">{item.mech}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </Reveal>
         <Reveal>

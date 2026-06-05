@@ -441,38 +441,50 @@ body {
   padding: 0 28px;
 }
 
-/* 모바일: 가로 슬라이드 */
-.cp3-grid {
-  display: flex;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  gap: 12px;
+/* ─ 트리 인포그래픽 ─ */
+.cp3-tree {
   padding: 0 28px;
-  margin-bottom: 24px;
+  margin-bottom: 52px;
 }
 
-.cp3-grid::-webkit-scrollbar {
-  display: none;
+.cp3-source {
+  text-align: center;
 }
 
-.cp3-card {
-  flex: 0 0 85%;
-  scroll-snap-align: start;
-  background: #FFFFFF;
-  border-top: 3px solid #1A3270;
-  padding: 32px 20px;
-  cursor: pointer;
-}
-
-.cp3-num {
-  display: block;
-  font-size: clamp(0.62rem, 2vw, 0.75rem);
+.cp3-source-text {
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: #D76618;
-  margin-bottom: 12px;
+}
+
+.cp3-trunk {
+  width: 1px;
+  height: 36px;
+  background: #D76618;
+  margin: 0 auto;
+}
+
+/* 모바일: 세로 스택 */
+.cp3-branches {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-left: 1px solid rgba(215, 102, 24, 0.3);
+  margin-left: 16px;
+}
+
+.cp3-branch {
+  position: relative;
+  padding: 18px 0 18px 36px;
+}
+
+.cp3-branch::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 26px;
+  width: 20px; height: 1px;
+  background: rgba(215, 102, 24, 0.5);
 }
 
 .cp3-sym {
@@ -493,25 +505,12 @@ body {
   word-break: keep-all;
 }
 
-/* 도트 인디케이터 */
-.cp3-dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 52px;
-}
-
 .cp3-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #1A3270;
-  opacity: 0.2;
-  transition: opacity 0.2s;
-}
-
-.cp3-dot.active {
-  opacity: 1;
+  background: #D76618;
+  margin-bottom: 10px;
 }
 
 .cp3-conclusion {
@@ -1199,45 +1198,58 @@ body {
     padding-right: 0;
   }
 
-  .cp3-grid {
-    flex-direction: row;
-    overflow-x: visible;
-    scroll-snap-type: none;
-    -webkit-overflow-scrolling: auto;
+  /* PC: 가로 트리 */
+  .cp3-tree {
     padding: 0;
-    gap: 12px;
-    margin-bottom: 52px;
   }
 
-  .cp3-card {
+  .cp3-branches {
+    flex-direction: row;
+    border-left: none;
+    margin-left: 0;
+    align-items: flex-start;
+  }
+
+  .cp3-branches::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12.5%; right: 12.5%;
+    height: 1px;
+    background: #D76618;
+  }
+
+  .cp3-branch {
     flex: 1;
-    min-width: 80px;
-    scroll-snap-align: unset;
-    background: #F7F3EE;
-    transition: flex 0.4s ease;
-    overflow: hidden;
-    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
   }
 
-  .cp3-card.active {
-    flex: 3;
-    background: #FFFFFF;
-  }
-
-  .cp3-card .cp3-mech {
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s ease 0.15s, max-height 0.35s ease;
-  }
-
-  .cp3-card.active .cp3-mech {
+  .cp3-branch::before {
+    left: 50%; top: 0;
+    transform: translateX(-50%);
+    width: 1px; height: 36px;
+    background: #D76618;
     opacity: 1;
-    max-height: 80px;
   }
 
-  .cp3-dots {
-    display: none;
+  .cp3-branch-item {
+    margin-top: 36px;
+    text-align: center;
+  }
+
+  .cp3-branch-item .cp3-sym {
+    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  }
+
+  .cp3-branch-item .cp3-mech {
+    font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  }
+
+  .cp3-dot {
+    margin: 0 auto 10px;
   }
 
   .cp3-conclusion {
