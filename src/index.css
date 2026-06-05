@@ -522,7 +522,7 @@ body {
   top: 100%;
   height: 60px;
   width: 1px;
-  background: rgba(215, 102, 24, 0.4);
+  background: #D76618;
 }
 
 .cp3-num {
@@ -579,7 +579,7 @@ body {
   top: 0;
   height: 48px;
   width: 1px;
-  background: rgba(215, 102, 24, 0.4);
+  background: #D76618;
 }
 
 .cp3-chevron {
