@@ -36,7 +36,7 @@ function Hero() {
         <Reveal><p className="hero-last">이유라도 알고 싶어서</p></Reveal>
         <Reveal><p>여기까지 오셨나요?</p></Reveal>
       </div>
-      <div className="hero-scroll-hint" aria-hidden="true">↓</div>
+      <div className="hero-scroll-hint" aria-hidden="true" />
     </section>
   )
 }
@@ -172,10 +172,10 @@ function Bridge2() {
 
 // ── 5. Cause ─────────────────────────────────────────
 const CP3_ITEMS = [
-  { sym: '열감',    mech: '체온 조절이 흐트러지면서' },
-  { sym: '불면',    mech: '수면 리듬이 깨지면서' },
-  { sym: '복부지방', mech: '대사 균형이 무너지면서' },
-  { sym: '피로',    mech: '만성 피로가 쌓이면서' },
+  { num: '01', sym: '열감',    mech: '체온 조절이 흐트러지면서' },
+  { num: '02', sym: '불면',    mech: '수면 리듬이 깨지면서' },
+  { num: '03', sym: '복부지방', mech: '대사 균형이 무너지면서' },
+  { num: '04', sym: '피로',    mech: '만성 피로가 쌓이면서' },
 ]
 
 function Cause() {
@@ -239,6 +239,7 @@ function Cause() {
                 <div key={i} className="cp3-branch">
                   <div className="cp3-branch-item">
                     <div className="cp3-dot" />
+                    <span className="cp3-num">{item.num}</span>
                     <p className="cp3-sym">{item.sym}</p>
                     <p className="cp3-mech">{item.mech}</p>
                   </div>
@@ -248,10 +249,13 @@ function Cause() {
           </div>
         </Reveal>
         <Reveal>
-          <p className="cp3-conclusion">
-            4가지 변화는<br />
-            <span className="hi-orange">시상하부 하나에서</span> 비롯된 결과입니다.
-          </p>
+          <div className="cp3-conc-wrap">
+            <div className="cp3-chevron" aria-hidden="true" />
+            <p className="cp3-conclusion">
+              4가지 변화는<br />
+              <span className="hi-orange">시상하부 하나에서</span> 비롯된 결과입니다.
+            </p>
+          </div>
         </Reveal>
       </div>
 

@@ -100,15 +100,16 @@ body {
   position: absolute;
   bottom: 36px;
   left: 50%;
-  transform: translateX(-50%);
-  color: #D76618;
-  font-size: 1.5rem;
+  width: 18px;
+  height: 18px;
+  border-right: 2px solid #D76618;
+  border-bottom: 2px solid #D76618;
   animation: hint-bounce 2s ease-in-out infinite;
 }
 
 @keyframes hint-bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(7px); }
+  0%, 100% { transform: translateX(-50%) rotate(45deg) translateY(0); }
+  50%       { transform: translateX(-50%) rotate(45deg) translateY(7px); }
 }
 
 /* ── 2. Bridge ───────────────────────────── */
@@ -443,8 +444,8 @@ body {
 
 /* ─ 트리 인포그래픽 ─ */
 .cp3-tree {
-  padding: 0 28px;
-  margin-bottom: 52px;
+  padding: 60px 28px;
+  margin-bottom: 0;
 }
 
 .cp3-source {
@@ -452,10 +453,15 @@ body {
 }
 
 .cp3-source-text {
-  font-size: 0.82rem;
+  display: inline-block;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
   color: #D76618;
+  border: 2px solid #D76618;
+  border-radius: 999px;
+  padding: 0.15em 0.7em;
 }
 
 .cp3-trunk {
@@ -487,6 +493,15 @@ body {
   background: rgba(215, 102, 24, 0.5);
 }
 
+.cp3-num {
+  display: block;
+  font-size: clamp(0.62rem, 2vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #D76618;
+  margin-bottom: 6px;
+}
+
 .cp3-sym {
   font-size: clamp(1.5rem, 5.5vw, 2.2rem);
   font-weight: 700;
@@ -498,8 +513,8 @@ body {
 }
 
 .cp3-mech {
-  font-size: clamp(0.85rem, 3vw, 1rem);
-  font-weight: 400;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
   line-height: 1.6;
   color: #444444;
   word-break: keep-all;
@@ -513,6 +528,21 @@ body {
   margin-bottom: 10px;
 }
 
+.cp3-conc-wrap {
+  border-top: 1px solid #E0E0E0;
+  padding: 48px 28px 0;
+  text-align: center;
+}
+
+.cp3-chevron {
+  width: 16px;
+  height: 16px;
+  border-right: 2px solid #D76618;
+  border-bottom: 2px solid #D76618;
+  transform: rotate(45deg);
+  margin: 0 auto 32px;
+}
+
 .cp3-conclusion {
   font-size: clamp(1.8rem, 6vw, 2.8rem);
   font-weight: 700;
@@ -521,8 +551,7 @@ body {
   color: #1A1A1A;
   text-align: center;
   word-break: keep-all;
-  padding: 40px 28px 0;
-  border-top: 1px solid #E0E0E0;
+  padding: 0;
 }
 
 /* ── 6. Symptoms (탭 슬라이드) ──────────────── */
@@ -1245,11 +1274,16 @@ body {
   }
 
   .cp3-branch-item .cp3-mech {
-    font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
   }
 
   .cp3-dot {
     margin: 0 auto 10px;
+  }
+
+  .cp3-conc-wrap {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .cp3-conclusion {
