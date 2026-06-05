@@ -1273,6 +1273,10 @@ body {
     font-size: clamp(1.2rem, 2.4vw, 1.8rem);
   }
 
+  .cp3-branch-item .cp3-mech {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+  }
+
   .cp3-dot {
     margin: 0 auto 10px;
   }
