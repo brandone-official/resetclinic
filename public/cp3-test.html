@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CP3 Card Style Test — v2</title>
+  <style>
+    :root {
+      --orange: #D76618;
+      --navy:   #1A3270;
+      --cream:  #F7F3EE;
+      --black:  #1A1A1A;
+      --gray:   #666;
+      --line:   #D8D3CC;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      background: #ECEAE5;
+      padding: 80px 60px;
+      color: var(--black);
+    }
+
+    .page-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 100px;
+    }
+
+    .section { margin-bottom: 120px; }
+
+    .section-label { margin-bottom: 32px; }
+
+    .style-name {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .style-desc {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--gray);
+    }
+
+
+    /* ════════════════════════════════════════
+       Style A — Side Index
+       좌측 인덱스(좁) + 우측 패널(넓) 2열 구조
+       클릭 시 우측 콘텐츠가 부드럽게 교체됨
+    ════════════════════════════════════════ */
+    .a-wrap {
+      display: flex;
+      height: 300px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .a-index {
+      width: 200px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .a-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 24px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .a-item:last-child { border-bottom: none; }
+
+    .a-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--orange);
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .a-item.active::before { transform: scaleY(1); }
+    .a-item:hover { background: rgba(215, 102, 24, 0.04); }
+
+    .a-item-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #bbb;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .a-item.active .a-item-num { color: var(--orange); }
+
+    .a-item-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #aaa;
+      transition: color 0.2s;
+    }
+
+    .a-item.active .a-item-title { color: var(--navy); }
+
+    .a-panel {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    .a-panel-item {
+      position: absolute;
+      inset: 0;
+      padding: 0 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(16px);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .a-panel-item.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .a-panel-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .a-panel-title {
+      font-size: 3.6rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .a-panel-mech {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--gray);
+      letter-spacing: -0.01em;
+    }
+
+
+    /* ════════════════════════════════════════
+       Style B — Toggle Row
+       전체 너비 행에 모든 정보 항상 표시
+       클릭: 네이비 배경 하이라이트 토글
+       여러 개 동시 선택 가능 — 펼침/접힘 없음
+    ════════════════════════════════════════ */
+    .b-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .b-row {
+      display: grid;
+      grid-template-columns: 64px 160px 1fr 36px;
+      align-items: center;
+      column-gap: 32px;
+      padding: 26px 36px;
+      cursor: pointer;
+      background: var(--cream);
+      transition: background 0.32s ease;
+      position: relative;
+    }
+
+    .b-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--orange);
+      opacity: 0;
+      transition: opacity 0.32s ease;
+    }
+
+    .b-row.active::before { opacity: 1; }
+    .b-row.active { background: var(--navy); }
+
+    .b-row-num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #C8C3B8;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      transition: color 0.32s;
+    }
+
+    .b-row.active .b-row-num { color: rgba(255,255,255,0.18); }
+
+    .b-row-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.03em;
+      transition: color 0.32s;
+    }
+
+    .b-row.active .b-row-title { color: #fff; }
+
+    .b-row-mech {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--gray);
+      letter-spacing: -0.01em;
+      transition: color 0.32s;
+    }
+
+    .b-row.active .b-row-mech { color: rgba(255,255,255,0.55); }
+
+    .b-row-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #ccc;
+      transition: border-color 0.32s, color 0.32s, transform 0.32s, background 0.32s;
+      flex-shrink: 0;
+    }
+
+    .b-row.active .b-row-icon {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: rgba(215, 102, 24, 0.1);
+      transform: rotate(45deg);
+    }
+
+
+    /* ════════════════════════════════════════
+       Style C — Focal Type
+       상단 탭 클릭 → 하단 히어로 배경+타이포 전환
+       항목마다 배경 색상이 완전히 다름
+    ════════════════════════════════════════ */
+    .c-wrap { position: relative; }
+
+    .c-tabs {
+      display: flex;
+      position: relative;
+      background: #E4E0DA;
+    }
+
+    .c-tab {
+      flex: 1;
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-right: 1px solid rgba(0,0,0,0.08);
+      transition: background 0.2s;
+    }
+
+    .c-tab:last-child { border-right: none; }
+    .c-tab:hover { background: rgba(0,0,0,0.04); }
+
+    .c-tab-num {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #bbb;
+      transition: color 0.25s;
+    }
+
+    .c-tab.active .c-tab-num { color: var(--orange); }
+
+    .c-tab-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #888;
+      transition: color 0.25s;
+    }
+
+    .c-tab.active .c-tab-title { color: var(--black); }
+
+    .c-underline {
+      position: absolute;
+      bottom: 0;
+      height: 3px;
+      background: var(--orange);
+      transition: left 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+                  width 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .c-hero {
+      position: relative;
+      height: 140px;
+      overflow: hidden;
+    }
+
+    .c-hero-item {
+      position: absolute;
+      inset: 0;
+      padding: 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #F7F3EE;
+      opacity: 0;
+      transition: opacity 0.42s ease;
+      pointer-events: none;
+    }
+
+    .c-hero-item.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .c-hero-title {
+      font-size: 4.4rem;
+      font-weight: 800;
+      letter-spacing: -0.055em;
+      line-height: 1;
+      color: #1A3270;
+      margin-bottom: 12px;
+    }
+
+    .c-hero-mech {
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: #444444;
+    }
+  </style>
+</head>
+<body>
+
+<p class="page-title">CP3 Card Style — A / B / C 비교</p>
+
+
+<!-- ── Style A ── -->
+<div class="section">
+  <div class="section-label">
+    <p class="style-name">Style A — Side Index</p>
+    <p class="style-desc">왼쪽 인덱스 클릭 → 오른쪽 패널에 큰 타이포 콘텐츠 교체. 편집적 2열 구조, 공간을 넓게 사용.</p>
+  </div>
+
+  <div class="a-wrap">
+    <div class="a-index">
+      <div class="a-item active" onclick="activateA(0)">
+        <span class="a-item-num">01</span>
+        <span class="a-item-title">열감</span>
+      </div>
+      <div class="a-item" onclick="activateA(1)">
+        <span class="a-item-num">02</span>
+        <span class="a-item-title">불면</span>
+      </div>
+      <div class="a-item" onclick="activateA(2)">
+        <span class="a-item-num">03</span>
+        <span class="a-item-title">복부지방</span>
+      </div>
+      <div class="a-item" onclick="activateA(3)">
+        <span class="a-item-num">04</span>
+        <span class="a-item-title">피로</span>
+      </div>
+    </div>
+
+    <div class="a-panel">
+      <div class="a-panel-item active">
+        <p class="a-panel-tag">Symptom 01</p>
+        <h2 class="a-panel-title">열감</h2>
+        <p class="a-panel-mech">체온 조절이 흐트러지면서</p>
+      </div>
+      <div class="a-panel-item">
+        <p class="a-panel-tag">Symptom 02</p>
+        <h2 class="a-panel-title">불면</h2>
+        <p class="a-panel-mech">수면 리듬이 깨지면서</p>
+      </div>
+      <div class="a-panel-item">
+        <p class="a-panel-tag">Symptom 03</p>
+        <h2 class="a-panel-title">복부지방</h2>
+        <p class="a-panel-mech">대사 균형이 무너지면서</p>
+      </div>
+      <div class="a-panel-item">
+        <p class="a-panel-tag">Symptom 04</p>
+        <h2 class="a-panel-title">피로</h2>
+        <p class="a-panel-mech">만성 피로가 쌓이면서</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Style B ── -->
+<div class="section">
+  <div class="section-label">
+    <p class="style-name">Style B — Toggle Row</p>
+    <p class="style-desc">모든 정보가 항상 표시된 전체 너비 행. 클릭으로 네이비 배경 토글, 여러 개 동시 선택 가능.</p>
+  </div>
+
+  <div class="b-wrap">
+    <div class="b-row" onclick="toggleB(this)">
+      <span class="b-row-num">01</span>
+      <span class="b-row-title">열감</span>
+      <span class="b-row-mech">체온 조절이 흐트러지면서</span>
+      <span class="b-row-icon">＋</span>
+    </div>
+    <div class="b-row" onclick="toggleB(this)">
+      <span class="b-row-num">02</span>
+      <span class="b-row-title">불면</span>
+      <span class="b-row-mech">수면 리듬이 깨지면서</span>
+      <span class="b-row-icon">＋</span>
+    </div>
+    <div class="b-row" onclick="toggleB(this)">
+      <span class="b-row-num">03</span>
+      <span class="b-row-title">복부지방</span>
+      <span class="b-row-mech">대사 균형이 무너지면서</span>
+      <span class="b-row-icon">＋</span>
+    </div>
+    <div class="b-row" onclick="toggleB(this)">
+      <span class="b-row-num">04</span>
+      <span class="b-row-title">피로</span>
+      <span class="b-row-mech">만성 피로가 쌓이면서</span>
+      <span class="b-row-icon">＋</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Style C ── -->
+<div class="section">
+  <div class="section-label">
+    <p class="style-name">Style C — Focal Type</p>
+    <p class="style-desc">상단 탭 클릭 → 하단 히어로 영역에서 배경 색상과 대형 타이포가 함께 전환됨.</p>
+  </div>
+
+  <div class="c-wrap">
+    <div class="c-tabs" id="cTabs">
+      <div class="c-tab active" onclick="activateC(0)">
+        <span class="c-tab-num">01</span>
+        <span class="c-tab-title">열감</span>
+      </div>
+      <div class="c-tab" onclick="activateC(1)">
+        <span class="c-tab-num">02</span>
+        <span class="c-tab-title">불면</span>
+      </div>
+      <div class="c-tab" onclick="activateC(2)">
+        <span class="c-tab-num">03</span>
+        <span class="c-tab-title">복부지방</span>
+      </div>
+      <div class="c-tab" onclick="activateC(3)">
+        <span class="c-tab-num">04</span>
+        <span class="c-tab-title">피로</span>
+      </div>
+      <div class="c-underline" id="cUnderline"></div>
+    </div>
+
+    <div class="c-hero">
+      <div class="c-hero-item active" data-idx="0">
+        <h2 class="c-hero-title">열감</h2>
+        <p class="c-hero-mech">체온 조절이 흐트러지면서</p>
+      </div>
+      <div class="c-hero-item" data-idx="1">
+        <h2 class="c-hero-title">불면</h2>
+        <p class="c-hero-mech">수면 리듬이 깨지면서</p>
+      </div>
+      <div class="c-hero-item" data-idx="2">
+        <h2 class="c-hero-title">복부지방</h2>
+        <p class="c-hero-mech">대사 균형이 무너지면서</p>
+      </div>
+      <div class="c-hero-item" data-idx="3">
+        <h2 class="c-hero-title">피로</h2>
+        <p class="c-hero-mech">만성 피로가 쌓이면서</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function activateA(idx) {
+    document.querySelectorAll('.a-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+    document.querySelectorAll('.a-panel-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+  }
+
+  function toggleB(el) {
+    el.classList.toggle('active');
+  }
+
+  function activateC(idx) {
+    document.querySelectorAll('.c-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
+    document.querySelectorAll('.c-hero-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+    moveUnderline(idx);
+  }
+
+  function moveUnderline(idx) {
+    const tabs = document.querySelectorAll('.c-tab');
+    const bar = document.getElementById('cUnderline');
+    const wrapRect = document.getElementById('cTabs').getBoundingClientRect();
+    const tabRect = tabs[idx].getBoundingClientRect();
+    bar.style.left  = (tabRect.left - wrapRect.left) + 'px';
+    bar.style.width = tabRect.width + 'px';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => moveUnderline(0));
+  window.addEventListener('resize', () => {
+    const idx = [...document.querySelectorAll('.c-tab')].findIndex(el => el.classList.contains('active'));
+    if (idx >= 0) moveUnderline(idx);
+  });
+</script>
+</body>
+</html>
