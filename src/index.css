@@ -437,6 +437,7 @@ body {
   color: #1A1A1A;
   margin-bottom: 40px;
   text-align: center;
+  word-break: keep-all;
   padding: 0 28px;
 }
 

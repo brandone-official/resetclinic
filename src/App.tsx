@@ -242,7 +242,7 @@ function Cause() {
       <div className="cause-part cause-p3">
         <Reveal>
           <p className="cp3-eyebrow">시상하부 조절 이상</p>
-          <p className="cp3-htitle">갱년기에 호르몬이<br />만들어내는 <span className="hi-orange">4가지 변화</span></p>
+          <p className="cp3-htitle">갱년기에 호르몬이 만들어내는 <span className="hi-orange">4가지 변화</span></p>
         </Reveal>
         <Reveal>
           <div className="cp3-grid" ref={gridRef}>
@@ -266,9 +266,7 @@ function Cause() {
         </Reveal>
         <Reveal>
           <p className="cp3-conclusion">
-            4가지 변화는<br />
-            <span className="hi-orange">시상하부 하나에서</span><br />
-            비롯된 결과입니다.
+            4가지 변화는 <span className="hi-orange">시상하부 하나에서</span> 비롯된 결과입니다.
           </p>
         </Reveal>
       </div>
