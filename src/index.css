@@ -422,12 +422,9 @@ body {
 }
 
 .cp3-eyebrow {
-  font-size: clamp(0.7rem, 2.2vw, 0.85rem);
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #1A3270;
-  opacity: 0.45;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
+  color: #444444;
   margin-bottom: 8px;
   text-align: center;
   padding: 0 28px;
@@ -464,7 +461,7 @@ body {
   scroll-snap-align: start;
   background: #FFFFFF;
   border-top: 3px solid #1A3270;
-  padding: 28px 20px;
+  padding: 32px 20px;
   cursor: pointer;
 }
 
@@ -517,9 +514,9 @@ body {
 }
 
 .cp3-conclusion {
-  font-size: clamp(1.6rem, 6vw, 2.4rem);
-  font-weight: 600;
-  line-height: 1.5;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.45;
   letter-spacing: -0.025em;
   color: #1A1A1A;
   text-align: center;
@@ -1213,13 +1210,17 @@ body {
 
   .cp3-card {
     flex: 1;
+    min-width: 80px;
     scroll-snap-align: unset;
+    background: #F7F3EE;
     transition: flex 0.4s ease;
     overflow: hidden;
+    padding: 32px 20px;
   }
 
   .cp3-card.active {
     flex: 3;
+    background: #FFFFFF;
   }
 
   .cp3-card .cp3-mech {
