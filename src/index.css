@@ -48,26 +48,12 @@ body {
 }
 
 /* ── 키워드 강조 ──────────────────────────── */
-.hi-orange { color: var(--orange); }
-.hi-navy   { color: var(--navy); }
-
 .hi-orange {
-  position: relative;
+  color: var(--orange);
+  background: rgba(215, 102, 24, 0.15);
   display: inline;
 }
-.hi-orange::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -0.1em;
-  height: 2px;
-  width: 0;
-  background: var(--orange);
-  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
-}
-.reveal.visible .hi-orange::after {
-  width: 100%;
-}
+.hi-navy { color: var(--navy); }
 
 /* ── 1. Hero ─────────────────────────────── */
 .s-hero {
@@ -602,11 +588,6 @@ body {
   text-align: center;
   word-break: keep-all;
   padding: 0;
-}
-
-.cp3-conc-last {
-  display: block;
-  margin-top: 0.25em;
 }
 
 /* ── 6. Symptoms (탭 슬라이드) ──────────────── */
