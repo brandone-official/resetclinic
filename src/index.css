@@ -408,7 +408,7 @@ body {
 .cp2-focus {
   font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.45;
   letter-spacing: -0.04em;
   color: #1A1A1A;
   text-align: center;
