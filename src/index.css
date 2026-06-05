@@ -52,6 +52,7 @@ body {
   color: var(--orange);
   background: rgba(215, 102, 24, 0.15);
   display: inline;
+  padding: 0 0.2em;
 }
 .hi-navy { color: var(--navy); }
 
