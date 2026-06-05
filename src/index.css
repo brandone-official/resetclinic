@@ -1152,7 +1152,11 @@ body {
 }
 
 /* ── Desktop ─────────────────────────────── */
+br.pc { display: none; }
+
 @media (min-width: 640px) {
+
+  br.pc { display: inline; }
 
   .s-hero,
   .s-bridge,

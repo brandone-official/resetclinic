@@ -171,11 +171,11 @@ function Bridge2() {
 }
 
 // ── 5. Cause ─────────────────────────────────────────
-const CP3_ITEMS = [
-  { num: '01', sym: '열감',    mech: '체온 조절이 흐트러지면서' },
-  { num: '02', sym: '불면',    mech: '수면 리듬이 깨지면서' },
-  { num: '03', sym: '복부지방', mech: '대사 균형이 무너지면서' },
-  { num: '04', sym: '피로',    mech: '만성 피로가 쌓이면서' },
+const CP3_ITEMS: { num: string; sym: string; mech: React.ReactNode }[] = [
+  { num: '01', sym: '열감',    mech: <>체온 조절이<br className="pc" />흐트러지면서</> },
+  { num: '02', sym: '불면',    mech: <>수면 리듬이<br className="pc" />깨지면서</> },
+  { num: '03', sym: '복부지방', mech: <>대사 균형이<br className="pc" />무너지면서</> },
+  { num: '04', sym: '피로',    mech: <>만성 피로가<br className="pc" />쌓이면서</> },
 ]
 
 function Cause() {
