@@ -415,14 +415,14 @@ body {
   word-break: keep-all;
 }
 
-/* Part 3 — 증상 리스트 */
+/* Part 3 — 4가지 변화 */
 .cause-p3 {
   background: #F7F3EE;
-  padding: 60px 28px;
+  padding: 60px 0;
 }
 
 .cp3-eyebrow {
-  font-size: 0.7rem;
+  font-size: clamp(0.7rem, 2.2vw, 0.85rem);
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -430,6 +430,7 @@ body {
   opacity: 0.45;
   margin-bottom: 8px;
   text-align: center;
+  padding: 0 28px;
 }
 
 .cp3-htitle {
@@ -439,28 +440,37 @@ body {
   color: #1A1A1A;
   margin-bottom: 40px;
   text-align: center;
+  padding: 0 28px;
 }
 
-/* 리스트형 그리드 */
+/* 모바일: 가로 슬라이드 */
 .cp3-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin-bottom: 52px;
-  text-align: center;
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 12px;
+  padding: 0 28px;
+  margin-bottom: 24px;
+}
+
+.cp3-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .cp3-card {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  background: #FFFFFF;
+  border-top: 3px solid #1A3270;
   padding: 28px 20px;
-  border-bottom: 1px solid #E0E0E0;
-}
-
-.cp3-card:last-child {
-  border-bottom: none;
+  cursor: pointer;
 }
 
 .cp3-num {
   display: block;
-  font-size: 0.62rem;
+  font-size: clamp(0.62rem, 2vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #D76618;
@@ -478,11 +488,32 @@ body {
 }
 
 .cp3-mech {
-  font-size: clamp(0.72rem, 2.5vw, 0.85rem);
+  font-size: clamp(0.85rem, 3vw, 1rem);
   font-weight: 400;
   line-height: 1.6;
-  color: #aaa;
+  color: #444444;
   word-break: keep-all;
+}
+
+/* 도트 인디케이터 */
+.cp3-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 52px;
+}
+
+.cp3-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1A3270;
+  opacity: 0.2;
+  transition: opacity 0.2s;
+}
+
+.cp3-dot.active {
+  opacity: 1;
 }
 
 .cp3-conclusion {
@@ -493,7 +524,7 @@ body {
   color: #1A1A1A;
   text-align: center;
   word-break: keep-all;
-  padding-top: 40px;
+  padding: 40px 28px 0;
   border-top: 1px solid #E0E0E0;
 }
 
@@ -1154,10 +1185,62 @@ body {
   }
 
   /* Cause: 좌우 여백 통일 */
-  .cause-p2,
-  .cause-p3 {
+  .cause-p2 {
     padding-left: max(64px, calc(50vw - 380px));
     padding-right: max(64px, calc(50vw - 380px));
+  }
+
+  /* Cause Part 3: PC Expanding Cards */
+  .cause-p3 {
+    padding: 60px max(64px, calc(50vw - 380px));
+  }
+
+  .cp3-eyebrow,
+  .cp3-htitle {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .cp3-grid {
+    flex-direction: row;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    -webkit-overflow-scrolling: auto;
+    padding: 0;
+    gap: 12px;
+    margin-bottom: 52px;
+  }
+
+  .cp3-card {
+    flex: 1;
+    scroll-snap-align: unset;
+    transition: flex 0.4s ease;
+    overflow: hidden;
+  }
+
+  .cp3-card.active {
+    flex: 3;
+  }
+
+  .cp3-card .cp3-mech {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease 0.15s, max-height 0.35s ease;
+  }
+
+  .cp3-card.active .cp3-mech {
+    opacity: 1;
+    max-height: 80px;
+  }
+
+  .cp3-dots {
+    display: none;
+  }
+
+  .cp3-conclusion {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   /* Cause Part 1: PC — 중앙 정렬 세로 배치 */
