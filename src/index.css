@@ -755,7 +755,7 @@ body {
   .sym-slider {
     overflow: hidden;
     display: block;
-    padding: 40px 40px 80px;
+    padding: 40px 28px 80px;
   }
   .sym-card {
     display: none;
