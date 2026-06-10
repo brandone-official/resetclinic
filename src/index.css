@@ -622,7 +622,7 @@ body {
   line-height: 1.75;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #C8D4E8;
+  color: #8AAACE;
   margin-bottom: 12px;
 }
 
@@ -655,7 +655,7 @@ body {
   font-size: clamp(1rem, 3.5vw, 1.2rem);
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #C8D4E8;
+  color: #8AAACE;
   cursor: pointer;
   text-align: center;
   transition: color 0.22s ease, border-color 0.22s ease;
@@ -664,7 +664,7 @@ body {
 }
 
 .sym-tab:hover {
-  color: #8AAACE;
+  color: #C8D4E8;
 }
 
 .sym-tab.active {
@@ -715,7 +715,7 @@ body {
   font-style: italic;
   line-height: 1.75;
   letter-spacing: -0.02em;
-  color: #C8D4E8;
+  color: #8AAACE;
   word-break: keep-all;
   margin-bottom: 32px;
 }
