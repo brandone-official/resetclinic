@@ -1283,8 +1283,7 @@ br.pc { display: none; }
 
   /* Symptoms */
   .sym-head,
-  .sym-tabs,
-  .sym-content {
+  .sym-tabs {
     padding-left: max(64px, calc(50vw - 380px));
     padding-right: max(64px, calc(50vw - 380px));
   }
