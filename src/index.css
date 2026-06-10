@@ -752,10 +752,17 @@ body {
 }
 
 @media (min-width: 768px) {
+  .sym-tabs {
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
   .sym-slider {
     overflow: hidden;
     display: block;
-    padding: 40px 28px 80px;
+    padding-top: 40px;
+    padding-bottom: 80px;
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
   }
   .sym-card {
     display: none;
