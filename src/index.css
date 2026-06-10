@@ -73,7 +73,7 @@ body {
 .s-hero {
   min-height: 100vh;
   min-height: 100svh;
-  background: #0D1A2E;
+  background: #07112B;
   display: flex;
   flex-direction: column;
   justify-content: center;
