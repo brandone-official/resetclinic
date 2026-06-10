@@ -713,7 +713,7 @@ body {
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 300;
   font-style: italic;
-  line-height: 1.65;
+  line-height: 1.75;
   letter-spacing: -0.02em;
   color: #6B7FA0;
   word-break: keep-all;
@@ -731,9 +731,9 @@ body {
 
 /* 원인 설명 */
 .sym-explain p {
-  font-size: clamp(1.05rem, 3.9vw, 1.6rem);
-  font-weight: 400;
-  line-height: 1.8;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
+  line-height: 1.75;
   letter-spacing: -0.02em;
   color: #C8D4E8;
   word-break: keep-all;
