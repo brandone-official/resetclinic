@@ -267,6 +267,7 @@ function Cause() {
 const SYM_TABS = [
   {
     label: '열감',
+    image: '/images/symptom-heat.png',
     patient: '갑자기 얼굴이 화끈, 등에선 식은땀이 나요.',
     lines: [
       '시상하부가 체온 신호를 잘못 읽는 겁니다.',
@@ -275,6 +276,7 @@ const SYM_TABS = [
   },
   {
     label: '불면',
+    image: '/images/symptom-insomnia.png',
     patient: '새벽 3시, 또 이유없이 깼습니다.',
     lines: [
       '심부체온이 안정되지 않으면 깊은 잠에 들 수 없습니다.',
@@ -283,6 +285,7 @@ const SYM_TABS = [
   },
   {
     label: '뱃살',
+    image: '/images/symptom-belly.png',
     patient: '먹는 건 비슷한데 배만 늘었어요.',
     lines: [
       '에스트로겐이 줄면 지방이 배로 먼저 축적됩니다.',
@@ -291,6 +294,7 @@ const SYM_TABS = [
   },
   {
     label: '피로',
+    image: '/images/symptom-fatigue.png',
     patient: '아무것도 하기 싫고 종일 피곤합니다.',
     lines: [
       '수면 분절이 코르티솔 리듬을 교란시킵니다.',
@@ -301,6 +305,28 @@ const SYM_TABS = [
 
 function Symptoms() {
   const [active, setActive] = useState(0)
+  const sliderRef = useRef<HTMLDivElement>(null)
+
+  const handleTab = (i: number) => {
+    setActive(i)
+    const slider = sliderRef.current
+    if (!slider) return
+    const card = slider.children[i] as HTMLElement
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+  }
+
+  const handleScroll = () => {
+    const slider = sliderRef.current
+    if (!slider) return
+    const cards = Array.from(slider.children) as HTMLElement[]
+    let closest = 0
+    let minDist = Infinity
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.offsetLeft - slider.scrollLeft)
+      if (dist < minDist) { minDist = dist; closest = i }
+    })
+    setActive(closest)
+  }
 
   return (
     <section className="s-symptoms">
@@ -316,21 +342,33 @@ function Symptoms() {
             role="tab"
             aria-selected={i === active}
             className={`sym-tab${i === active ? ' active' : ''}`}
-            onClick={() => setActive(i)}
+            onClick={() => handleTab(i)}
           >
             {tab.label}
           </button>
         ))}
       </div>
 
-      <div key={active} className="sym-content" role="tabpanel">
-        <p className="sym-patient">"{SYM_TABS[active].patient}"</p>
-        <span className="sym-rule" aria-hidden="true" />
-        <div className="sym-explain">
-          {SYM_TABS[active].lines.map((line, i) => (
-            <p key={i}>{line}</p>
-          ))}
-        </div>
+      <div className="sym-slider" ref={sliderRef} onScroll={handleScroll}>
+        {SYM_TABS.map((tab, i) => (
+          <div
+            key={i}
+            className={`sym-card${i === active ? ' active' : ''}`}
+            role="tabpanel"
+            aria-hidden={i !== active}
+          >
+            <img className="sym-img" src={tab.image} alt={tab.label} />
+            <div className="sym-content">
+              <p className="sym-patient">"{tab.patient}"</p>
+              <span className="sym-rule" aria-hidden="true" />
+              <div className="sym-explain">
+                {tab.lines.map((line, j) => (
+                  <p key={j}>{line}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )
