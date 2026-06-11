@@ -104,7 +104,7 @@ export default function Survey({ onClose }: SurveyProps) {
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
 
-  useEffect(() => { window.scrollTo(0, 0) }, [])
+  useEffect(() => { if (!onClose) window.scrollTo(0, 0) }, [])
 
   function handleClose() {
     if (onClose) onClose()
