@@ -776,10 +776,9 @@ body {
 
 /* ── 7. SelfTest — 자가진단 ──────────────── */
 .s-selftest {
-  background: #f5f7fb;
+  background: #F7F3EE;
   padding: 96px 28px;
   text-align: center;
-  border-top: 1px solid #e8ecf2;
 }
 
 .st-inner {
@@ -792,20 +791,20 @@ body {
 }
 
 .st-body {
-  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.45;
   letter-spacing: -0.04em;
   color: #1A1A1A;
   word-break: keep-all;
 }
 
 .st-sub {
-  font-size: clamp(1rem, 3.6vw, 1.4rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 300;
   line-height: 1.75;
   letter-spacing: -0.015em;
-  color: #666;
+  color: #444444;
   word-break: keep-all;
 }
 

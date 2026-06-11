@@ -381,8 +381,7 @@ function SelfTest() {
       <div className="st-inner">
         <Reveal>
           <p className="st-body">
-            같은 갱년기라도<br />
-            사람마다 몸이 다르게 반응합니다.
+            같은 갱년기라도<br className="mob" /><span className="hi-orange">다르게 반응</span>합니다.
           </p>
         </Reveal>
         <Reveal>
