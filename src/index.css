@@ -808,17 +808,42 @@ body {
   word-break: keep-all;
 }
 
+@keyframes st-pulse {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  100% { transform: scale(1.55); opacity: 0;   }
+}
+
+.st-btn-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.st-btn-wrap::before,
+.st-btn-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  border: 2px solid #D76618;
+  animation: st-pulse 2s ease-out infinite;
+  pointer-events: none;
+}
+.st-btn-wrap::after { animation-delay: 0.8s; }
+
 .st-btn {
   display: inline-block;
   background: #D76618;
   color: #ffffff;
   font-family: inherit;
-  font-size: clamp(0.95rem, 3.2vw, 1.05rem);
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
   font-weight: 600;
   letter-spacing: -0.01em;
   padding: 18px 44px;
   border-radius: 50px;
   text-decoration: none;
+  position: relative;
+  z-index: 1;
   transition: background 0.2s ease, transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }

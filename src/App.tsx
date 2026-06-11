@@ -391,7 +391,9 @@ function SelfTest() {
           </p>
         </Reveal>
         <Reveal>
-          <a href="#" className="st-btn">내 유형 확인하기</a>
+          <div className="st-btn-wrap">
+            <a href="#" className="st-btn">1분 자가진단 시작하기</a>
+          </div>
         </Reveal>
       </div>
     </section>
