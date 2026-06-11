@@ -104,11 +104,13 @@ export default function Survey({ onClose }: SurveyProps) {
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
 
-  useEffect(() => { if (!onClose) window.scrollTo(0, 0) }, [])
+  useEffect(() => {
+    if (!onClose) navigate('/', { state: { openSurvey: true } })
+  }, [])
 
   function handleClose() {
     if (onClose) onClose()
-    else navigate('/#selftest')
+    else navigate('/', { state: { openSurvey: false } })
   }
 
   function handleSetAnswer(id: string, val: number) {

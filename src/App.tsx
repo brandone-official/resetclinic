@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Survey from './Survey'
 
 // ── Scroll Reveal ────────────────────────────────────
@@ -612,6 +612,24 @@ function SiteFooter() {
 // ── HomePage ─────────────────────────────────────────
 function HomePage() {
   const [showSurvey, setShowSurvey] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    const state = location.state as { openSurvey?: boolean } | null
+    if (state?.openSurvey === true) {
+      setShowSurvey(true)
+      document.getElementById('selftest')?.scrollIntoView({ behavior: 'smooth' })
+      window.history.replaceState({}, '')
+    }
+  }, [location.state])
+
+  function closeSurvey() {
+    setShowSurvey(false)
+    setTimeout(() => {
+      document.getElementById('selftest')?.scrollIntoView({ behavior: 'smooth' })
+    }, 50)
+  }
+
   return (
     <>
       <main>
@@ -629,7 +647,7 @@ function HomePage() {
       <SiteFooter />
       {showSurvey && (
         <div style={{ position:'fixed', inset:0, zIndex:1000, overflowY:'auto' }}>
-          <Survey onClose={() => setShowSurvey(false)} />
+          <Survey onClose={closeSurvey} />
         </div>
       )}
     </>
