@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
+import Survey from './Survey'
 
 // ── Scroll Reveal ────────────────────────────────────
 function useReveal(threshold = 0.3) {
@@ -392,7 +394,7 @@ function SelfTest() {
         </Reveal>
         <Reveal>
           <div className="st-btn-wrap">
-            <a href="#" className="st-btn">1분 자가진단 시작하기</a>
+            <Link to="/survey" className="st-btn">1분 자가진단 시작하기</Link>
           </div>
         </Reveal>
       </div>
@@ -607,8 +609,8 @@ function SiteFooter() {
   )
 }
 
-// ── App ──────────────────────────────────────────────
-export default function App() {
+// ── HomePage ─────────────────────────────────────────
+function HomePage() {
   return (
     <>
       <main>
@@ -625,5 +627,15 @@ export default function App() {
       </main>
       <SiteFooter />
     </>
+  )
+}
+
+// ── App ──────────────────────────────────────────────
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/survey" element={<Survey />} />
+    </Routes>
   )
 }
