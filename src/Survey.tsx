@@ -103,6 +103,8 @@ export default function Survey({ onClose }: SurveyProps) {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
+  const [showShare, setShowShare] = useState(false)
+  const [toastVisible, setToastVisible] = useState(false)
 
   useEffect(() => {
     if (!onClose) navigate('/', { state: { openSurvey: true } })
@@ -127,6 +129,33 @@ export default function Survey({ onClose }: SurveyProps) {
   function handleRestart() {
     setStep(0); setAnswers({}); setShowResult(false)
   }
+  function handleCopyLink() {
+    navigator.clipboard.writeText('https://resetclinic.web.app/survey').then(() => {
+      setShowShare(false)
+      setToastVisible(true)
+      setTimeout(() => setToastVisible(false), 2500)
+    })
+  }
+
+  const ShareSheet = () => (
+    <>
+      <div className="sv-share-backdrop" onClick={() => setShowShare(false)} />
+      <div className="sv-share-sheet">
+        <p className="sv-share-title">공유하기</p>
+        <button className="sv-share-item" onClick={handleCopyLink}>
+          <span>🔗</span>링크 복사
+        </button>
+        <a
+          className="sv-share-item"
+          href={`kakaolink://send?text=${encodeURIComponent('갱년기 자가진단 해보세요')}&url=${encodeURIComponent('resetclinic.web.app/survey')}`}
+          onClick={() => setShowShare(false)}
+        >
+          <span>💬</span>카카오톡으로 공유
+        </a>
+        <button className="sv-share-close" onClick={() => setShowShare(false)}>닫기</button>
+      </div>
+    </>
+  )
   function isValid() {
     if (step < 3) return answers[Q0[step].id] !== undefined
     return answers[QS[step - 3].id] !== undefined
@@ -161,9 +190,10 @@ export default function Survey({ onClose }: SurveyProps) {
     const hrt = HRT_MSG[hrtVal] || ''
 
     const BottomButtons = () => (
-      <div style={{ display:'flex', justifyContent:'center', gap:'12px' }}>
+      <div style={{ display:'flex', justifyContent:'center', gap:'12px', flexWrap:'wrap' }}>
         <button className="sv-btn-restart" onClick={handleRestart}>다시 하기</button>
         <button className="sv-btn-restart sv-btn-home" onClick={handleClose}>홈으로</button>
+        <button className="sv-btn-restart sv-btn-share" onClick={() => setShowShare(true)}>공유하기</button>
       </div>
     )
 
@@ -184,6 +214,8 @@ export default function Survey({ onClose }: SurveyProps) {
               <div style={{ marginTop:'24px' }}><BottomButtons /></div>
             </div>
           </div>
+          {showShare && <ShareSheet />}
+          {toastVisible && <div className="sv-toast">링크가 복사되었습니다</div>}
         </div>
       )
     }
@@ -236,6 +268,8 @@ export default function Survey({ onClose }: SurveyProps) {
             <BottomButtons />
           </div>
         </div>
+        {showShare && <ShareSheet />}
+        {toastVisible && <div className="sv-toast">링크가 복사되었습니다</div>}
       </div>
     )
   }
