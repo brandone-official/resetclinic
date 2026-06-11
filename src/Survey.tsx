@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './survey.css'
 
@@ -96,11 +96,20 @@ const HRT_MSG: Record<string, string> = {
 }
 
 // ─── COMPONENT ──────────────────────────────────────────────
-export default function Survey() {
+interface SurveyProps { onClose?: () => void }
+
+export default function Survey({ onClose }: SurveyProps) {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
+
+  useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  function handleClose() {
+    if (onClose) onClose()
+    else navigate('/#selftest')
+  }
 
   function handleSetAnswer(id: string, val: number) {
     setAnswers(prev => ({ ...prev, [id]: val }))
@@ -152,7 +161,7 @@ export default function Survey() {
     const BottomButtons = () => (
       <div style={{ display:'flex', justifyContent:'center', gap:'12px' }}>
         <button className="sv-btn-restart" onClick={handleRestart}>다시 하기</button>
-        <button className="sv-btn-restart sv-btn-home" onClick={() => navigate('/')}>홈으로</button>
+        <button className="sv-btn-restart sv-btn-home" onClick={handleClose}>홈으로</button>
       </div>
     )
 
@@ -249,7 +258,7 @@ export default function Survey() {
         <div className="sv-header">
           <h1>갱년기 자가진단</h1>
           <p>전주W한의원 리셋다이어트</p>
-          <button className="sv-btn-close" onClick={() => navigate('/')}>✕</button>
+          <button className="sv-btn-close" onClick={handleClose}>✕</button>
         </div>
 
         <div className="sv-progress-wrap">

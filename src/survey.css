@@ -160,7 +160,9 @@
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 }
-.sv-opt-btn:hover { border-color: #D76618; background: #FDF4EE; }
+@media (hover: hover) {
+  .sv-opt-btn:hover { border-color: #D76618; background: #FDF4EE; }
+}
 .sv-opt-btn.selected { border-color: #D76618; background: #FAEADE; box-shadow: 0 0 0 1px #D76618; }
 .sv-num {
   font-size: 1rem;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Survey from './Survey'
 
 // ── Scroll Reveal ────────────────────────────────────
@@ -377,9 +377,9 @@ function Symptoms() {
 }
 
 // ── 7. SelfTest — 자가진단 진입 ──────────────────────
-function SelfTest() {
+function SelfTest({ onOpen }: { onOpen: () => void }) {
   return (
-    <section className="s-selftest">
+    <section id="selftest" className="s-selftest">
       <div className="st-inner">
         <Reveal>
           <p className="st-body">
@@ -394,7 +394,7 @@ function SelfTest() {
         </Reveal>
         <Reveal>
           <div className="st-btn-wrap">
-            <Link to="/survey" className="st-btn">1분 자가진단 시작하기</Link>
+            <button onClick={onOpen} className="st-btn" style={{ border:'none', cursor:'pointer' }}>1분 자가진단 시작하기</button>
           </div>
         </Reveal>
       </div>
@@ -611,6 +611,7 @@ function SiteFooter() {
 
 // ── HomePage ─────────────────────────────────────────
 function HomePage() {
+  const [showSurvey, setShowSurvey] = useState(false)
   return (
     <>
       <main>
@@ -620,12 +621,17 @@ function HomePage() {
         <Bridge2 />
         <Cause />
         <Symptoms />
-        <SelfTest />
+        <SelfTest onOpen={() => setShowSurvey(true)} />
         <Trust />
         <FAQSection />
         <KakaoConsult />
       </main>
       <SiteFooter />
+      {showSurvey && (
+        <div style={{ position:'fixed', inset:0, zIndex:1000, overflowY:'auto' }}>
+          <Survey onClose={() => setShowSurvey(false)} />
+        </div>
+      )}
     </>
   )
 }
