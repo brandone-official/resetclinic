@@ -103,7 +103,6 @@ export default function Survey({ onClose }: SurveyProps) {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
-  const [showShare, setShowShare] = useState(false)
   const [toastVisible, setToastVisible] = useState(false)
 
   useEffect(() => {
@@ -131,31 +130,10 @@ export default function Survey({ onClose }: SurveyProps) {
   }
   function handleCopyLink() {
     navigator.clipboard.writeText('https://resetclinic.web.app/survey').then(() => {
-      setShowShare(false)
       setToastVisible(true)
       setTimeout(() => setToastVisible(false), 2500)
     })
   }
-
-  const ShareSheet = () => (
-    <>
-      <div className="sv-share-backdrop" onClick={() => setShowShare(false)} />
-      <div className="sv-share-sheet">
-        <p className="sv-share-title">공유하기</p>
-        <button className="sv-share-item" onClick={handleCopyLink}>
-          <span>🔗</span>링크 복사
-        </button>
-        <a
-          className="sv-share-item"
-          href={`kakaolink://send?text=${encodeURIComponent('갱년기 자가진단 해보세요')}&url=${encodeURIComponent('resetclinic.web.app/survey')}`}
-          onClick={() => setShowShare(false)}
-        >
-          <span>💬</span>카카오톡으로 공유
-        </a>
-        <button className="sv-share-close" onClick={() => setShowShare(false)}>닫기</button>
-      </div>
-    </>
-  )
   function isValid() {
     if (step < 3) return answers[Q0[step].id] !== undefined
     return answers[QS[step - 3].id] !== undefined
@@ -193,14 +171,16 @@ export default function Survey({ onClose }: SurveyProps) {
       <div style={{ display:'flex', justifyContent:'center', gap:'12px', flexWrap:'wrap' }}>
         <button className="sv-btn-restart" onClick={handleRestart}>다시 하기</button>
         <button className="sv-btn-restart sv-btn-home" onClick={handleClose}>홈으로</button>
-        <button className="sv-btn-restart sv-btn-share" onClick={() => setShowShare(true)}>공유하기</button>
+        <button className="sv-btn-restart sv-btn-share" onClick={handleCopyLink}>공유하기</button>
       </div>
     )
 
-    if (!primary) {
-      return (
-        <div className="sv-overlay">
-          <div className="sv-wrap">
+    const m = primary ? TYPE_META[primary.key] : null
+
+    return (
+      <div className="sv-overlay">
+        <div className="sv-wrap">
+          {!primary ? (
             <div className="sv-fade" style={{ textAlign:'center', padding:'40px 0' }}>
               <div style={{ fontSize:'2.75rem', marginBottom:'16px' }}>🌿</div>
               <h2 style={{ fontSize:'1.3rem', fontWeight:700, color:'#1A3270', marginBottom:'12px', letterSpacing:'-.03em' }}>
@@ -213,62 +193,52 @@ export default function Survey({ onClose }: SurveyProps) {
               </p>
               <div style={{ marginTop:'24px' }}><BottomButtons /></div>
             </div>
-          </div>
-          {showShare && <ShareSheet />}
-          {toastVisible && <div className="sv-toast">링크가 복사되었습니다</div>}
-        </div>
-      )
-    }
-
-    const m = TYPE_META[primary.key]
-    return (
-      <div className="sv-overlay">
-        <div className="sv-wrap">
-          <div className="sv-fade">
-            <div className="sv-result-profile">
-              <span>📋 {Q0[0].opts[answers.age]}</span>
-              <span>🩺 {Q0[1].opts[answers.menopause]}</span>
-              <span>💊 {hrtVal}</span>
-            </div>
-
-            <div className="sv-result-card" style={{ background:m.light, borderColor:m.color }}>
-              <div className="sv-emoji">{m.emoji}</div>
-              <div className="sv-tag" style={{ color:m.color }}>나의 갱년기 유형</div>
-              <h2 className="sv-result-h2" style={{ color:m.color }}>{m.label}</h2>
-              <p className="sv-hanja">{m.hanja}</p>
-              <p className="sv-desc">{m.desc}</p>
-            </div>
-
-            <div className="sv-detail-box">
-              <h3 className="sv-detail-h3" style={{ color:m.color }}>{m.emoji} {m.label} 상세 설명</h3>
-              <p>{m.detail}</p>
-            </div>
-
-            {hrt && (
-              <div className="sv-hrt-box">
-                <h3>💊 호르몬 치료 관련 안내</h3>
-                <p>{hrt}</p>
+          ) : (
+            <div className="sv-fade">
+              <div className="sv-result-profile">
+                <span>📋 {Q0[0].opts[answers.age]}</span>
+                <span>🩺 {Q0[1].opts[answers.menopause]}</span>
+                <span>💊 {hrtVal}</span>
               </div>
-            )}
 
-            <div className="sv-cta-box">
-              <p>정확한 진단과 맞춤 처방은<br />진료를 통해 이루어집니다.</p>
-              <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer">
-                카카오톡 상담하기
-              </a>
+              <div className="sv-result-card" style={{ background:m!.light, borderColor:m!.color }}>
+                <div className="sv-emoji">{m!.emoji}</div>
+                <div className="sv-tag" style={{ color:m!.color }}>나의 갱년기 유형</div>
+                <h2 className="sv-result-h2" style={{ color:m!.color }}>{m!.label}</h2>
+                <p className="sv-hanja">{m!.hanja}</p>
+                <p className="sv-desc">{m!.desc}</p>
+              </div>
+
+              <div className="sv-detail-box">
+                <h3 className="sv-detail-h3" style={{ color:m!.color }}>{m!.emoji} {m!.label} 상세 설명</h3>
+                <p>{m!.detail}</p>
+              </div>
+
+              {hrt && (
+                <div className="sv-hrt-box">
+                  <h3>💊 호르몬 치료 관련 안내</h3>
+                  <p>{hrt}</p>
+                </div>
+              )}
+
+              <div className="sv-cta-box">
+                <p>정확한 진단과 맞춤 처방은<br />진료를 통해 이루어집니다.</p>
+                <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer">
+                  카카오톡 상담하기
+                </a>
+              </div>
+
+              <p className="sv-disclaimer">
+                ※ 본 자가진단은 한의학적 변증 분류를 돕는 참고 도구이며,<br />
+                정확한 진단과 처방은 진료를 통해 이루어집니다.<br />
+                특히 호르몬 치료 중이시거나 다른 질환을 동반한 경우,<br />
+                반드시 상담을 통해 통합적 접근을 받으시기 바랍니다.
+              </p>
+
+              <BottomButtons />
             </div>
-
-            <p className="sv-disclaimer">
-              ※ 본 자가진단은 한의학적 변증 분류를 돕는 참고 도구이며,<br />
-              정확한 진단과 처방은 진료를 통해 이루어집니다.<br />
-              특히 호르몬 치료 중이시거나 다른 질환을 동반한 경우,<br />
-              반드시 상담을 통해 통합적 접근을 받으시기 바랍니다.
-            </p>
-
-            <BottomButtons />
-          </div>
+          )}
         </div>
-        {showShare && <ShareSheet />}
         {toastVisible && <div className="sv-toast">링크가 복사되었습니다</div>}
       </div>
     )
