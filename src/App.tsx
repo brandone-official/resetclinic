@@ -614,12 +614,14 @@ function HomePage() {
   const [showSurvey, setShowSurvey] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
+  const surveyOpened = useRef(false)
 
   useEffect(() => {
     const state = location.state as { openSurvey?: boolean } | null
-    if (state?.openSurvey === true) {
-      setShowSurvey(true)
+    if (state?.openSurvey === true && !surveyOpened.current) {
       document.getElementById('selftest')?.scrollIntoView({ behavior: 'instant' })
+      setShowSurvey(true)
+      surveyOpened.current = true
       navigate(location.pathname, { replace: true, state: {} })
     }
   }, [location.state])
