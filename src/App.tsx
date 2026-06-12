@@ -462,7 +462,7 @@ const PHIL_SVG_01 = `<svg viewBox="0 -14 320 239" fill="none" xmlns="http://www.
   <text x="190" y="217" font-size="7.5" fill="#D76618" font-weight="600">현재 상태</text>
 </svg>`
 
-const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMin meet" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">호르몬 환경 비교</text>
   <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">20대 vs 50대</text>
   <text x="85" y="50" font-size="12" fill="#1A3270" font-weight="700" text-anchor="middle">20대</text>
@@ -495,7 +495,7 @@ const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMin me
   <text x="170" y="185" font-size="9" fill="#D76618" font-weight="700" text-anchor="middle">다른 몸에는 다른 접근이 필요합니다</text>
 </svg>`
 
-const PHIL_SVG_03 = `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMin meet" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+const PHIL_SVG_03 = `<svg viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">두 언어, 같은 몸</text>
   <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">Traditional Medicine × Biochemistry</text>
   <svg x="130" y="52" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#B0B8C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
