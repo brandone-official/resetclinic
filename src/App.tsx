@@ -424,6 +424,177 @@ const PHILOSOPHY = [
   },
 ] as const
 
+// ── SVG 인포그래픽 (진료 철학 스와이프) ────────────
+const PHIL_SVG_01 = `<svg viewBox="0 -14 320 239" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+  <text x="160" y="0" font-size="10.5" fill="#1A3270" font-weight="700" text-anchor="middle">혈당 곡선 비교</text>
+  <text x="160" y="12" font-size="8" fill="#1A3270" opacity="0.4" text-anchor="middle">Blood Glucose Curve</text>
+  <line x1="38" y1="42" x2="38" y2="188" stroke="#1A3270" stroke-opacity="0.12" stroke-width="1"/>
+  <line x1="38" y1="188" x2="300" y2="188" stroke="#1A3270" stroke-opacity="0.12" stroke-width="1"/>
+  <line x1="38" y1="67" x2="300" y2="67" stroke="#1A3270" stroke-opacity="0.06" stroke-dasharray="4 3"/>
+  <line x1="38" y1="97" x2="300" y2="97" stroke="#1A3270" stroke-opacity="0.06" stroke-dasharray="4 3"/>
+  <line x1="38" y1="127" x2="300" y2="127" stroke="#1A3270" stroke-opacity="0.06" stroke-dasharray="4 3"/>
+  <line x1="38" y1="158" x2="300" y2="158" stroke="#1A3270" stroke-opacity="0.06" stroke-dasharray="4 3"/>
+  <text x="32" y="70" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="end">180</text>
+  <text x="32" y="100" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="end">140</text>
+  <text x="32" y="130" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="end">100</text>
+  <text x="32" y="161" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="end">70</text>
+  <text x="58" y="201" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="middle">공복</text>
+  <text x="110" y="201" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="middle">30분</text>
+  <text x="169" y="201" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="middle">1시간</text>
+  <text x="228" y="201" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="middle">2시간</text>
+  <text x="284" y="201" font-size="7.5" fill="#1A3270" opacity="0.38" text-anchor="middle">3시간</text>
+  <rect x="38" y="97" width="262" height="61" fill="#1A3270" opacity="0.04" rx="2"/>
+  <path d="M58,158 C88,118 128,100 169,107 C210,114 248,136 284,151" stroke="#1A3270" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-opacity="0.35" stroke-dasharray="6 4"/>
+  <path d="M58,158 C74,105 100,52 110,46 C122,40 146,58 169,78 C202,106 242,136 284,153 L284,188 L58,188 Z" fill="#D76618" fill-opacity="0.07"/>
+  <path d="M58,158 C74,105 100,52 110,46 C122,40 146,58 169,78 C202,106 242,136 284,153" stroke="#D76618" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="58" cy="158" r="3.5" fill="#D76618"/>
+  <circle cx="110" cy="46" r="5" fill="#D76618"/>
+  <circle cx="169" cy="78" r="3.5" fill="#D76618"/>
+  <circle cx="228" cy="122" r="3.5" fill="#D76618"/>
+  <circle cx="284" cy="153" r="3.5" fill="#D76618"/>
+  <line x1="110" y1="46" x2="110" y2="97" stroke="#D76618" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 2"/>
+  <rect x="88" y="21" width="44" height="15" rx="4" fill="#D76618" opacity="0.1"/>
+  <text x="110" y="32" font-size="8" fill="#D76618" font-weight="700" text-anchor="middle">급등 피크</text>
+  <line x1="96" y1="214" x2="112" y2="214" stroke="#1A3270" stroke-width="1.6" stroke-opacity="0.35" stroke-dasharray="5 3"/>
+  <text x="116" y="217" font-size="7.5" fill="#1A3270" opacity="0.5">이상적 곡선</text>
+  <line x1="170" y1="214" x2="186" y2="214" stroke="#D76618" stroke-width="2.2"/>
+  <circle cx="178" cy="214" r="2.5" fill="#D76618"/>
+  <text x="190" y="217" font-size="7.5" fill="#D76618" font-weight="600">현재 상태</text>
+</svg>`
+
+const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+  <rect width="340" height="200" rx="16" fill="#1A3270" opacity="0.04"/>
+  <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">호르몬 환경 비교</text>
+  <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">20대 vs 50대</text>
+  <text x="85" y="50" font-size="12" fill="#1A3270" font-weight="700" text-anchor="middle">20대</text>
+  <text x="30" y="72" font-size="8" fill="#444" opacity="0.7">에스트로겐</text>
+  <rect x="30" y="76" width="110" height="10" rx="5" fill="#1A3270" opacity="0.1"/>
+  <rect x="30" y="76" width="100" height="10" rx="5" fill="#1A3270" opacity="0.6"/>
+  <text x="142" y="85" font-size="8" fill="#1A3270" font-weight="700">↑ 풍부</text>
+  <text x="30" y="102" font-size="8" fill="#444" opacity="0.7">기초대사</text>
+  <rect x="30" y="106" width="110" height="10" rx="5" fill="#1A3270" opacity="0.1"/>
+  <rect x="30" y="106" width="95" height="10" rx="5" fill="#1A3270" opacity="0.6"/>
+  <text x="142" y="115" font-size="8" fill="#1A3270" font-weight="700">↑ 활발</text>
+  <text x="30" y="132" font-size="8" fill="#444" opacity="0.7">스트레스 회복</text>
+  <rect x="30" y="136" width="110" height="10" rx="5" fill="#1A3270" opacity="0.1"/>
+  <rect x="30" y="136" width="90" height="10" rx="5" fill="#1A3270" opacity="0.6"/>
+  <text x="142" y="145" font-size="8" fill="#1A3270" font-weight="700">↑ 빠름</text>
+  <text x="255" y="50" font-size="12" fill="#D76618" font-weight="700" text-anchor="middle">50대</text>
+  <text x="310" y="72" font-size="8" fill="#444" opacity="0.7" text-anchor="end">에스트로겐</text>
+  <rect x="200" y="76" width="110" height="10" rx="5" fill="#D76618" opacity="0.1"/>
+  <rect x="282" y="76" width="28" height="10" rx="5" fill="#D76618" opacity="0.5"/>
+  <text x="198" y="85" font-size="8" fill="#D76618" font-weight="700" text-anchor="end">↓ 급감</text>
+  <text x="310" y="102" font-size="8" fill="#444" opacity="0.7" text-anchor="end">기초대사</text>
+  <rect x="200" y="106" width="110" height="10" rx="5" fill="#D76618" opacity="0.1"/>
+  <rect x="275" y="106" width="35" height="10" rx="5" fill="#D76618" opacity="0.5"/>
+  <text x="198" y="115" font-size="8" fill="#D76618" font-weight="700" text-anchor="end">↓ 저하</text>
+  <text x="310" y="132" font-size="8" fill="#444" opacity="0.7" text-anchor="end">스트레스 회복</text>
+  <rect x="200" y="136" width="110" height="10" rx="5" fill="#D76618" opacity="0.1"/>
+  <rect x="288" y="136" width="22" height="10" rx="5" fill="#D76618" opacity="0.5"/>
+  <text x="198" y="145" font-size="8" fill="#D76618" font-weight="700" text-anchor="end">↓ 느림</text>
+  <rect x="40" y="170" width="260" height="22" rx="6" fill="#D76618" opacity="0.1"/>
+  <text x="170" y="185" font-size="9" fill="#D76618" font-weight="700" text-anchor="middle">다른 몸에는 다른 접근이 필요합니다</text>
+</svg>`
+
+const PHIL_SVG_03 = `<svg viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+  <rect width="340" height="200" rx="16" fill="#1A3270" opacity="0.04"/>
+  <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">두 언어, 같은 몸</text>
+  <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">Traditional Medicine × Biochemistry</text>
+  <svg x="130" y="52" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#B0B8C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M5 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+    <path d="M5 22v-5l-1 -1v-4a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4l-1 1v5"/>
+    <path d="M15 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
+    <path d="M15 22v-4h-2l2 -6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1l2 6h-2v4"/>
+  </svg>
+  <circle cx="60" cy="75" r="22" fill="#1A3270" opacity="0.08" stroke="#1A3270" stroke-width="1.2" stroke-opacity="0.25"/>
+  <text x="60" y="72" font-size="10" fill="#1A3270" font-weight="700" text-anchor="middle">음양</text>
+  <text x="60" y="85" font-size="10" fill="#1A3270" font-weight="700" text-anchor="middle">기혈</text>
+  <circle cx="60" cy="148" r="22" fill="#1A3270" opacity="0.08" stroke="#1A3270" stroke-width="1.2" stroke-opacity="0.25"/>
+  <text x="60" y="145" font-size="9.5" fill="#1A3270" font-weight="700" text-anchor="middle">오장</text>
+  <text x="60" y="158" font-size="9.5" fill="#1A3270" font-weight="700" text-anchor="middle">육부</text>
+  <circle cx="280" cy="75" r="22" fill="#D76618" opacity="0.08" stroke="#D76618" stroke-width="1.2" stroke-opacity="0.3"/>
+  <text x="280" y="72" font-size="9.5" fill="#D76618" font-weight="700" text-anchor="middle">호르몬</text>
+  <text x="280" y="85" font-size="9.5" fill="#D76618" font-weight="700" text-anchor="middle">효소</text>
+  <circle cx="280" cy="148" r="22" fill="#D76618" opacity="0.08" stroke="#D76618" stroke-width="1.2" stroke-opacity="0.3"/>
+  <text x="280" y="145" font-size="9.5" fill="#D76618" font-weight="700" text-anchor="middle">대사</text>
+  <text x="280" y="158" font-size="9.5" fill="#D76618" font-weight="700" text-anchor="middle">신경</text>
+  <path d="M82 75 Q106 75 127 83" stroke="#1A3270" stroke-width="1.2" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+  <path d="M82 148 Q106 131 127 110" stroke="#1A3270" stroke-width="1.2" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+  <path d="M258 75 Q234 75 213 83" stroke="#D76618" stroke-width="1.2" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+  <path d="M258 148 Q234 131 213 110" stroke="#D76618" stroke-width="1.2" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+  <circle cx="127" cy="83" r="3.5" fill="#1A3270" opacity="0.4"/>
+  <circle cx="127" cy="110" r="3.5" fill="#1A3270" opacity="0.4"/>
+  <circle cx="213" cy="83" r="3.5" fill="#D76618" opacity="0.4"/>
+  <circle cx="213" cy="110" r="3.5" fill="#D76618" opacity="0.4"/>
+  <text x="60" y="186" font-size="8" fill="#1A3270" opacity="0.6" text-anchor="middle" font-weight="600">한의학</text>
+  <text x="280" y="186" font-size="8" fill="#D76618" opacity="0.7" text-anchor="middle" font-weight="600">생화학</text>
+  <text x="170" y="155" font-size="7.5" fill="#444" opacity="0.5" text-anchor="middle">같은 몸</text>
+</svg>`
+
+const PHIL_SVGS = [PHIL_SVG_01, PHIL_SVG_02, PHIL_SVG_03]
+
+function PhilosophySwipe() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const currRef  = useRef<HTMLSpanElement>(null)
+  const hintRef  = useRef<HTMLDivElement>(null)
+  const swipedRef = useRef(false)
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const updateUI = (idx: number) => {
+      setActiveIdx(idx)
+      if (currRef.current) currRef.current.textContent = String(idx + 1).padStart(2, '0')
+      if (!swipedRef.current && idx > 0) {
+        swipedRef.current = true
+        hintRef.current?.classList.add('b-hint--hidden')
+      }
+    }
+    const onScroll = () => updateUI(Math.round(track.scrollLeft / track.clientWidth))
+    track.addEventListener('scroll', onScroll, { passive: true })
+    return () => track.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const goTo = (idx: number) => {
+    if (!trackRef.current) return
+    trackRef.current.scrollTo({ left: idx * trackRef.current.clientWidth, behavior: 'smooth' })
+  }
+
+  return (
+    <div className="tr-ph-swipe">
+      <div className="b-track" ref={trackRef}>
+        {PHILOSOPHY.map((item, i) => (
+          <div className="b-slide" key={item.num}>
+            <div className="b-graphic" dangerouslySetInnerHTML={{ __html: PHIL_SVGS[i] }} />
+            <div className="b-text">
+              <span className="tr-ph-num">{item.num}</span>
+              <div className="b-divider" />
+              <h2 className="tr-ph-title">{item.title}</h2>
+              <p className="tr-ph-body">{item.line1}<br />{item.line2}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="b-nav">
+        <div className="b-dots">
+          {[0, 1, 2].map(i => (
+            <button
+              key={i}
+              className={`b-dot${activeIdx === i ? ' b-active' : ''}`}
+              onClick={() => goTo(i)}
+              aria-label={`${i + 1}번 카드`}
+            />
+          ))}
+        </div>
+        <div className="b-counter"><span ref={currRef}>01</span> / 03</div>
+      </div>
+      <div className="b-hint" ref={hintRef}>← 스와이프 →</div>
+    </div>
+  )
+}
+
 function Trust() {
   return (
     <section className="s-trust">
@@ -441,7 +612,7 @@ function Trust() {
         </Reveal>
       </div>
 
-      {/* Part 2: 진료 철학 */}
+      {/* Part 2: 진료 철학 헤더 */}
       <div className="tr-philosophy">
         <Reveal>
           <p className="tr-eyebrow">원장의 진료 철학</p>
@@ -451,20 +622,10 @@ function Trust() {
             들여다보는 시간이 있습니다.
           </p>
         </Reveal>
-        <div className="tr-ph-list">
-          {PHILOSOPHY.map(item => (
-            <Reveal key={item.num}>
-              <div className="tr-ph-item">
-                <span className="tr-ph-num">{item.num}</span>
-                <div>
-                  <p className="tr-ph-title">{item.title}</p>
-                  <p className="tr-ph-body">{item.line1}<br />{item.line2}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </div>
+
+      {/* Part 2b: 진료 철학 스와이프 */}
+      <PhilosophySwipe />
 
       {/* Part 3: 원장 프로필 */}
       <div className="tr-profile">

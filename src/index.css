@@ -884,7 +884,7 @@ body {
 .tr-philosophy {
   background: #ffffff;
   padding: 80px 28px;
-  border-top: 1px solid #e8ecf2;
+  text-align: center;
 }
 
 .tr-eyebrow {
@@ -944,6 +944,124 @@ body {
   letter-spacing: -0.01em;
   color: #444444;
   word-break: keep-all;
+}
+
+/* ── 진료 철학 스와이프 ── */
+.tr-ph-swipe {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+}
+
+
+.b-track {
+  display: flex;
+  width: 100%; height: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.b-track::-webkit-scrollbar { display: none; }
+
+.b-slide {
+  min-width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 52px 24px 76px;
+}
+.b-slide:nth-child(odd)  { background: #FFFFFF; }
+.b-slide:nth-child(even) { background: #F7F3EE; }
+
+.b-graphic {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 28px;
+}
+.b-text {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.b-nav {
+  position: absolute;
+  bottom: 26px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+}
+
+.b-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.b-dot {
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  background: #1A3270;
+  opacity: 0.18;
+  width: 6px;
+}
+.b-dot.b-active {
+  background: #D76618;
+  opacity: 1;
+  width: 22px;
+}
+
+.b-counter {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #1A3270;
+  opacity: 0.3;
+  letter-spacing: 0.06em;
+}
+
+.b-hint {
+  position: absolute;
+  bottom: 56px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #1A3270;
+  letter-spacing: 0.14em;
+  z-index: 10;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: bHintPulse 3.5s ease-in-out 1.2s forwards;
+}
+.b-hint.b-hint--hidden { display: none; }
+
+@keyframes bHintPulse {
+  0%   { opacity: 0; }
+  15%  { opacity: 0.45; }
+  75%  { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+.b-divider {
+  width: 40px;
+  height: 2px;
+  background: #D76618;
+  margin: 0 auto 20px;
+}
+
+@media (min-width: 768px) {
+  .b-slide { padding: 60px 48px 96px; }
+  .b-graphic, .b-text { max-width: 420px; }
 }
 
 /* Part 3: 원장 프로필 */
