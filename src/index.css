@@ -989,7 +989,8 @@ body {
   height: 280px;
   margin-bottom: 28px;
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   background: rgba(26, 50, 112, 0.04);
   border-radius: 16px;
   overflow: hidden;
