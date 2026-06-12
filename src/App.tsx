@@ -426,7 +426,6 @@ const PHILOSOPHY = [
 
 // ── SVG 인포그래픽 (진료 철학 스와이프) ────────────
 const PHIL_SVG_01 = `<svg viewBox="0 -14 320 239" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <rect x="0" y="-14" width="320" height="239" rx="16" fill="#1A3270" opacity="0.04"/>
   <text x="160" y="0" font-size="10.5" fill="#1A3270" font-weight="700" text-anchor="middle">혈당 곡선 비교</text>
   <text x="160" y="12" font-size="8" fill="#1A3270" opacity="0.4" text-anchor="middle">Blood Glucose Curve</text>
   <line x1="38" y1="42" x2="38" y2="188" stroke="#1A3270" stroke-opacity="0.12" stroke-width="1"/>
@@ -464,7 +463,6 @@ const PHIL_SVG_01 = `<svg viewBox="0 -14 320 239" fill="none" xmlns="http://www.
 </svg>`
 
 const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <rect width="340" height="200" rx="16" fill="#1A3270" opacity="0.04"/>
   <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">호르몬 환경 비교</text>
   <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">20대 vs 50대</text>
   <text x="85" y="50" font-size="12" fill="#1A3270" font-weight="700" text-anchor="middle">20대</text>
@@ -498,7 +496,6 @@ const PHIL_SVG_02 = `<svg viewBox="0 0 340 200" fill="none" xmlns="http://www.w3
 </svg>`
 
 const PHIL_SVG_03 = `<svg viewBox="0 0 340 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <rect width="340" height="200" rx="16" fill="#1A3270" opacity="0.04"/>
   <text x="170" y="18" font-size="11" fill="#1A3270" font-weight="700" text-anchor="middle">두 언어, 같은 몸</text>
   <text x="170" y="30" font-size="8.5" fill="#1A3270" opacity="0.5" text-anchor="middle">Traditional Medicine × Biochemistry</text>
   <svg x="130" y="52" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#B0B8C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

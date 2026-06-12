@@ -974,6 +974,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 52px 24px 76px;
+  overflow: hidden;
 }
 .b-slide:nth-child(odd)  { background: #FFFFFF; }
 .b-slide:nth-child(even) { background: #F7F3EE; }
@@ -989,6 +990,9 @@ body {
   margin-bottom: 28px;
   display: flex;
   align-items: stretch;
+  background: rgba(26, 50, 112, 0.04);
+  border-radius: 16px;
+  overflow: hidden;
 }
 .b-graphic svg {
   width: 100%;
