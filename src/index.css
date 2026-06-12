@@ -1079,9 +1079,17 @@ body {
 .b-arrow--next { right: 20px; }
 .b-arrow--disabled { opacity: 0.25; cursor: default; }
 
+@media (min-width: 640px) {
+  .b-slide {
+    padding-top: 60px;
+    padding-bottom: 96px;
+    padding-left: max(64px, calc(50vw - 380px));
+    padding-right: max(64px, calc(50vw - 380px));
+  }
+  .b-graphic, .b-text { max-width: 760px; }
+}
+
 @media (min-width: 768px) {
-  .b-slide { padding: 60px 48px 96px; }
-  .b-graphic, .b-text { max-width: 420px; }
   .b-arrow { display: flex; }
 }
 
