@@ -856,26 +856,27 @@ body {
 
 /* Part 1: 인용구 */
 .tr-quote-wrap {
-  background: #0d1a2e;
+  background: #1A3270;
   padding: 80px 28px;
   border-top: 1px solid #e8ecf2;
+  text-align: center;
 }
 
 .tr-quote {
-  font-size: clamp(1.25rem, 4.6vw, 1.9rem);
-  font-weight: 300;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  font-weight: 700;
   font-style: italic;
-  line-height: 1.75;
+  line-height: 1.45;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.85);
+  color: #E4EBF8;
   word-break: keep-all;
   margin-bottom: 24px;
 }
 
 .tr-attr {
-  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.38);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
+  color: #8AAACE;
   letter-spacing: 0.02em;
 }
 
