@@ -978,14 +978,17 @@ body {
 .b-slide:nth-child(odd)  { background: #FFFFFF; }
 .b-slide:nth-child(even) { background: #F7F3EE; }
 
+.b-card {
+  width: 100%;
+  max-width: 560px;
+}
+
 .b-graphic {
   width: 100%;
-  max-width: 320px;
   margin-bottom: 28px;
 }
 .b-text {
   width: 100%;
-  max-width: 320px;
   text-align: left;
 }
 
@@ -1083,10 +1086,9 @@ body {
   .b-slide {
     padding-top: 60px;
     padding-bottom: 96px;
-    padding-left: max(64px, calc(50vw - 380px));
-    padding-right: max(64px, calc(50vw - 380px));
+    padding-left: max(80px, calc(50vw - 280px));
+    padding-right: max(80px, calc(50vw - 280px));
   }
-  .b-graphic, .b-text { max-width: 760px; }
 }
 
 @media (min-width: 768px) {

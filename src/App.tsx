@@ -567,12 +567,14 @@ function PhilosophySwipe() {
       <div className="b-track" ref={trackRef}>
         {PHILOSOPHY.map((item, i) => (
           <div className="b-slide" key={item.num}>
-            <div className="b-graphic" dangerouslySetInnerHTML={{ __html: PHIL_SVGS[i] }} />
-            <div className="b-text">
-              <span className="tr-ph-num">{item.num}</span>
-              <div className="b-divider" />
-              <h2 className="tr-ph-title">{item.title}</h2>
-              <p className="tr-ph-body">{item.line1}<br />{item.line2}</p>
+            <div className="b-card">
+              <div className="b-graphic" dangerouslySetInnerHTML={{ __html: PHIL_SVGS[i] }} />
+              <div className="b-text">
+                <span className="tr-ph-num">{item.num}</span>
+                <div className="b-divider" />
+                <h2 className="tr-ph-title">{item.title}</h2>
+                <p className="tr-ph-body">{item.line1}<br />{item.line2}</p>
+              </div>
             </div>
           </div>
         ))}
