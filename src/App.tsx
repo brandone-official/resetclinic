@@ -577,6 +577,24 @@ function PhilosophySwipe() {
           </div>
         ))}
       </div>
+      <button
+        className={`b-arrow b-arrow--prev${activeIdx === 0 ? ' b-arrow--disabled' : ''}`}
+        onClick={() => goTo(Math.max(0, activeIdx - 1))}
+        aria-label="이전 카드"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+      <button
+        className={`b-arrow b-arrow--next${activeIdx === 2 ? ' b-arrow--disabled' : ''}`}
+        onClick={() => goTo(Math.min(2, activeIdx + 1))}
+        aria-label="다음 카드"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
       <div className="b-nav">
         <div className="b-dots">
           {[0, 1, 2].map(i => (
