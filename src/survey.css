@@ -6,7 +6,7 @@
 
 /* Overlay & wrap */
 .sv-overlay {
-  font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   display: flex;
