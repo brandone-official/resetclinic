@@ -683,16 +683,17 @@ function Trust() {
       {/* Part 4: 유튜브 */}
       <div className="tr-youtube">
         <Reveal>
-          <a
-            href="https://www.youtube.com/@리셋다이어트"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tr-yt-thumb"
-            aria-label="리셋다이어트 유튜브 채널 바로가기"
-          >
-            <div className="tr-yt-play" aria-hidden="true" />
-            <p className="tr-yt-label">리셋다이어트 유튜브</p>
-          </a>
+          <p className="tr-yt-title">리셋다이어트 채널</p>
+          <p className="tr-yt-desc">갱년기 다이어트, 왜 안 되는지부터 설명합니다.</p>
+          <div className="tr-yt-iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/1h25HpZfNEQ"
+              title="리셋다이어트 유튜브 영상"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="tr-yt-iframe"
+            />
+          </div>
           <a
             href="https://www.youtube.com/@리셋다이어트"
             target="_blank"
