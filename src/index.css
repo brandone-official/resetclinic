@@ -1443,25 +1443,30 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: 20px;
   padding: 22px 0;
   background: none;
   border: none;
   font-family: inherit;
-  font-size: clamp(1.05rem, 3.8vw, 1.25rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
   color: #1A1A1A;
   text-align: left;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   word-break: keep-all;
+  transition: padding 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-item.open .faq-q {
+  padding: 22px 16px;
 }
 
 .faq-chev {
-  flex: 0 0 18px;
+  flex: 0 0 22px;
   color: #aaa;
-  margin-top: 3px;
+  margin-top: 4px;
   transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s;
 }
 .faq-item.open .faq-chev {
@@ -1485,23 +1490,27 @@ body {
 
 .faq-a-inner {
   padding: 0 0 24px;
+  transition: padding 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-item.open .faq-a-inner {
+  padding: 0 16px 28px;
 }
 
 .faq-lead {
-  font-size: clamp(0.88rem, 2.8vw, 0.98rem);
-  font-weight: 600;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 700;
   color: #1A3270;
-  letter-spacing: -0.02em;
-  line-height: 1.5;
-  margin-bottom: 7px;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+  margin-bottom: 8px;
   word-break: keep-all;
 }
 
 .faq-body {
-  font-size: clamp(0.84rem, 2.7vw, 0.93rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 300;
-  line-height: 1.9;
-  letter-spacing: -0.01em;
+  line-height: 1.75;
+  letter-spacing: -0.015em;
   color: #444444;
   word-break: keep-all;
 }
@@ -1509,23 +1518,33 @@ body {
 .faq-cta {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 48px;
 }
 
 .faq-kakao {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  padding: 13px 26px;
-  border-radius: 10px;
-  background: #D76618;
-  color: #ffffff;
-  font-size: clamp(0.88rem, 2.8vw, 0.95rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  gap: 8px;
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s;
 }
-.faq-kakao:hover { opacity: 0.82; transform: translateY(-1px); }
+.faq-kakao:hover { opacity: 0.6; }
+
+.faq-kakao-text {
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #D76618;
+}
+
+.faq-kakao-chev {
+  color: #D76618;
+}
 
 /* ── 10. KakaoConsult ─────────────────────── */
 .s-kakao {

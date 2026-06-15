@@ -768,7 +768,7 @@ function FAQSection() {
     <section className="s-faq">
       <Reveal>
         <div className="faq-header">
-          <svg className="faq-bubble" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg className="faq-bubble" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M12 11v.01"/><path d="M8 11v.01"/><path d="M16 11v.01"/>
             <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
           </svg>
@@ -780,7 +780,7 @@ function FAQSection() {
           <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
             <button className="faq-q" onClick={() => toggle(i)}>
               <span>{item.q}</span>
-              <svg className="faq-chev" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg className="faq-chev" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M6 9l6 6l6 -6"/>
               </svg>
             </button>
@@ -803,7 +803,10 @@ function FAQSection() {
             rel="noopener noreferrer"
             className="faq-kakao"
           >
-            카카오톡으로 편하게 물어보세요
+            <span className="faq-kakao-text">카카오톡으로 편하게 물어보세요</span>
+            <svg className="faq-kakao-chev" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 9l6 6l6 -6"/>
+            </svg>
           </a>
         </div>
       </Reveal>
