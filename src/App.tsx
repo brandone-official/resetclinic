@@ -848,7 +848,7 @@ function KakaoConsult() {
         </Reveal>
         <Reveal>
           <ul className="kk-strengths">
-            <li><span className="kk-chk">✓</span>비용 없이 궁금한 점부터 물어보실 수 있습니다</li>
+            <li><span className="kk-chk">✓</span>비용 없이 궁금한 점부터</li>
             <li><span className="kk-chk">✓</span>진료 예약 강요 없습니다</li>
             <li><span className="kk-chk">✓</span>평일 진료시간 내 빠른 답변</li>
           </ul>
