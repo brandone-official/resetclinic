@@ -1320,6 +1320,12 @@ body {
   .tr-prof-story-core { color: rgba(255, 255, 255, 0.92); }
 }
 
+@media (max-width: 639px) {
+  .tr-prof-anchor,
+  .tr-prof-orange { text-align: center; }
+  .tr-prof-story { text-align: center; }
+}
+
 /* Part 4: 유튜브 */
 .tr-youtube {
   background: #ffffff;
