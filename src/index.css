@@ -1449,7 +1449,7 @@ body {
   border: none;
   font-family: inherit;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.4;
   color: #1A1A1A;
@@ -1498,7 +1498,7 @@ body {
 
 .faq-lead {
   font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 700;
+  font-weight: 500;
   color: #1A3270;
   letter-spacing: -0.025em;
   line-height: 1.4;
@@ -1525,22 +1525,19 @@ body {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-.faq-kakao:hover { opacity: 0.6; }
-
-.faq-kakao-text {
-  font-size: clamp(1rem, 3.6vw, 1.2rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  gap: 16px;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: -0.015em;
   color: #1A1A1A;
   text-decoration: underline;
   text-underline-offset: 5px;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1px;
   text-decoration-color: #D76618;
+  transition: opacity 0.2s;
 }
+.faq-kakao:hover { opacity: 0.6; }
 
 .faq-kakao-chev {
   color: #D76618;

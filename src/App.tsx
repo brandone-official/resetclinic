@@ -803,7 +803,7 @@ function FAQSection() {
             rel="noopener noreferrer"
             className="faq-kakao"
           >
-            <span className="faq-kakao-text">카카오톡으로 편하게 물어보세요</span>
+            카카오톡으로 편하게 물어보세요
             <svg className="faq-kakao-chev" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M6 9l6 6l6 -6"/>
             </svg>
