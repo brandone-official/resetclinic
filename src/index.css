@@ -1357,7 +1357,8 @@ body {
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 24px;
+  margin-top: 40px;
+  margin-bottom: 36px;
 }
 
 .tr-yt-iframe {
