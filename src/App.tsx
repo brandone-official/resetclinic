@@ -684,10 +684,7 @@ function Trust() {
       <div className="tr-youtube">
         <Reveal>
           <p className="tr-yt-title">리셋다이어트 채널</p>
-          <p className="tr-yt-desc">
-            갱년기 다이어트,<br className="mob" />
-            왜 안 되는지부터 설명합니다.
-          </p>
+          <p className="tr-yt-desc">갱년기 다이어트, <span className="mob" />왜 안 되는지부터 설명합니다.</p>
           <div className="tr-yt-iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/1h25HpZfNEQ"
