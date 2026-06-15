@@ -1636,6 +1636,24 @@ body {
   word-break: keep-all;
 }
 
+.kk-btn {
+  display: inline-block;
+  background: #FEE500;
+  color: #1A1A1A;
+  font-family: inherit;
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 18px 44px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.kk-btn:hover  { opacity: 0.88; }
+.kk-btn:active { transform: scale(0.97); }
+.kk-btn:focus-visible { outline: 2px solid #FEE500; outline-offset: 3px; }
+
 /* Strengths */
 .kk-strengths {
   list-style: none;

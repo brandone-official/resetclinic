@@ -836,7 +836,7 @@ function KakaoConsult() {
           </div>
         </Reveal>
         <Reveal>
-          <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="tr-yt-more">카카오톡으로 상담하기</a>
+          <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="kk-btn">카카오톡으로 상담하기</a>
         </Reveal>
         <Reveal>
           <ul className="kk-strengths">
