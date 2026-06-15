@@ -729,56 +729,83 @@ function Trust() {
 // ── 9. FAQ ────────────────────────────────────────────
 const FAQ_ITEMS = [
   {
+    q: '갱년기에 탄수화물을 끊어야 하나요?',
+    lead: '끊을 필요 없습니다.',
+    body: '다만 조절은 필요합니다. 갱년기에는 같은 양의 탄수화물도 혈당을 더 크게 흔들 수 있습니다. 흰쌀밥·면·빵을 줄이고 단백질을 먼저 드시는 것부터 시작하시면 됩니다.',
+  },
+  {
+    q: '갱년기에 잠을 못 자면 살이 더 찌나요?',
+    lead: '그렇습니다.',
+    body: '수면이 부족하면 인슐린 저항성이 올라가고 식욕 호르몬이 흔들립니다. 식단을 아무리 잘 해도 잠이 무너지면 효과가 떨어집니다. 리셋다이어트에서 수면을 핵심 축으로 보는 이유입니다.',
+  },
+  {
     q: '갱년기인데 한약 다이어트 해도 되나요?',
-    a: '됩니다. 오히려 갱년기에 가장 잘 맞는 방법 중 하나입니다. 호르몬 흐름을 보정하면서 살을 빼기 때문에 열감·불면 같은 증상도 함께 좋아집니다.',
+    lead: '됩니다.',
+    body: '오히려 갱년기에 가장 잘 맞는 방법 중 하나입니다. 호르몬 흐름을 보정하면서 살을 빼기 때문에 열감·불면 같은 증상도 함께 좋아집니다.',
   },
   {
     q: '호르몬 치료(HRT)와 같이 해도 되나요?',
-    a: '병행 가능합니다. 현재 복용 중인 호르몬제 정보를 상담 시 알려주시면 처방에 반영합니다.',
+    lead: '병행 가능합니다.',
+    body: '현재 복용 중인 호르몬제 정보를 상담 시 알려주시면 처방에 반영합니다.',
   },
   {
     q: '한 달에 얼마나 빠지나요?',
-    a: '개인 상태에 따라 다릅니다. 리셋다이어트는 체중계 숫자만 보지 않습니다. 내장지방·근육량·갱년기 증상을 함께 봅니다.',
+    lead: '개인 상태에 따라 다릅니다.',
+    body: '리셋다이어트는 체중계 숫자만 보지 않습니다. 내장지방·근육량·갱년기 증상을 함께 봅니다.',
   },
   {
     q: '요요는 안 오나요?',
-    a: '요요는 다이어트 방식이 만듭니다. 리셋다이어트는 마무리 단계에서 식사법을 일상에 정착시키기 때문에 끝나도 흔들리지 않도록 설계되어 있습니다.',
+    lead: '요요는 다이어트 방식이 만듭니다.',
+    body: '리셋다이어트는 마무리 단계에서 식사법을 일상에 정착시키기 때문에 끝나도 흔들리지 않도록 설계되어 있습니다.',
   },
 ] as const
 
 function FAQSection() {
-  const [open, setOpen] = useState<number | null>(0)
+  const [open, setOpen] = useState<number | null>(null)
   const toggle = (i: number) => setOpen(open === i ? null : i)
 
   return (
     <section className="s-faq">
       <Reveal>
-        <p className="faq-head">상담 전에 많이 물어보시는 것들</p>
+        <div className="faq-header">
+          <svg className="faq-bubble" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 11v.01"/><path d="M8 11v.01"/><path d="M16 11v.01"/>
+            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
+          </svg>
+          <p className="faq-head">상담 전에 많이 물어보시는 것들</p>
+        </div>
       </Reveal>
       <div className="faq-list">
         {FAQ_ITEMS.map((item, i) => (
           <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
             <button className="faq-q" onClick={() => toggle(i)}>
               <span>{item.q}</span>
-              <span className="faq-icon" aria-hidden="true">{open === i ? '−' : '+'}</span>
+              <svg className="faq-chev" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6l6 -6"/>
+              </svg>
             </button>
             <div className="faq-a-wrap">
               <div className="faq-a">
-                <p>{item.a}</p>
+                <div className="faq-a-inner">
+                  <p className="faq-lead">{item.lead}</p>
+                  <p className="faq-body">{item.body}</p>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
       <Reveal>
-        <a
-          href="https://pf.kakao.com/_xjxcgpxl"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="faq-kakao"
-        >
-          더 궁금한 점은 카카오톡으로 물어보세요 →
-        </a>
+        <div className="faq-cta">
+          <a
+            href="https://pf.kakao.com/_xjxcgpxl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="faq-kakao"
+          >
+            카카오톡으로 편하게 물어보세요
+          </a>
+        </div>
       </Reveal>
     </section>
   )
