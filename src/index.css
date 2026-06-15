@@ -1112,113 +1112,128 @@ body {
 
 /* Part 3: 원장 프로필 */
 .tr-profile {
-  background: #F7F3EE;
+  background: linear-gradient(to right, #F7F3EE 50%, #1A3270 50%);
 }
 
-/* 상단 좌우 분할 */
-.tr-prof-top {
-  display: flex;
-  flex-direction: row;
+.tr-prof-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100svh;
 }
 
-/* 좌측: 크림 배경 */
 .tr-prof-left {
-  flex: 1;
   background: #F7F3EE;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 48px 32px 40px;
-}
-
-.tr-prof-img {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  display: block;
-}
-
-.tr-prof-name {
-  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: #1A1A1A;
-  margin-top: 24px;
-  margin-bottom: 6px;
-  text-align: center;
-}
-
-.tr-prof-sub {
-  font-size: clamp(0.8rem, 1vw, 0.9rem);
-  color: #999;
-  letter-spacing: -0.005em;
-  text-align: center;
-}
-
-/* 우측: 네이비 배경 */
-.tr-prof-right {
-  flex: 1;
-  background: #1A3270;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 40px;
+}
+
+.tr-prof-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  display: block;
+}
+
+.tr-prof-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(247, 243, 238, 0.8) 50%,
+    #F7F3EE 100%
+  );
+  z-index: 1;
+}
+
+.tr-prof-caption {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.tr-prof-name {
+  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #1A1A1A;
+  margin-bottom: 5px;
+}
+
+.tr-prof-sub {
+  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  font-weight: 400;
+  color: #999;
+  letter-spacing: -0.005em;
+}
+
+.tr-prof-right {
+  background: #1A3270;
+  padding: 72px 52px 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .tr-prof-anchor {
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.25;
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.22;
   color: #FFFFFF;
   word-break: keep-all;
+  margin-bottom: 28px;
 }
 
-/* 하단: 크림 배경 */
-.tr-prof-bottom {
-  background: #F7F3EE;
-  padding: 56px 60px;
-  max-width: 960px;
-  margin: 0 auto;
+.tr-prof-rule {
+  width: 32px;
+  height: 2px;
+  background: #D76618;
+  margin-bottom: 24px;
 }
 
 .tr-prof-story {
-  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-  font-weight: 400;
-  line-height: 1.75;
-  color: #1A1A1A;
-  word-break: keep-all;
-  margin-bottom: 36px;
-}
-
-.tr-prof-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 16px;
 }
 
-.tr-prof-list li {
-  font-size: clamp(0.9rem, 1.1vw, 1rem);
-  font-weight: 400;
-  line-height: 1.5;
-  color: #444;
-  padding-left: 16px;
-  position: relative;
+.tr-prof-story-lead {
+  font-size: clamp(0.82rem, 1vw, 0.9rem);
+  font-weight: 300;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.45);
   word-break: keep-all;
 }
 
-.tr-prof-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.58em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #1A3270;
-  opacity: 0.5;
+.tr-prof-story-close {
+  font-size: clamp(0.9rem, 1.14vw, 1rem);
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  word-break: keep-all;
+}
+
+.tr-prof-punch {
+  color: #D76618;
 }
 
 /* Part 4: 유튜브 */

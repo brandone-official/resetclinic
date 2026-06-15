@@ -3,449 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trust Part 3 — Layout Options</title>
+  <title>Trust Part 3 — 원장 프로필</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #DEDAD5;
       font-family: 'Pretendard Variable', 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── 옵션 라벨 ── */
-    .opt-label {
-      max-width: 375px;
-      margin: 0 auto;
-      padding: 40px 24px 18px;
-      text-align: center;
+    /*
+      섹션 배경:
+      좌 50% → 크림 / 우 50% → 네이비
+      800px 중앙 정렬 그리드의 중간선 = 뷰포트 50% 이므로
+      어떤 뷰포트 너비에서도 패널 경계와 배경 경계가 정확히 일치.
+      → 네이비가 우측 끝까지 풀블리드.
+    */
+    .s-profile {
+      background: linear-gradient(to right, #F7F3EE 50%, #1A3270 50%);
     }
-    .opt-label h2 {
-      font-size: 10px;
+
+    /* max-width 800px 중앙 정렬 좌우 그리드 */
+    .p-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100svh;
+    }
+
+    /* ── 좌측: 이미지 풀필 + 크림 그라디언트 오버레이 ── */
+    .p-left {
+      background: #F7F3EE;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 이미지: 영역 전체 채움 */
+    .p-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+      display: block;
+    }
+
+    /* 크림 그라디언트 오버레이 (하단 페이드) */
+    .p-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 48%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(247, 243, 238, 0.8) 50%,
+        #F7F3EE 100%
+      );
+      z-index: 1;
+    }
+
+    /* 이름/소속: 오버레이 위 */
+    .p-caption {
+      position: absolute;
+      bottom: 32px;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 2;
+      padding: 0 20px;
+    }
+
+    /* tr-prof-name 계열 — 400px 컬럼 기준 vw 재조정 */
+    .p-name {
+      font-size: clamp(1.1rem, 1.4vw, 1.3rem);
       font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #888;
+      letter-spacing: -0.04em;
+      color: #1A1A1A;
       margin-bottom: 5px;
     }
-    .opt-label p {
-      font-size: 12px;
-      color: #aaa;
-      letter-spacing: -0.01em;
+
+    /* tr-prof-sub 계열 — color #999 일치 */
+    .p-sub {
+      font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+      font-weight: 400;
+      color: #999;
+      letter-spacing: -0.005em;
     }
 
-    .opt-divider {
-      max-width: 375px;
-      margin: 0 auto;
-      height: 1px;
-      background: #C8C4BF;
+    /* ── 우측: 네이비 + 앵커 카피 + 스토리 ── */
+    .p-right {
+      background: #1A3270;
+      padding: 72px 52px 72px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
     }
 
-    /* ════════════════════════════════════════
-       OPTION A — 풀블리드 사진 상단 + 하단 텍스트
-    ════════════════════════════════════════ */
-    .opt-a {
-      max-width: 375px;
-      margin: 0 auto;
-      background: #F7F3EE;
-    }
-
-    .opt-a .hero-photo {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      object-position: center top;
-    }
-
-    .opt-a .text-block {
-      padding: 36px 24px 52px;
-    }
-
-    .opt-a .anchor {
-      font-size: 26px;
+    /* 앵커 카피 — tr-ph-head 계열, 400px 컬럼 기준 */
+    .p-anchor {
+      font-size: clamp(1.5rem, 2.2vw, 2.2rem);
       font-weight: 800;
       letter-spacing: -0.045em;
-      line-height: 1.25;
-      color: #1A3270;
-      margin-bottom: 20px;
+      line-height: 1.22;
+      color: #FFFFFF;
       word-break: keep-all;
+      margin-bottom: 28px;
     }
-    .opt-a .anchor .accent { color: #D76618; }
+    .p-anchor .hl { color: #D76618; }
 
-    .opt-a .story {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.9;
-      letter-spacing: -0.01em;
-      color: #555;
-      word-break: keep-all;
-      margin-bottom: 32px;
-    }
-
-    .opt-a .rule {
-      width: 36px;
+    /* 오렌지 룰 (앵커-스토리 구분) */
+    .p-rule {
+      width: 32px;
       height: 2px;
       background: #D76618;
       margin-bottom: 24px;
     }
 
-    .opt-a .name {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      color: #1A1A1A;
-      margin-bottom: 4px;
-    }
-
-    .opt-a .sub {
-      font-size: 11.5px;
-      color: #999;
-      letter-spacing: -0.005em;
-      margin-bottom: 22px;
-    }
-
-    .opt-a .creds {
-      list-style: none;
+    /* 스토리 컨테이너 — 2단 레이어 */
+    .p-story {
       display: flex;
       flex-direction: column;
-      gap: 11px;
-    }
-    .opt-a .creds li {
-      font-size: 13.5px;
-      font-weight: 400;
-      line-height: 1.55;
-      color: #444;
-      padding-left: 15px;
-      position: relative;
-      word-break: keep-all;
-    }
-    .opt-a .creds li::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0.6em;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #1A3270;
-      opacity: 0.45;
+      gap: 16px;
     }
 
-    /* ════════════════════════════════════════
-       OPTION B — 원형 사진 좌측 + 우측 텍스트 플로팅
-    ════════════════════════════════════════ */
-    .opt-b {
-      max-width: 375px;
-      margin: 0 auto;
-      background: #F7F3EE;
-    }
-
-    .opt-b .upper {
-      padding: 36px 24px 0;
-      overflow: hidden;
-    }
-
-    .opt-b .circle-photo {
-      float: left;
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: center top;
-      margin-right: 18px;
-      margin-bottom: 8px;
-      outline: 2px solid #1A3270;
-      outline-offset: 3px;
-    }
-
-    .opt-b .float-right .name {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      color: #1A1A1A;
-      margin-bottom: 3px;
-      padding-top: 4px;
-    }
-
-    .opt-b .float-right .sub {
-      font-size: 11px;
-      color: #999;
-      letter-spacing: -0.005em;
-      margin-bottom: 12px;
-    }
-
-    .opt-b .float-right .story {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.8;
-      letter-spacing: -0.01em;
-      color: #555;
-      word-break: keep-all;
-    }
-
-    .opt-b .clearfix::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-
-    .opt-b .lower {
-      margin-top: 28px;
-      padding: 24px 24px 52px;
-      border-top: 1px solid #E5E1DC;
-    }
-
-    .opt-b .anchor {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: #D76618;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-bottom: 16px;
-    }
-
-    .opt-b .creds {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .opt-b .creds li {
-      font-size: 13.5px;
-      font-weight: 400;
-      line-height: 1.55;
-      color: #444;
-      padding-left: 15px;
-      position: relative;
-      word-break: keep-all;
-    }
-    .opt-b .creds li::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0.6em;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #1A3270;
-      opacity: 0.45;
-    }
-
-    /* ════════════════════════════════════════
-       OPTION C — 다크 카드 + 세로 사이드 포토
-       (매거진 에디토리얼 스타일)
-    ════════════════════════════════════════ */
-    .opt-c {
-      max-width: 375px;
-      margin: 0 auto;
-      background: #F7F3EE;
-      padding: 36px 24px 52px;
-    }
-
-    /* 사진 + 텍스트 가로 카드 */
-    .opt-c .editorial-card {
-      display: flex;
-      height: 216px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 12px 40px rgba(26, 50, 112, 0.2);
-      margin-bottom: 28px;
-    }
-
-    .opt-c .card-photo {
-      width: 128px;
-      flex-shrink: 0;
-      object-fit: cover;
-      object-position: center top;
-    }
-
-    .opt-c .card-body {
-      background: #1A3270;
-      flex: 1;
-      padding: 22px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .opt-c .card-eyebrow {
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35);
-    }
-
-    .opt-c .card-anchor {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.3;
-      color: #FFFFFF;
-      word-break: keep-all;
-      flex: 1;
-      display: flex;
-      align-items: center;
-    }
-    .opt-c .card-anchor em {
-      font-style: normal;
-      color: #D76618;
-    }
-
-    .opt-c .card-story {
-      font-size: 11px;
+    /* 레이어 1: 설정 문장 — 흐린 화이트, 300 */
+    .p-story-lead {
+      font-size: clamp(0.82rem, 1vw, 0.9rem);
       font-weight: 300;
+      line-height: 1.9;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.45);
+      word-break: keep-all;
+    }
+
+    /* 레이어 2: 결론 문장 — 밝은 화이트, 500 */
+    .p-story-close {
+      font-size: clamp(0.9rem, 1.14vw, 1rem);
+      font-weight: 500;
       line-height: 1.7;
-      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.92);
       word-break: keep-all;
     }
 
-    /* 이름 + 소속 행 */
-    .opt-c .identity {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 24px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid #E0DCD6;
-    }
-
-    .opt-c .orange-bar {
-      width: 3px;
-      height: 38px;
-      background: #D76618;
-      border-radius: 2px;
-      flex-shrink: 0;
-      margin-right: 14px;
-    }
-
-    .opt-c .id-name {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      color: #1A1A1A;
-      margin-bottom: 3px;
-    }
-
-    .opt-c .id-sub {
-      font-size: 11px;
-      color: #999;
-      letter-spacing: -0.005em;
-    }
-
-    /* 약력 */
-    .opt-c .creds {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .opt-c .creds li {
-      font-size: 13.5px;
-      font-weight: 400;
-      line-height: 1.55;
-      color: #444;
-      padding-left: 15px;
-      position: relative;
-      word-break: keep-all;
-    }
-    .opt-c .creds li::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0.6em;
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: #D76618;
-      opacity: 0.65;
+    /* 펀치라인 — 오렌지 강조 */
+    .p-story-close .punch {
+      color: #D76618;
     }
   </style>
 </head>
 <body>
 
-  <!-- ──────────────────────────────────────────
-       OPTION A
-  ────────────────────────────────────────── -->
-  <div class="opt-label">
-    <h2>Option A</h2>
-    <p>풀블리드 사진 상단 + 하단 텍스트 블록</p>
-  </div>
+  <section class="s-profile">
+    <div class="p-grid">
 
-  <div class="opt-a">
-    <img class="hero-photo" src="./images/doctor.png" alt="박승현 원장" />
-    <div class="text-block">
-      <p class="anchor">10년이 쌓은<br /><span class="accent">한 가지 확신</span></p>
-      <p class="story">10년 이상 다이어트와 대사질환을 진료하며 반복해서 확인한 게 하나 있습니다. 갱년기 살은 의지의 문제가 아닙니다. 방법이 달라야 합니다.</p>
-      <div class="rule"></div>
-      <p class="name">박승현 원장</p>
-      <p class="sub">전주W한의원 · 리셋다이어트</p>
-      <ul class="creds">
-        <li>갱년기 다이어트 전문 진료</li>
-        <li>동료 의사·한의사 생화학 스터디 운영</li>
-        <li>데이터 기반 환자 맞춤 진료</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="opt-divider"></div>
-
-  <!-- ──────────────────────────────────────────
-       OPTION B
-  ────────────────────────────────────────── -->
-  <div class="opt-label">
-    <h2>Option B</h2>
-    <p>사진 좌측 원형 고정 + 우측 텍스트 플로팅</p>
-  </div>
-
-  <div class="opt-b">
-    <div class="upper clearfix">
-      <img class="circle-photo" src="./images/doctor.png" alt="박승현 원장" />
-      <div class="float-right">
-        <p class="name">박승현 원장</p>
-        <p class="sub">전주W한의원 · 리셋다이어트</p>
-        <p class="story">10년 이상 다이어트와 대사질환을 진료하며 반복해서 확인한 게 하나 있습니다. 갱년기 살은 의지의 문제가 아닙니다. 방법이 달라야 합니다.</p>
+      <!-- 좌측: 이미지 + 오버레이 + 이름/소속 -->
+      <div class="p-left">
+        <img class="p-img" src="./images/doctor.png" alt="박승현 원장" />
+        <div class="p-overlay"></div>
+        <div class="p-caption">
+          <p class="p-name">박승현 원장</p>
+          <p class="p-sub">전주W한의원 · 리셋다이어트</p>
+        </div>
       </div>
-    </div>
-    <div class="lower">
-      <p class="anchor">10년이 쌓은 한 가지 확신</p>
-      <ul class="creds">
-        <li>갱년기 다이어트 전문 진료</li>
-        <li>동료 의사·한의사 생화학 스터디 운영</li>
-        <li>데이터 기반 환자 맞춤 진료</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="opt-divider"></div>
-
-  <!-- ──────────────────────────────────────────
-       OPTION C
-  ────────────────────────────────────────── -->
-  <div class="opt-label">
-    <h2>Option C</h2>
-    <p>다크 에디토리얼 카드 (창의 제안)</p>
-  </div>
-
-  <div class="opt-c">
-    <div class="editorial-card">
-      <img class="card-photo" src="./images/doctor.png" alt="박승현 원장" />
-      <div class="card-body">
-        <p class="card-eyebrow">10년의 진료</p>
-        <p class="card-anchor">10년이 쌓은<br /><em>한 가지 확신</em></p>
-        <p class="card-story">갱년기 살은 의지의 문제가 아닙니다. 방법이 달라야 합니다.</p>
+      <!-- 우측: 앵커 카피 + 스토리 -->
+      <div class="p-right">
+        <p class="p-anchor">
+          10년이 쌓은<br />
+          <span class="hl">한 가지 확신</span>
+        </p>
+        <div class="p-rule"></div>
+        <div class="p-story">
+          <p class="p-story-lead">
+            10년 이상 다이어트와 대사질환을 진료하며<br />
+            반복해서 확인한 게 하나 있습니다.
+          </p>
+          <p class="p-story-close">
+            갱년기 살은 의지의 문제가 아닙니다.<br />
+            <span class="punch">방법이 달라야 합니다.</span>
+          </p>
+        </div>
       </div>
+
     </div>
-    <div class="identity">
-      <div class="orange-bar"></div>
-      <div>
-        <p class="id-name">박승현 원장</p>
-        <p class="id-sub">전주W한의원 · 리셋다이어트</p>
-      </div>
-    </div>
-    <ul class="creds">
-      <li>갱년기 다이어트 전문 진료</li>
-      <li>동료 의사·한의사 생화학 스터디 운영</li>
-      <li>데이터 기반 환자 맞춤 진료</li>
-    </ul>
-  </div>
+  </section>
 
 </body>
 </html>
