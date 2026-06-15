@@ -1549,15 +1549,18 @@ body {
 
 /* ── 10. KakaoConsult ─────────────────────── */
 .s-kakao {
-  background: #0d1a2e;
+  background: #07112B;
   padding: 96px 28px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
 }
 
 .kk-inner {
   max-width: 520px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 32px;
 }
 
@@ -1573,7 +1576,7 @@ body {
 .kk-sub {
   font-size: clamp(0.95rem, 3.4vw, 1.2rem);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.48);
+  color: #8AAACE;
   letter-spacing: -0.01em;
   margin-top: -16px;
 }
@@ -1600,22 +1603,20 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
 }
 
 .kk-notes li {
   font-size: clamp(0.78rem, 2.6vw, 0.88rem);
-  color: rgba(255, 255, 255, 0.32);
+  color: rgba(255, 255, 255, 0.28);
   letter-spacing: -0.005em;
-  padding-left: 14px;
-  position: relative;
   word-break: keep-all;
 }
 .kk-notes li::before {
   content: '·';
-  position: absolute;
-  left: 0;
-  color: rgba(255, 255, 255, 0.2);
+  margin-right: 6px;
+  color: rgba(255, 255, 255, 0.18);
 }
 
 /* ── 11. Footer ───────────────────────────── */

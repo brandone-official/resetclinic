@@ -820,6 +820,7 @@ function KakaoConsult() {
     <section className="s-kakao">
       <div className="kk-inner">
         <Reveal>
+          <p className="sym-kicker">카카오톡 채널 · 무료 상담</p>
           <p className="kk-body">
             지금 내 몸 상태가 궁금하다면<br />
             편하게 물어보세요.
