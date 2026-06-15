@@ -1970,6 +1970,49 @@ body {
   line-height: 1.7;
 }
 
+.ft-modal-section {
+  margin-bottom: 28px;
+}
+.ft-modal-section:last-child {
+  margin-bottom: 0;
+}
+.ft-modal-h {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.ft-modal-p {
+  font-size: 0.85rem;
+  color: #555555;
+  line-height: 1.75;
+  letter-spacing: -0.005em;
+  word-break: keep-all;
+}
+.ft-modal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ft-modal-list li {
+  font-size: 0.85rem;
+  color: #555555;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+  padding-left: 16px;
+  position: relative;
+  word-break: keep-all;
+}
+.ft-modal-list li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: #AAAAAA;
+}
+
 .mob { display: none; }
 .pc  { display: block; }
 

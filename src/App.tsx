@@ -908,6 +908,107 @@ function VisitGuide() {
   )
 }
 
+// ── Footer Modal Content ──────────────────────────────
+function TermsContent() {
+  return (
+    <>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제1조 (목적)</p>
+        <p className="ft-modal-p">이 약관은 전주W한의원(이하 "본원")이 운영하는 웹사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 본원과 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제2조 (정의)</p>
+        <ul className="ft-modal-list">
+          <li>"사이트"란 본원이 정보를 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.</li>
+          <li>"이용자"란 "사이트"에 접속하여 이 약관에 따라 "사이트"가 제공하는 서비스를 받는 회원 및 비회원을 말합니다.</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제3조 (약관의 명시와 개정)</p>
+        <p className="ft-modal-p">본원은 이 약관의 내용과 상호, 영업소 소재지, 대표자의 성명, 사업자등록번호, 연락처 등을 이용자가 알 수 있도록 사이트의 초기 서비스 화면에 게시합니다. 본원은 약관의 규제 등에 관한 법률, 전자거래기본법 등 관련법을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.</p>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제4조 (서비스의 제공 및 변경)</p>
+        <p className="ft-modal-p">본원은 사이트를 통해 다음과 같은 업무를 수행합니다.</p>
+        <ul className="ft-modal-list">
+          <li>의료 정보 및 본원 소개 정보 제공</li>
+          <li>진료 예약 및 상담 신청 서비스</li>
+          <li>기타 본원이 정하는 업무</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제5조 (서비스의 중단)</p>
+        <p className="ft-modal-p">본원은 컴퓨터 등 정보통신설비의 보수점검·교체 및 고장, 통신의 두절 등의 사유가 발생한 경우에는 서비스의 제공을 일시적으로 중단할 수 있습니다.</p>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">제6조 (이용자의 의무)</p>
+        <p className="ft-modal-p">이용자는 다음 행위를 하여서는 안 됩니다.</p>
+        <ul className="ft-modal-list">
+          <li>신청 또는 변경 시 허위내용의 등록</li>
+          <li>사이트에 게시된 정보의 변경</li>
+          <li>본원이 정한 정보 이외의 정보(컴퓨터 프로그램 등)의 송신 또는 게시</li>
+          <li>본원 및 기타 제3자의 저작권 등 지적재산권에 대한 침해</li>
+          <li>본원 및 기타 제3자의 명예를 손상시키거나 업무를 방해하는 행위</li>
+        </ul>
+      </div>
+    </>
+  )
+}
+
+function PrivacyContent() {
+  return (
+    <>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">1. 개인정보의 처리 목적</p>
+        <p className="ft-modal-p">전주W한의원(이하 '본원')은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.</p>
+        <ul className="ft-modal-list">
+          <li>진료 및 치료 서비스 제공</li>
+          <li>진료 예약 및 상담</li>
+          <li>진료비 청구, 수납, 환불 등의 원무 처리</li>
+          <li>의료법, 건강보험법 등 관련 법령에 따른 의무 이행</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">2. 처리하는 개인정보 항목</p>
+        <p className="ft-modal-p">본원은 진료 및 서비스 제공을 위해 아래와 같은 최소한의 개인정보를 수집하고 있습니다.</p>
+        <ul className="ft-modal-list">
+          <li>필수항목: 성명, 주민등록번호(또는 외국인등록번호), 주소, 연락처, 병력 및 가족력 등 진료에 필요한 건강정보</li>
+          <li>선택항목: 이메일, 보호자 연락처 등</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">3. 개인정보의 처리 및 보유 기간</p>
+        <p className="ft-modal-p">본원은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.</p>
+        <ul className="ft-modal-list">
+          <li>진료기록부: 10년 (의료법)</li>
+          <li>환자 명부: 5년 (의료법)</li>
+          <li>처방전: 2년 (의료법)</li>
+          <li>건강보험 청구 관련 기록: 5년 (국민건강보험법)</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">4. 정보주체의 권리·의무 및 행사방법</p>
+        <p className="ft-modal-p">정보주체는 본원에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.</p>
+        <ul className="ft-modal-list">
+          <li>개인정보 열람요구</li>
+          <li>오류 등이 있을 경우 정정 요구</li>
+          <li>삭제요구</li>
+          <li>처리정지 요구</li>
+        </ul>
+      </div>
+      <div className="ft-modal-section">
+        <p className="ft-modal-h">5. 개인정보의 안전성 확보조치</p>
+        <p className="ft-modal-p">본원은 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다.</p>
+        <ul className="ft-modal-list">
+          <li>관리적 조치: 내부관리계획 수립·시행, 정기적 직원 교육 등</li>
+          <li>기술적 조치: 개인정보처리시스템 등의 접근권한 관리, 접근통제시스템 설치, 고유식별정보 등의 암호화, 보안프로그램 설치</li>
+          <li>물리적 조치: 전산실, 자료보관실 등의 접근통제</li>
+        </ul>
+      </div>
+    </>
+  )
+}
+
 // ── 12. SiteFooter ────────────────────────────────────
 function SiteFooter() {
   const [modal, setModal] = useState<'terms' | 'privacy' | null>(null)
@@ -940,7 +1041,7 @@ function SiteFooter() {
               <button className="ft-modal-close" onClick={() => setModal(null)}>✕</button>
             </div>
             <div className="ft-modal-body">
-              {/* 내용 추후 추가 */}
+              {modal === 'terms' ? <TermsContent /> : <PrivacyContent />}
             </div>
           </div>
         </div>
