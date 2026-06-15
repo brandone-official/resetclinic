@@ -1110,42 +1110,42 @@ body {
   .b-arrow { display: flex; }
 }
 
-/* Part 3: 원장 프로필 */
+/* Part 3: 원장 프로필 — 모바일 기본 */
 .tr-profile {
-  background: #1A3270;
+  background: #F7F3EE;
 }
 
 .tr-prof-grid {
   width: 100%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 4fr 6fr;
+  display: flex;
+  flex-direction: column;
 }
 
+/* ① 사진 영역: grid stacking으로 이미지 위에 캡션 오버레이 */
 .tr-prof-left {
   background: #F7F3EE;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto;
   overflow: hidden;
 }
 
 .tr-prof-img {
   grid-column: 1;
-  grid-row: 1 / 3;
+  grid-row: 1;
   width: 100%;
-  height: 100%;
+  height: auto;
   min-height: 0;
   object-fit: contain;
-  object-position: top right;
+  object-position: top center;
   display: block;
 }
 
 .tr-prof-caption {
   grid-column: 1;
-  grid-row: 2;
-  padding: 80px 64px 32px 20px;
-  text-align: right;
+  grid-row: 1;
+  align-self: end;
+  padding: 48px 28px 24px;
+  text-align: center;
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -1169,33 +1169,36 @@ body {
   letter-spacing: -0.005em;
 }
 
+/* ② 네이비 블록 + ③ 크림 스토리 블록 */
 .tr-prof-right {
-  background: #1A3270;
-  padding: 72px 52px 72px 64px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 }
 
 .tr-prof-anchor {
+  background: #1A3270;
+  padding: 48px 28px;
   font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.22;
   color: #FFFFFF;
   word-break: keep-all;
-  margin-bottom: 28px;
+  margin-bottom: 0;
+}
+
+.tr-prof-orange {
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  color: #D76618;
 }
 
 .tr-prof-rule {
-  width: 32px;
-  height: 2px;
-  background: #D76618;
-  margin-bottom: 24px;
+  display: none;
 }
 
 .tr-prof-story {
+  background: #F7F3EE;
+  padding: 48px 28px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1206,7 +1209,7 @@ body {
   font-weight: 300;
   line-height: 1.9;
   letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.45);
+  color: #888888;
   word-break: keep-all;
 }
 
@@ -1215,13 +1218,8 @@ body {
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1A1A1A;
   word-break: keep-all;
-}
-
-.tr-prof-orange {
-  font-size: clamp(2.4rem, 8vw, 3.6rem);
-  color: #D76618;
 }
 
 .tr-prof-punch {
@@ -1231,6 +1229,69 @@ body {
   letter-spacing: -0.045em;
   color: #D76618;
   word-break: keep-all;
+}
+
+/* ── PC 레이아웃 (변경 금지) ─────────────── */
+@media (min-width: 640px) {
+  .tr-profile {
+    background: #1A3270;
+  }
+
+  .tr-prof-grid {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+  }
+
+  .tr-prof-left {
+    grid-template-rows: 1fr auto;
+  }
+
+  .tr-prof-img {
+    grid-row: 1 / 3;
+    height: 100%;
+    object-position: top right;
+  }
+
+  .tr-prof-caption {
+    grid-row: 2;
+    align-self: auto;
+    padding: 80px 64px 32px 20px;
+    text-align: right;
+  }
+
+  .tr-prof-right {
+    background: #1A3270;
+    padding: 72px 52px 72px 64px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .tr-prof-anchor {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 28px;
+  }
+
+  .tr-prof-rule {
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: #D76618;
+    margin-bottom: 24px;
+  }
+
+  .tr-prof-story {
+    background: transparent;
+    padding: 0;
+  }
+
+  .tr-prof-story-lead {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .tr-prof-story-core {
+    color: rgba(255, 255, 255, 0.92);
+  }
 }
 
 /* Part 4: 유튜브 */
