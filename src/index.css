@@ -1167,7 +1167,7 @@ body {
 }
 
 .tr-prof-name {
-  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   color: #1A1A1A;
@@ -1175,7 +1175,7 @@ body {
 }
 
 .tr-prof-sub {
-  font-size: clamp(0.78rem, 0.92vw, 0.88rem);
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
   font-weight: 400;
   color: #999;
   letter-spacing: -0.005em;
@@ -1214,7 +1214,7 @@ body {
 }
 
 .tr-prof-story-lead {
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 300;
   line-height: 1.9;
   letter-spacing: -0.01em;
@@ -1222,17 +1222,22 @@ body {
   word-break: keep-all;
 }
 
-.tr-prof-story-close {
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
-  font-weight: 500;
-  line-height: 1.7;
-  letter-spacing: -0.02em;
+.tr-prof-story-core {
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.04em;
   color: rgba(255, 255, 255, 0.92);
   word-break: keep-all;
 }
 
 .tr-prof-punch {
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.045em;
   color: #D76618;
+  word-break: keep-all;
 }
 
 /* Part 4: 유튜브 */

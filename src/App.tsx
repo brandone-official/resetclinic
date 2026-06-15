@@ -667,9 +667,11 @@ function Trust() {
                 10년 이상 다이어트와 대사질환을 진료하며<br />
                 반복해서 확인한 게 하나 있습니다.
               </p>
-              <p className="tr-prof-story-close">
-                갱년기 살은 의지의 문제가 아닙니다.<br />
-                <span className="tr-prof-punch">방법이 달라야 합니다.</span>
+              <p className="tr-prof-story-core">
+                갱년기 살은 의지의 문제가 아닙니다.
+              </p>
+              <p className="tr-prof-punch">
+                방법이 달라야 합니다.
               </p>
             </div>
           </div>
