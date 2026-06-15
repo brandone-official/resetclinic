@@ -858,7 +858,52 @@ function KakaoConsult() {
   )
 }
 
-// ── 11. SiteFooter ────────────────────────────────────
+// ── 11. VisitGuide ───────────────────────────────────
+function VisitGuide() {
+  return (
+    <section className="s-visit">
+      <div className="visit-inner">
+        <Reveal>
+          <h2 className="visit-title">오시기 전에</h2>
+        </Reveal>
+        <Reveal>
+          <div className="visit-block">
+            <p className="visit-label">진료시간</p>
+            <ul className="visit-hours">
+              <li>
+                <span className="visit-day">평일</span>
+                <span className="visit-time">09:00 – 19:30<span className="visit-note"> (점심 12:30 – 14:00)</span></span>
+              </li>
+              <li>
+                <span className="visit-day">토요일</span>
+                <span className="visit-time">08:30 – 14:00<span className="visit-note"> (점심시간 없이 진료)</span></span>
+              </li>
+              <li>
+                <span className="visit-day visit-day-off">일요일 · 공휴일</span>
+                <span className="visit-time visit-time-off">휴진</span>
+              </li>
+            </ul>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className="visit-block">
+            <p className="visit-label">찾아오시는 길</p>
+            <p className="visit-addr">전북 전주시 완산구 홍산1길 21 207호</p>
+            <p className="visit-addr-sub">(효자동 서희스타힐스 상가)</p>
+            <p className="visit-park">상가 2층 주차장 이용 시 한의원 입구와 바로 연결됩니다.<br className="pc" /> (무료 주차 가능)</p>
+          </div>
+        </Reveal>
+        <Reveal>
+          <a href="https://naver.me/F5Dd4I3m" target="_blank" rel="noopener noreferrer" className="visit-map-btn">
+            네이버 지도에서 보기
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// ── 12. SiteFooter ────────────────────────────────────
 function SiteFooter() {
   return (
     <footer className="s-footer">
@@ -910,6 +955,7 @@ function HomePage() {
         <Trust />
         <FAQSection />
         <KakaoConsult />
+        <VisitGuide />
       </main>
       <SiteFooter />
       {showSurvey && (
