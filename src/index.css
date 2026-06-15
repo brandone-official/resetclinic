@@ -1556,12 +1556,21 @@ body {
 }
 
 .kk-inner {
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
+}
+
+.kk-kicker {
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8AAACE;
+  margin-bottom: 12px;
 }
 
 .kk-body {
@@ -1573,50 +1582,88 @@ body {
   word-break: keep-all;
 }
 
-.kk-sub {
-  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
-  font-weight: 300;
-  color: #8AAACE;
-  letter-spacing: -0.01em;
-  margin-top: -16px;
-}
-
-.kk-btn {
-  display: inline-block;
-  background: #FEE500;
-  color: #1A1A1A;
-  font-family: inherit;
-  font-size: clamp(0.95rem, 3.2vw, 1.05rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  padding: 18px 40px;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.kk-btn:hover  { opacity: 0.88; }
-.kk-btn:active { transform: scale(0.97); }
-.kk-btn:focus-visible { outline: 2px solid #FEE500; outline-offset: 3px; }
-
-.kk-notes {
-  list-style: none;
+/* KakaoTalk-style chat bubble */
+.kk-chat {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
 }
 
-.kk-notes li {
-  font-size: clamp(0.78rem, 2.6vw, 0.88rem);
-  color: rgba(255, 255, 255, 0.28);
-  letter-spacing: -0.005em;
+.kk-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.kk-bubble {
+  background: #ffffff;
+  border-radius: 4px 18px 18px 18px;
+  padding: 14px 20px;
+  position: relative;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+.kk-bubble::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 7px 9px 0;
+  border-color: transparent #ffffff transparent transparent;
+}
+
+.kk-bubble-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #999999;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.kk-bubble-text {
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
   word-break: keep-all;
 }
-.kk-notes li::before {
-  content: '·';
-  margin-right: 6px;
-  color: rgba(255, 255, 255, 0.18);
+
+/* Strengths */
+.kk-strengths {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.kk-strengths li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: clamp(0.78rem, 2.6vw, 0.88rem);
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 7px 14px;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+.kk-chk {
+  color: #D76618;
+  font-weight: 700;
+  font-size: 0.85em;
+  flex-shrink: 0;
 }
 
 /* ── 11. Footer ───────────────────────────── */

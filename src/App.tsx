@@ -820,21 +820,29 @@ function KakaoConsult() {
     <section className="s-kakao">
       <div className="kk-inner">
         <Reveal>
-          <p className="sym-kicker">카카오톡 채널 · 무료 상담</p>
+          <p className="kk-kicker">카카오톡 채널 · 무료 상담</p>
           <p className="kk-body">
             지금 내 몸 상태가 궁금하다면<br />
             편하게 물어보세요.
           </p>
-          <p className="kk-sub">원장이 직접 답합니다.</p>
         </Reveal>
         <Reveal>
-          <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="kk-btn">카카오톡으로 상담하기</a>
+          <div className="kk-chat">
+            <img src="/images/doctor.png" alt="원장 박승현" className="kk-avatar" />
+            <div className="kk-bubble">
+              <p className="kk-bubble-name">원장 박승현</p>
+              <p className="kk-bubble-text">원장이 직접 답합니다.</p>
+            </div>
+          </div>
         </Reveal>
         <Reveal>
-          <ul className="kk-notes">
-            <li>비용 없이 궁금한 점부터 물어보실 수 있습니다</li>
-            <li>진료 예약 강요 없습니다</li>
-            <li>평일 진료시간 내 빠른 답변</li>
+          <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="tr-yt-more">카카오톡으로 상담하기</a>
+        </Reveal>
+        <Reveal>
+          <ul className="kk-strengths">
+            <li><span className="kk-chk">✓</span>비용 없이 궁금한 점부터 물어보실 수 있습니다</li>
+            <li><span className="kk-chk">✓</span>진료 예약 강요 없습니다</li>
+            <li><span className="kk-chk">✓</span>평일 진료시간 내 빠른 답변</li>
           </ul>
         </Reveal>
       </div>
