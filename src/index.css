@@ -1587,13 +1587,14 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
   text-align: left;
+  padding: 12px 0;
 }
 
 .kk-msg-row {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 10px;
 }
 
