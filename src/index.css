@@ -1847,15 +1847,15 @@ body {
 
 /* ── 12. Footer ───────────────────────────── */
 .s-footer {
-  background: #111827;
+  background: #1A3270;
   padding: 52px 28px 44px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .ft-name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.92);
   letter-spacing: -0.01em;
   margin-bottom: 20px;
 }
@@ -1870,7 +1870,7 @@ body {
 
 .ft-info li {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.58);
   letter-spacing: -0.005em;
   line-height: 1.65;
   word-break: keep-all;
@@ -1878,9 +1878,9 @@ body {
 
 .ft-copy {
   font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.01em;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 20px;
 }
 
