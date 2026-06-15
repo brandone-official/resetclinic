@@ -1128,7 +1128,8 @@ body {
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 64px;
 }
 
 .tr-prof-img {
