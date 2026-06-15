@@ -889,7 +889,7 @@ function VisitGuide() {
           <div className="visit-block">
             <p className="visit-label">찾아오시는 길</p>
             <div className="visit-addr-group">
-              <p className="visit-addr">전북 전주시 완산구 홍산1길 21 207호</p>
+              <p className="visit-addr">전북 전주시 완산구 홍산1길 21, 207호</p>
               <p className="visit-addr-sub">(효자동 서희스타힐스 상가)</p>
             </div>
             <div className="visit-addr-group">
@@ -916,7 +916,7 @@ function SiteFooter() {
       <ul className="ft-info">
         <li>의료기관명: 전주더블유(W)한의원</li>
         <li>대표자: 박승현</li>
-        <li>주소: 전북 전주시 완산구 홍산1길 21 207호 (효자동 서희스타일스 상가)</li>
+        <li>주소: 전북 전주시 완산구 홍산1길 21, 207호 (효자동 서희스타힐스 상가)</li>
         <li>대표전화: 063-221-7500</li>
         <li>사업자등록번호: 887-23-01841</li>
       </ul>

@@ -1733,6 +1733,10 @@ body {
   gap: 52px;
 }
 
+.visit-inner .reveal {
+  width: 100%;
+}
+
 .visit-title {
   font-size: clamp(1.6rem, 5.5vw, 2.6rem);
   font-weight: 700;
