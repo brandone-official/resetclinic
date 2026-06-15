@@ -1169,7 +1169,7 @@ body {
 .tr-prof-sub {
   font-size: clamp(1rem, 3.5vw, 1.2rem);
   font-weight: 400;
-  color: #999;
+  color: #444444;
   letter-spacing: -0.005em;
 }
 
@@ -1193,6 +1193,7 @@ body {
 
 .tr-prof-orange {
   font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-weight: 800;
   color: #D76618;
 }
 
@@ -1213,7 +1214,7 @@ body {
   font-weight: 300;
   line-height: 1.9;
   letter-spacing: -0.01em;
-  color: #888888;
+  color: #444444;
   word-break: keep-all;
 }
 
