@@ -1486,9 +1486,18 @@ body {
 }
 
 .faq-a-inner {
-  padding: 0 0 24px;
-  border-left: 3px solid #D76618;
-  padding-left: 16px;
+  position: relative;
+  padding: 0 0 28px 20px;
+}
+.faq-a-inner::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 28px;
+  width: 2px;
+  background: rgba(215, 102, 24, 0.45);
+  border-radius: 1px;
 }
 
 .faq-lead {
