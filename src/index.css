@@ -1696,7 +1696,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 40px;
   gap: 10px;
 }
 
