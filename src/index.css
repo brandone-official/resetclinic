@@ -1385,6 +1385,15 @@ body {
 .tr-yt-more:hover  { background: #c05510; }
 .tr-yt-more:active { transform: scale(0.97); }
 
+@media (max-width: 639px) {
+  .tr-yt-iframe-wrap {
+    border-radius: 0;
+    margin-left: -28px;
+    margin-right: -28px;
+    width: calc(100% + 56px);
+  }
+}
+
 /* ── 9. FAQ ───────────────────────────────── */
 .s-faq {
   background: #ffffff;
