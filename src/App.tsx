@@ -917,7 +917,7 @@ function SiteFooter() {
       <footer className="s-footer">
         <p className="ft-name">전주W한의원</p>
         <ul className="ft-info">
-          <li>의료기관명: 전주더블유(W)한의원</li>
+          <li>의료기관명: 전주W한의원</li>
           <li>대표자: 박승현</li>
           <li>주소: 전북 전주시 완산구 홍산1길 21, 207호 (효자동 서희스타힐스 상가)</li>
           <li>대표전화: 063-221-7500</li>
