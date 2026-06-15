@@ -827,10 +827,13 @@ function KakaoConsult() {
           </p>
         </Reveal>
         <Reveal>
-          <div className="kk-input-wrap">
-            <div className="kk-input-pre">
-              <img src="/images/doctor.png" alt="원장 박승현" className="kk-mini-avatar" />
-              <span className="kk-mini-label">원장 박승현이 직접 답합니다</span>
+          <div className="kk-convo">
+            <div className="kk-msg-row">
+              <img src="/images/doctor.png" alt="원장 박승현" className="kk-msg-avatar" />
+              <div className="kk-msg-bubble">
+                <p className="kk-msg-name">원장 박승현</p>
+                <p className="kk-msg-text">원장이 직접 답합니다.</p>
+              </div>
             </div>
             <a
               href="https://pf.kakao.com/_xjxcgpxl"

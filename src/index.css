@@ -1582,36 +1582,66 @@ body {
   word-break: keep-all;
 }
 
-/* Message input CTA */
-.kk-input-wrap {
+/* Chat bubble + input convo */
+.kk-convo {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.kk-msg-row {
+  display: flex;
+  align-items: flex-end;
   gap: 10px;
 }
 
-.kk-input-pre {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.kk-mini-avatar {
-  width: 28px;
-  height: 28px;
+.kk-msg-avatar {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center 15%;
   flex-shrink: 0;
-  border: 1px solid #8AAACE;
+  border: 1.5px solid #8AAACE;
 }
 
-.kk-mini-label {
-  font-size: clamp(0.82rem, 2.8vw, 0.92rem);
-  font-weight: 400;
-  color: #8AAACE;
-  letter-spacing: -0.015em;
+.kk-msg-bubble {
+  background: #ffffff;
+  border-radius: 4px 16px 16px 16px;
+  padding: 13px 18px;
+  position: relative;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.28));
+  max-width: calc(100% - 58px);
+}
+
+.kk-msg-bubble::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 0;
+  width: 11px;
+  height: 18px;
+  background: #ffffff;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.kk-msg-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #999999;
+  letter-spacing: -0.01em;
+  margin-bottom: 5px;
+}
+
+.kk-msg-text {
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  font-weight: 700;
+  color: #1A3270;
+  letter-spacing: -0.025em;
+  line-height: 1.45;
+  word-break: keep-all;
 }
 
 .kk-input-cta {
@@ -1620,7 +1650,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  padding: 14px 14px 14px 22px;
+  padding: 12px 12px 12px 20px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50px;
@@ -1635,9 +1665,9 @@ body {
 }
 
 .kk-input-placeholder {
-  font-size: clamp(0.95rem, 3.2vw, 1.05rem);
+  font-size: clamp(0.9rem, 3vw, 1rem);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.32);
   letter-spacing: -0.015em;
 }
 
@@ -1645,12 +1675,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   background: #FEE500;
   border-radius: 50%;
   color: #1A1A1A;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   flex-shrink: 0;
   transition: transform 0.15s;
