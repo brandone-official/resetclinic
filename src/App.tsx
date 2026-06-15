@@ -537,25 +537,50 @@ function PhilosophySwipe() {
   const [idx, setIdx] = useState(0)
   const [hintVisible, setHintVisible] = useState(true)
 
-  // 인디케이터 업데이트 — 모바일/PC 두 경로가 모두 호출
   const setActive = (next: number) => {
     setIdx(next)
     if (next > 0) setHintVisible(false)
   }
 
-  // 모바일: touchend + double rAF (scroll-snap 안착 후 scrollLeft 읽기)
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    const onTouchEnd = () => {
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() =>
-          setActive(Math.round(track.scrollLeft / track.clientWidth))
-        )
-      )
+
+    let snapTimer: ReturnType<typeof setTimeout>
+    let cleanupTimer: ReturnType<typeof setTimeout>
+    let bound = false
+
+    // scroll-snap 안착 감지: 80ms 동안 scroll이 없으면 확정
+    const onScroll = () => {
+      clearTimeout(snapTimer)
+      snapTimer = setTimeout(() => {
+        track.removeEventListener('scroll', onScroll)
+        clearTimeout(cleanupTimer)
+        bound = false
+        setActive(Math.round(track.scrollLeft / track.clientWidth))
+      }, 80)
     }
+
+    // touchend로 스와이프 감지 → scroll 리스너 등록
+    const onTouchEnd = () => {
+      if (bound) return
+      bound = true
+      track.addEventListener('scroll', onScroll, { passive: true })
+      // 제자리 탭 등 scroll이 발생하지 않을 때 리스너 정리
+      cleanupTimer = setTimeout(() => {
+        track.removeEventListener('scroll', onScroll)
+        bound = false
+      }, 500)
+    }
+
     track.addEventListener('touchend', onTouchEnd, { passive: true })
-    return () => track.removeEventListener('touchend', onTouchEnd)
+
+    return () => {
+      clearTimeout(snapTimer)
+      clearTimeout(cleanupTimer)
+      track.removeEventListener('touchend', onTouchEnd)
+      track.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   // PC 화살표·dot 버튼: 목적지 idx를 직접 받아 즉시 업데이트
