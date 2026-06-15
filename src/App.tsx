@@ -888,9 +888,14 @@ function VisitGuide() {
         <Reveal>
           <div className="visit-block">
             <p className="visit-label">찾아오시는 길</p>
-            <p className="visit-addr">전북 전주시 완산구 홍산1길 21 207호</p>
-            <p className="visit-addr-sub">(효자동 서희스타힐스 상가)</p>
-            <p className="visit-park">상가 2층 주차장 이용 시 한의원 입구와 바로 연결됩니다.<br className="pc" /> (무료 주차 가능)</p>
+            <div className="visit-addr-group">
+              <p className="visit-addr">전북 전주시 완산구 홍산1길 21 207호</p>
+              <p className="visit-addr-sub">(효자동 서희스타힐스 상가)</p>
+            </div>
+            <div className="visit-addr-group">
+              <p className="visit-addr">상가 2층 주차장 이용 시<br />한의원 입구와 바로 연결됩니다.</p>
+              <p className="visit-addr-sub">(무료 주차 가능)</p>
+            </div>
           </div>
         </Reveal>
         <Reveal>

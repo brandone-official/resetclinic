@@ -1753,10 +1753,8 @@ body {
 }
 
 .visit-label {
-  font-size: clamp(0.75rem, 2.4vw, 0.82rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: #1A3270;
 }
 
@@ -1776,7 +1774,7 @@ body {
 .visit-day {
   flex-shrink: 0;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 600;
+  font-weight: 300;
   color: #1A1A1A;
   letter-spacing: -0.015em;
 }
@@ -1787,7 +1785,7 @@ body {
 
 .visit-time {
   font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 300;
+  font-weight: 700;
   color: #444444;
   letter-spacing: -0.015em;
   line-height: 1.75;
@@ -1795,7 +1793,8 @@ body {
 
 .visit-note {
   color: #444444;
-  font-size: 0.9em;
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 300;
 }
 
 .visit-time-off {
@@ -1811,20 +1810,16 @@ body {
 }
 
 .visit-addr-sub {
-  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
   font-weight: 300;
-  color: #888888;
+  color: #444444;
   letter-spacing: -0.015em;
-  margin-top: -10px;
 }
 
-.visit-park {
-  font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 300;
-  color: #888888;
-  letter-spacing: -0.015em;
-  line-height: 1.75;
-  word-break: keep-all;
+.visit-addr-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .visit-map-btn {
