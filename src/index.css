@@ -1596,7 +1596,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 3px solid #D76618;
+  border: 1.5px solid #D76618;
 }
 
 .kk-bubble {
