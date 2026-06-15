@@ -779,7 +779,7 @@ function FAQSection() {
         {FAQ_ITEMS.map((item, i) => (
           <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
             <button className="faq-q" onClick={() => toggle(i)}>
-              <span>{item.q}</span>
+              <span><span className="faq-q-label">Q.</span> {item.q}</span>
               <svg className="faq-chev" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M6 9l6 6l6 -6"/>
               </svg>

@@ -1429,9 +1429,19 @@ body {
 
 .faq-item {
   border-top: 1px solid #ebebeb;
+  border-left: 3px solid transparent;
+  transition: border-left-color 0.28s;
 }
 .faq-item:last-child {
   border-bottom: 1px solid #ebebeb;
+}
+.faq-item.open {
+  border-left-color: #D76618;
+}
+
+.faq-q-label {
+  color: #D76618;
+  flex-shrink: 0;
 }
 
 .faq-q {
