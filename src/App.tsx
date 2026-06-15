@@ -1016,20 +1016,22 @@ function SiteFooter() {
   return (
     <>
       <footer className="s-footer">
-        <p className="ft-name">전주W한의원</p>
-        <ul className="ft-info">
-          <li>의료기관명: 전주W한의원</li>
-          <li>대표자: 박승현</li>
-          <li>주소: 전북 전주시 완산구 홍산1길 21, 207호 (효자동 서희스타힐스 상가)</li>
-          <li>대표전화: 063-221-7500</li>
-          <li>사업자등록번호: 887-23-01841</li>
-        </ul>
-        <div className="ft-legal">
-          <button className="ft-legal-btn" onClick={() => setModal('terms')}>이용약관</button>
-          <span className="ft-legal-sep">|</span>
-          <button className="ft-legal-btn" onClick={() => setModal('privacy')}>개인정보처리방침</button>
+        <div className="ft-inner">
+          <p className="ft-name">전주W한의원</p>
+          <ul className="ft-info">
+            <li>의료기관명: 전주W한의원</li>
+            <li>대표자: 박승현</li>
+            <li>주소: 전북 전주시 완산구 홍산1길 21, 207호 (효자동 서희스타힐스 상가)</li>
+            <li>대표전화: 063-221-7500</li>
+            <li>사업자등록번호: 887-23-01841</li>
+          </ul>
+          <div className="ft-legal">
+            <button className="ft-legal-btn" onClick={() => setModal('terms')}>이용약관</button>
+            <span className="ft-legal-sep">|</span>
+            <button className="ft-legal-btn" onClick={() => setModal('privacy')}>개인정보처리방침</button>
+          </div>
+          <p className="ft-copy">© 2026 Jeonju W Korean Medicine Clinic. All rights reserved.</p>
         </div>
-        <p className="ft-copy">© 2026 Jeonju W Korean Medicine Clinic. All rights reserved.</p>
       </footer>
       {modal && (
         <div className="ft-modal-backdrop" onClick={() => setModal(null)}>

@@ -1852,6 +1852,11 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.10);
 }
 
+.ft-inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 .ft-name {
   font-size: clamp(1rem, 3.5vw, 1.2rem);
   font-weight: 600;
@@ -2089,8 +2094,8 @@ br.pc { display: none; }
 
   /* Footer */
   .s-footer {
-    padding-left: max(64px, calc(50vw - 380px));
-    padding-right: max(64px, calc(50vw - 380px));
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   /* Cause: 좌우 여백 통일 */
