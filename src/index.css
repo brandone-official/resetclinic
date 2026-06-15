@@ -1429,13 +1429,9 @@ body {
 
 .faq-item {
   border-top: 1px solid #ebebeb;
-  transition: background 0.28s;
 }
 .faq-item:last-child {
   border-bottom: 1px solid #ebebeb;
-}
-.faq-item.open {
-  background: rgba(215, 102, 24, 0.035);
 }
 
 .faq-q {
@@ -1457,10 +1453,6 @@ body {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   word-break: keep-all;
-  transition: padding 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.faq-item.open .faq-q {
-  padding: 22px 16px;
 }
 
 .faq-chev {
@@ -1490,10 +1482,6 @@ body {
 
 .faq-a-inner {
   padding: 0 0 24px;
-  transition: padding 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.faq-item.open .faq-a-inner {
-  padding: 0 16px 28px;
 }
 
 .faq-lead {
