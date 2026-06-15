@@ -647,15 +647,43 @@ function Trust() {
 
       {/* Part 3: 원장 프로필 */}
       <div className="tr-profile">
-        <Reveal>
-          <p className="tr-prof-name">박승현 원장</p>
-          <p className="tr-prof-sub">전주W한의원 · 리셋다이어트</p>
-          <ul className="tr-prof-list">
-            <li>갱년기 다이어트 전문 진료</li>
-            <li>동료 의사·한의사 생화학 스터디 운영</li>
-            <li>데이터 기반 환자 맞춤 진료</li>
-          </ul>
-        </Reveal>
+        {/* 상단: 좌우 분할 */}
+        <div className="tr-prof-top">
+          {/* 좌측: 크림 배경 + 사진 + 이름/소속 */}
+          <div className="tr-prof-left">
+            <Reveal>
+              <img src="/images/doctor.png" alt="박승현 원장" className="tr-prof-img" />
+              <p className="tr-prof-name">박승현 원장</p>
+              <p className="tr-prof-sub">전주W한의원 · 리셋다이어트</p>
+            </Reveal>
+          </div>
+          {/* 우측: 네이비 배경 + 앵커 카피 */}
+          <div className="tr-prof-right">
+            <Reveal>
+              <p className="tr-prof-anchor">
+                10년이 쌓은<br />
+                <span className="hi-orange">한 가지 확신</span>
+              </p>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* 하단: 전체 너비 크림 배경 + 스토리 + 약력 */}
+        <div className="tr-prof-bottom">
+          <Reveal>
+            <p className="tr-prof-story">
+              10년 이상 다이어트와 대사질환을 진료하며<br className="pc" />
+              반복해서 확인한 게 하나 있습니다.<br />
+              갱년기 살은 의지의 문제가 아닙니다.<br />
+              방법이 달라야 합니다.
+            </p>
+            <ul className="tr-prof-list">
+              <li>갱년기 다이어트 전문 진료</li>
+              <li>동료 의사·한의사 생화학 스터디 운영</li>
+              <li>데이터 기반 환자 맞춤 진료</li>
+            </ul>
+          </Reveal>
+        </div>
       </div>
 
       {/* Part 4: 유튜브 */}
