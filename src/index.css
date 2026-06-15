@@ -1158,7 +1158,7 @@ body {
   bottom: 32px;
   left: 0;
   right: 0;
-  text-align: center;
+  text-align: right;
   z-index: 2;
   padding: 0 20px;
 }
