@@ -1591,12 +1591,12 @@ body {
 }
 
 .kk-avatar {
-  width: 68px;
-  height: 68px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 2px solid rgba(255, 255, 255, 0.12);
+  border: 3px solid #D76618;
 }
 
 .kk-bubble {
