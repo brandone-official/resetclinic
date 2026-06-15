@@ -550,20 +550,15 @@ function PhilosophySwipe() {
         hintRef.current?.classList.add('b-hint--hidden')
       }
     }
-    const slides = Array.from(track.querySelectorAll<HTMLElement>('.b-slide'))
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const idx = slides.indexOf(entry.target as HTMLElement)
-            if (idx !== -1) updateUI(idx)
-          }
-        })
-      },
-      { root: track, threshold: 0.5 }
-    )
-    slides.forEach(slide => observer.observe(slide))
-    return () => observer.disconnect()
+    let timer: ReturnType<typeof setTimeout>
+    const onScroll = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        updateUI(Math.round(track.scrollLeft / track.clientWidth))
+      }, 150)
+    }
+    track.addEventListener('scroll', onScroll, { passive: true })
+    return () => { clearTimeout(timer); track.removeEventListener('scroll', onScroll) }
   }, [])
 
   const goTo = (idx: number) => {
