@@ -659,7 +659,7 @@ function Trust() {
           <div className="tr-prof-right">
             <p className="tr-prof-anchor">
               10년이 쌓은<br />
-              <span className="tr-prof-punch">한 가지 확신</span>
+              <span className="tr-prof-orange">한 가지 확신</span>
             </p>
             <div className="tr-prof-rule" />
             <div className="tr-prof-story">
