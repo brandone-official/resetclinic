@@ -539,31 +539,33 @@ function PhilosophySwipe() {
   const swipedRef = useRef(false)
   const [activeIdx, setActiveIdx] = useState(0)
 
+  const updateUI = (idx: number) => {
+    setActiveIdx(idx)
+    if (currRef.current) currRef.current.textContent = String(idx + 1).padStart(2, '0')
+    if (!swipedRef.current && idx > 0) {
+      swipedRef.current = true
+      hintRef.current?.classList.add('b-hint--hidden')
+    }
+  }
+
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    const updateUI = (idx: number) => {
-      setActiveIdx(idx)
-      if (currRef.current) currRef.current.textContent = String(idx + 1).padStart(2, '0')
-      if (!swipedRef.current && idx > 0) {
-        swipedRef.current = true
-        hintRef.current?.classList.add('b-hint--hidden')
-      }
+    const onTouchEnd = () => {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() =>
+          updateUI(Math.round(track.scrollLeft / track.clientWidth))
+        )
+      )
     }
-    let timer: ReturnType<typeof setTimeout>
-    const onScroll = () => {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        updateUI(Math.round(track.scrollLeft / track.clientWidth))
-      }, 150)
-    }
-    track.addEventListener('scroll', onScroll, { passive: true })
-    return () => { clearTimeout(timer); track.removeEventListener('scroll', onScroll) }
+    track.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => track.removeEventListener('touchend', onTouchEnd)
   }, [])
 
   const goTo = (idx: number) => {
     if (!trackRef.current) return
     trackRef.current.scrollTo({ left: idx * trackRef.current.clientWidth, behavior: 'smooth' })
+    updateUI(idx)
   }
 
   return (
