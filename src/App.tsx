@@ -546,44 +546,30 @@ function PhilosophySwipe() {
     const track = trackRef.current
     if (!track) return
 
-    let snapTimer: ReturnType<typeof setTimeout>
-    let cleanupTimer: ReturnType<typeof setTimeout>
-    let bound = false
+    const readIdx = () =>
+      setActive(Math.round(track.scrollLeft / track.clientWidth))
 
-    // scroll-snap 안착 감지: 80ms 동안 scroll이 없으면 확정
-    const onScroll = () => {
-      clearTimeout(snapTimer)
-      snapTimer = setTimeout(() => {
-        track.removeEventListener('scroll', onScroll)
-        clearTimeout(cleanupTimer)
-        bound = false
-        setActive(Math.round(track.scrollLeft / track.clientWidth))
-      }, 80)
-    }
-
-    // touchend로 스와이프 감지 → scroll 리스너 등록
-    const onTouchEnd = () => {
-      if (bound) return
-      bound = true
+    if ('onscrollend' in window) {
+      // scrollend: iOS Safari 16.4+, Chrome 114+, Firefox 109+
+      // scroll-snap 완료 후 정확히 한 번 발화
+      track.addEventListener('scrollend', readIdx, { passive: true })
+      return () => track.removeEventListener('scrollend', readIdx)
+    } else {
+      // Fallback: scroll + 80ms 디바운스
+      let timer: ReturnType<typeof setTimeout>
+      const onScroll = () => {
+        clearTimeout(timer)
+        timer = setTimeout(readIdx, 80)
+      }
       track.addEventListener('scroll', onScroll, { passive: true })
-      // 제자리 탭 등 scroll이 발생하지 않을 때 리스너 정리
-      cleanupTimer = setTimeout(() => {
+      return () => {
+        clearTimeout(timer)
         track.removeEventListener('scroll', onScroll)
-        bound = false
-      }, 500)
-    }
-
-    track.addEventListener('touchend', onTouchEnd, { passive: true })
-
-    return () => {
-      clearTimeout(snapTimer)
-      clearTimeout(cleanupTimer)
-      track.removeEventListener('touchend', onTouchEnd)
-      track.removeEventListener('scroll', onScroll)
+      }
     }
   }, [])
 
-  // PC 화살표·dot 버튼: 목적지 idx를 직접 받아 즉시 업데이트
+  // PC 화살표·dot 버튼: 목적지 idx 직접 수신 → 즉시 업데이트
   const goTo = (next: number) => {
     const track = trackRef.current
     if (!track) return
