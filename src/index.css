@@ -1335,7 +1335,7 @@ body {
 }
 
 .tr-yt-title {
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #1A3270;
@@ -1343,8 +1343,8 @@ body {
 }
 
 .tr-yt-desc {
-  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-  font-weight: 400;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 300;
   letter-spacing: -0.01em;
   color: #444444;
   margin-bottom: 24px;
@@ -1372,7 +1372,7 @@ body {
   display: inline-block;
   background: #D76618;
   color: #ffffff;
-  font-size: clamp(1rem, 3vw, 1.1rem);
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
   font-weight: 600;
   letter-spacing: -0.01em;
   padding: 16px 40px;
