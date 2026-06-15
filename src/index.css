@@ -1597,7 +1597,7 @@ body {
   object-fit: cover;
   object-position: center 15%;
   flex-shrink: 0;
-  border: 1.5px solid #D76618;
+  border: 1px solid #8AAACE;
 }
 
 .kk-bubble {
@@ -1605,6 +1605,7 @@ body {
   border-radius: 0 22px 22px 22px;
   padding: 18px 26px;
   position: relative;
+  border: 1.5px solid #D76618;
   filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.32));
 }
 
