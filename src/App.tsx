@@ -650,6 +650,7 @@ function Trust() {
         <div className="tr-prof-grid">
           <div className="tr-prof-left">
             <img src="/images/doctor.png" alt="박승현 원장" className="tr-prof-img" />
+            <div className="tr-prof-overlay" />
             <div className="tr-prof-caption">
               <p className="tr-prof-name">박승현 원장</p>
               <p className="tr-prof-sub">전주W한의원 · 리셋다이어트</p>
