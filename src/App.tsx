@@ -534,27 +534,23 @@ const PHIL_SVGS = [PHIL_SVG_01, PHIL_SVG_02, PHIL_SVG_03]
 
 function PhilosophySwipe() {
   const trackRef = useRef<HTMLDivElement>(null)
-  const currRef  = useRef<HTMLSpanElement>(null)
-  const hintRef  = useRef<HTMLDivElement>(null)
-  const swipedRef = useRef(false)
-  const [activeIdx, setActiveIdx] = useState(0)
+  const [idx, setIdx] = useState(0)
+  const [hintVisible, setHintVisible] = useState(true)
 
-  const updateUI = (idx: number) => {
-    setActiveIdx(idx)
-    if (currRef.current) currRef.current.textContent = String(idx + 1).padStart(2, '0')
-    if (!swipedRef.current && idx > 0) {
-      swipedRef.current = true
-      hintRef.current?.classList.add('b-hint--hidden')
-    }
+  // 인디케이터 업데이트 — 모바일/PC 두 경로가 모두 호출
+  const setActive = (next: number) => {
+    setIdx(next)
+    if (next > 0) setHintVisible(false)
   }
 
+  // 모바일: touchend + double rAF (scroll-snap 안착 후 scrollLeft 읽기)
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
     const onTouchEnd = () => {
       requestAnimationFrame(() =>
         requestAnimationFrame(() =>
-          updateUI(Math.round(track.scrollLeft / track.clientWidth))
+          setActive(Math.round(track.scrollLeft / track.clientWidth))
         )
       )
     }
@@ -562,10 +558,12 @@ function PhilosophySwipe() {
     return () => track.removeEventListener('touchend', onTouchEnd)
   }, [])
 
-  const goTo = (idx: number) => {
-    if (!trackRef.current) return
-    trackRef.current.scrollTo({ left: idx * trackRef.current.clientWidth, behavior: 'smooth' })
-    updateUI(idx)
+  // PC 화살표·dot 버튼: 목적지 idx를 직접 받아 즉시 업데이트
+  const goTo = (next: number) => {
+    const track = trackRef.current
+    if (!track) return
+    track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' })
+    setActive(next)
   }
 
   return (
@@ -585,9 +583,10 @@ function PhilosophySwipe() {
           </div>
         ))}
       </div>
+
       <button
-        className={`b-arrow b-arrow--prev${activeIdx === 0 ? ' b-arrow--disabled' : ''}`}
-        onClick={() => goTo(Math.max(0, activeIdx - 1))}
+        className={`b-arrow b-arrow--prev${idx === 0 ? ' b-arrow--disabled' : ''}`}
+        onClick={() => goTo(Math.max(0, idx - 1))}
         aria-label="이전 카드"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -595,28 +594,30 @@ function PhilosophySwipe() {
         </svg>
       </button>
       <button
-        className={`b-arrow b-arrow--next${activeIdx === 2 ? ' b-arrow--disabled' : ''}`}
-        onClick={() => goTo(Math.min(2, activeIdx + 1))}
+        className={`b-arrow b-arrow--next${idx === 2 ? ' b-arrow--disabled' : ''}`}
+        onClick={() => goTo(Math.min(2, idx + 1))}
         aria-label="다음 카드"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
+
       <div className="b-nav">
         <div className="b-dots">
           {[0, 1, 2].map(i => (
             <button
               key={i}
-              className={`b-dot${activeIdx === i ? ' b-active' : ''}`}
+              className={`b-dot${idx === i ? ' b-active' : ''}`}
               onClick={() => goTo(i)}
               aria-label={`${i + 1}번 카드`}
             />
           ))}
         </div>
-        <div className="b-counter"><span ref={currRef}>01</span> / 03</div>
+        <div className="b-counter">{String(idx + 1).padStart(2, '0')} / 03</div>
       </div>
-      <div className="b-hint" ref={hintRef}>← 스와이프 →</div>
+
+      {hintVisible && <div className="b-hint">← 스와이프 →</div>}
     </div>
   )
 }
