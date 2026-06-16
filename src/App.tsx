@@ -1061,7 +1061,6 @@ function HomePage() {
     const state = location.state as { openSurvey?: boolean } | null
     if (state?.openSurvey === true && !sessionStorage.getItem('surveyOpened')) {
       sessionStorage.setItem('surveyOpened', 'true')
-      document.getElementById('selftest')?.scrollIntoView({ behavior: 'instant' })
       setShowSurvey(true)
       navigate(location.pathname, { replace: true, state: {} })
     }
