@@ -2314,6 +2314,18 @@ br.pc { display: none; }
   transform: scale(.93);
 }
 
+.qm-mob-phone i {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #1A3270;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
 .qm-mob-kakao {
   color: #3C1E1E;
 }

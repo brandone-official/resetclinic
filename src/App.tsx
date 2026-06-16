@@ -1122,7 +1122,7 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
 
       {/* 모바일: 하단 고정 바 */}
       <nav className="qm-mob">
-        <a href="tel:063-221-7500" className="qm-mob-btn">
+        <a href="tel:063-221-7500" className="qm-mob-btn qm-mob-phone">
           <i className="ti ti-phone" />
           <span>전화</span>
         </a>
