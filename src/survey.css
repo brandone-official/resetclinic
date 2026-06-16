@@ -8,7 +8,7 @@
 .sv-overlay {
   font-family: 'Pretendard Variable', 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   -webkit-font-smoothing: antialiased;
-  min-height: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
