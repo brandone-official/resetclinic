@@ -60,13 +60,17 @@ function TopSection() {
             <span>안 빠지는 몸엔</span>
           </div>
         </div>
-        <img className="s-top-logo" src="/images/logo.png" alt="리셋 다이어트" />
-        <div className="s-top-sub">
-          <span className="s-top-sub-line" />
-          <span className="s-top-sub-text">리셋 바디</span>
-          <span className="s-top-sub-amp">&amp;</span>
-          <span className="s-top-sub-text">리셋 마인드</span>
-          <span className="s-top-sub-line" />
+        <div className="s-top-brand">
+          <div className="s-top-logo-wrap">
+            <img className="s-top-logo" src="/images/logo.png" alt="리셋 다이어트" />
+          </div>
+          <div className="s-top-sub">
+            <span className="s-top-sub-line" />
+            <span className="s-top-sub-text">리셋 바디</span>
+            <span className="s-top-sub-amp">&amp;</span>
+            <span className="s-top-sub-text">리셋 마인드</span>
+            <span className="s-top-sub-line" />
+          </div>
         </div>
       </div>
 
