@@ -1090,11 +1090,51 @@ function HomePage() {
         <VisitGuide />
       </main>
       <SiteFooter />
+      {!showSurvey && <QuickMenu onSurvey={() => setShowSurvey(true)} />}
       {showSurvey && (
         <div style={{ position:'fixed', inset:0, zIndex:1000, overflowY:'auto' }}>
           <Survey onClose={closeSurvey} />
         </div>
       )}
+    </>
+  )
+}
+
+// ── QuickMenu — 플로팅 퀵메뉴 ────────────────────────
+function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
+  return (
+    <>
+      {/* PC: 우하단 세로 플로팅 */}
+      <div className="qm-pc">
+        <a href="tel:063-221-7500" className="qm-pc-btn" aria-label="전화 연결">
+          <i className="ti ti-phone" />
+          <span>전화</span>
+        </a>
+        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-btn" aria-label="카카오톡 상담">
+          <i className="ti ti-message-circle" />
+          <span>카카오톡</span>
+        </a>
+        <button onClick={onSurvey} className="qm-pc-btn qm-pc-survey" aria-label="자가진단">
+          <i className="ti ti-clipboard-heart" />
+          <span>자가진단</span>
+        </button>
+      </div>
+
+      {/* 모바일: 하단 고정 바 */}
+      <nav className="qm-mob">
+        <a href="tel:063-221-7500" className="qm-mob-btn">
+          <i className="ti ti-phone" />
+          <span>전화</span>
+        </a>
+        <button onClick={onSurvey} className="qm-mob-btn qm-mob-survey">
+          <i className="ti ti-clipboard-heart" />
+          <span>자가진단</span>
+        </button>
+        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-mob-btn">
+          <i className="ti ti-message-circle" />
+          <span>카카오톡</span>
+        </a>
+      </nav>
     </>
   )
 }
