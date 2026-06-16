@@ -53,7 +53,7 @@ function TopSection() {
         <div className="s-top-text">
           <div className="s-top-wipe-line">
             <div className="s-top-bar" />
-            <span>갱년기,</span>
+            <span className="s-top-accent">갱년기!</span>
           </div>
           <div className="s-top-wipe-line s-top-wipe-line--2">
             <div className="s-top-bar" />

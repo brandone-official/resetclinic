@@ -114,6 +114,7 @@ body {
   word-break: keep-all;
   color: var(--text);
 }
+.s-top-accent { color: var(--orange); }
 .s-top-wipe-line span {
   display: block;
   clip-path: inset(0 100% 0 0);
