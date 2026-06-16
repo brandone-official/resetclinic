@@ -1068,9 +1068,6 @@ function HomePage() {
 
   function closeSurvey() {
     setShowSurvey(false)
-    setTimeout(() => {
-      document.getElementById('selftest')?.scrollIntoView({ behavior: 'instant' })
-    }, 50)
   }
 
   return (
