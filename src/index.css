@@ -2336,95 +2336,83 @@ br.pc { display: none; }
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 0;
     border: none;
     background: transparent;
     cursor: pointer;
     text-decoration: none;
     font-family: inherit;
     -webkit-tap-highlight-color: transparent;
-    position: relative;
+    padding: 0;
   }
 
-  /* 아이콘 원형 버튼 */
-  .qm-pc-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--white);
-    color: var(--navy);
+  /* pill: 라벨+아이콘을 감싸는 캡슐 */
+  .qm-pc-pill {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--white);
     box-shadow: 0 2px 12px rgba(0,0,0,.1);
-    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, background .25s, color .25s;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
+    overflow: hidden;
+    transition: box-shadow .3s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1);
   }
 
-  /* hover 라벨 슬라이드 */
+  .qm-pc-item:hover .qm-pc-pill {
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    transform: translateY(-2px);
+  }
+
+  .qm-pc-item:active .qm-pc-pill {
+    transform: scale(.96);
+  }
+
+  /* 라벨: 기본 숨김, hover 시 슬라이드 */
   .qm-pc-label {
-    position: absolute;
-    right: 56px;
+    max-width: 0;
+    overflow: hidden;
     white-space: nowrap;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--white);
-    background: var(--navy);
-    padding: 6px 14px;
-    border-radius: 8px;
+    color: var(--navy);
+    padding: 0;
     opacity: 0;
-    transform: translateX(8px);
-    pointer-events: none;
-    transition: opacity .25s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1);
-    z-index: 1;
-    box-shadow: 0 2px 8px rgba(0,0,0,.12);
-  }
-
-  .qm-pc-label::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 5px solid transparent;
-    border-left-color: var(--navy);
-    border-right: none;
+    transition: max-width .35s cubic-bezier(.22,1,.36,1), padding .35s cubic-bezier(.22,1,.36,1), opacity .25s;
   }
 
   .qm-pc-item:hover .qm-pc-label {
+    max-width: 100px;
+    padding: 0 0 0 16px;
     opacity: 1;
-    transform: translateX(0);
   }
 
-  .qm-pc-item:hover .qm-pc-icon {
-    transform: scale(1.08);
-    box-shadow: 0 4px 20px rgba(0,0,0,.14);
-  }
-
-  .qm-pc-item:active .qm-pc-icon {
-    transform: scale(.95);
+  /* 아이콘 원형 영역 */
+  .qm-pc-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--navy);
+    font-size: 1.3rem;
   }
 
   /* 자가진단 강조 */
-  .qm-pc-survey .qm-pc-icon {
+  .qm-pc-survey .qm-pc-pill {
     background: var(--orange);
-    color: var(--white);
     box-shadow: 0 3px 14px rgba(215,102,24,.35);
   }
 
-  .qm-pc-survey:hover .qm-pc-icon {
-    background: #c05510;
-    box-shadow: 0 5px 22px rgba(215,102,24,.4);
+  .qm-pc-survey .qm-pc-icon {
+    color: var(--white);
   }
 
   .qm-pc-survey .qm-pc-label {
-    background: var(--orange);
+    color: var(--white);
   }
 
-  .qm-pc-survey .qm-pc-label::after {
-    border-left-color: var(--orange);
+  .qm-pc-survey:hover .qm-pc-pill {
+    background: #c05510;
+    box-shadow: 0 5px 22px rgba(215,102,24,.4);
   }
 }

@@ -1107,16 +1107,22 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
       {/* PC: 우하단 세로 플로팅 */}
       <div className="qm-pc">
         <a href="tel:063-221-7500" className="qm-pc-item" aria-label="전화 연결">
-          <span className="qm-pc-label">전화 연결</span>
-          <span className="qm-pc-icon"><i className="ti ti-phone" /></span>
+          <span className="qm-pc-pill">
+            <span className="qm-pc-label">전화 연결</span>
+            <span className="qm-pc-icon"><i className="ti ti-phone"></i></span>
+          </span>
         </a>
         <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-item" aria-label="카카오톡 상담">
-          <span className="qm-pc-label">카카오톡</span>
-          <span className="qm-pc-icon"><i className="ti ti-message-circle" /></span>
+          <span className="qm-pc-pill">
+            <span className="qm-pc-label">카카오톡</span>
+            <span className="qm-pc-icon"><i className="ti ti-message-circle"></i></span>
+          </span>
         </a>
         <button onClick={onSurvey} className="qm-pc-item qm-pc-survey" aria-label="자가진단">
-          <span className="qm-pc-label">자가진단</span>
-          <span className="qm-pc-icon"><i className="ti ti-clipboard-heart" /></span>
+          <span className="qm-pc-pill">
+            <span className="qm-pc-label">자가진단</span>
+            <span className="qm-pc-icon"><i className="ti ti-stethoscope"></i></span>
+          </span>
         </button>
       </div>
 
