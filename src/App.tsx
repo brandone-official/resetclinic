@@ -37,10 +37,20 @@ function TopSection() {
     const start = () => {
       const line1 = el.querySelector('.s-top-wipe-line') as HTMLElement
       const line2 = el.querySelector('.s-top-wipe-line--2') as HTMLElement
-      if (!line1 || !line2) return
+      const brand = el.querySelector('.s-top-brand') as HTMLElement
+      const sub = el.querySelector('.s-top-sub') as HTMLElement
+      const scroll = el.querySelector('.s-top-scroll') as HTMLElement
+      if (!line1 || !line2 || !brand || !sub) return
       line1.classList.add('is-active')
       line1.querySelector('span')!.addEventListener('animationend', () => {
         line2.classList.add('is-active')
+        line2.querySelector('span')!.addEventListener('animationend', () => {
+          brand.classList.add('is-active')
+          brand.addEventListener('animationend', () => {
+            sub.classList.add('is-active')
+            if (scroll) scroll.classList.add('is-active')
+          }, { once: true })
+        }, { once: true })
       }, { once: true })
       el.classList.add('is-ready')
     }
