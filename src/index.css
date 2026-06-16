@@ -2230,12 +2230,10 @@ br.pc { display: none; }
 
 /* ── QuickMenu ────────────────────────────── */
 
-/* PC: 우하단 세로 플로팅 */
-.qm-pc {
-  display: none;
-}
+/* PC: 모바일에서 숨김 */
+.qm-pc { display: none; }
 
-/* 모바일: 하단 고정 바 */
+/* ── 모바일 하단 바 ── */
 .qm-mob {
   position: fixed;
   bottom: 0;
@@ -2243,12 +2241,13 @@ br.pc { display: none; }
   right: 0;
   z-index: 900;
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
+  justify-content: center;
   background: var(--white);
   border-top: 1px solid var(--line);
-  box-shadow: 0 -2px 12px rgba(0,0,0,.08);
-  padding: 0;
-  height: 64px;
+  box-shadow: 0 -2px 16px rgba(0,0,0,.06);
+  height: 60px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .qm-mob-btn {
@@ -2257,125 +2256,175 @@ br.pc { display: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
+  height: 100%;
   border: none;
   background: transparent;
-  color: var(--soft);
-  font-size: 0.68rem;
+  color: var(--muted);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
   font-family: inherit;
   cursor: pointer;
   text-decoration: none;
-  transition: color .2s;
+  transition: color .15s;
   -webkit-tap-highlight-color: transparent;
 }
 
 .qm-mob-btn i {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
 .qm-mob-btn:active {
+  color: var(--text);
+}
+
+/* 중앙 돌출 자가진단 */
+.qm-mob-survey {
+  flex: none;
+  width: 80px;
+  position: relative;
+  gap: 0;
   color: var(--orange);
 }
 
-.qm-mob-survey {
-  position: relative;
-  flex: 1.3;
-}
-
-.qm-mob-survey i {
-  width: 44px;
-  height: 44px;
+.qm-mob-survey-icon {
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   background: var(--orange);
   color: var(--white);
-  font-size: 1.35rem;
-  box-shadow: 0 2px 10px rgba(215,102,24,.35);
-  margin-top: -18px;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 14px rgba(215,102,24,.3);
+  margin-top: -28px;
+  flex-shrink: 0;
 }
 
-.qm-mob-survey span {
-  color: var(--orange);
-  font-weight: 600;
-  margin-top: 1px;
+.qm-mob-survey span:last-child {
+  font-weight: 700;
+  font-size: 0.625rem;
+  margin-top: 2px;
+}
+
+.qm-mob-survey:active .qm-mob-survey-icon {
+  transform: scale(.93);
 }
 
 /* Footer 하단 여백 확보 (모바일) */
-.s-footer {
-  padding-bottom: 80px;
-}
+.s-footer { padding-bottom: 76px; }
 
+/* ── PC 플로팅 ── */
 @media (min-width: 640px) {
-  /* PC: 플로팅 세로 배치 */
+  .qm-mob { display: none; }
+  .s-footer { padding-bottom: 64px; }
+
   .qm-pc {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     position: fixed;
     bottom: 32px;
     right: 28px;
     z-index: 900;
   }
 
-  .qm-pc-btn {
+  .qm-pc-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
+    justify-content: flex-end;
+    gap: 0;
     border: none;
-    background: var(--white);
-    color: var(--soft);
-    font-size: 0.65rem;
-    font-family: inherit;
-    font-weight: 500;
+    background: transparent;
     cursor: pointer;
     text-decoration: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,.1);
-    transition: transform .2s, box-shadow .2s, color .2s;
+    font-family: inherit;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
   }
 
-  .qm-pc-btn i {
-    font-size: 1.3rem;
-    line-height: 1;
-  }
-
-  .qm-pc-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 18px rgba(0,0,0,.14);
+  /* 아이콘 원형 버튼 */
+  .qm-pc-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--white);
     color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.1);
+    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, background .25s, color .25s;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
   }
 
-  .qm-pc-btn:active {
+  /* hover 라벨 슬라이드 */
+  .qm-pc-label {
+    position: absolute;
+    right: 56px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+    background: var(--navy);
+    padding: 6px 14px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateX(8px);
+    pointer-events: none;
+    transition: opacity .25s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1);
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+
+  .qm-pc-label::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: var(--navy);
+    border-right: none;
+  }
+
+  .qm-pc-item:hover .qm-pc-label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .qm-pc-item:hover .qm-pc-icon {
+    transform: scale(1.08);
+    box-shadow: 0 4px 20px rgba(0,0,0,.14);
+  }
+
+  .qm-pc-item:active .qm-pc-icon {
     transform: scale(.95);
   }
 
-  .qm-pc-survey {
+  /* 자가진단 강조 */
+  .qm-pc-survey .qm-pc-icon {
     background: var(--orange);
     color: var(--white);
     box-shadow: 0 3px 14px rgba(215,102,24,.35);
   }
 
-  .qm-pc-survey:hover {
+  .qm-pc-survey:hover .qm-pc-icon {
     background: #c05510;
-    color: var(--white);
-    box-shadow: 0 5px 20px rgba(215,102,24,.45);
+    box-shadow: 0 5px 22px rgba(215,102,24,.4);
   }
 
-  /* 모바일 바 숨김 */
-  .qm-mob {
-    display: none;
+  .qm-pc-survey .qm-pc-label {
+    background: var(--orange);
   }
 
-  /* Footer 여백 리셋 */
-  .s-footer {
-    padding-bottom: 64px;
+  .qm-pc-survey .qm-pc-label::after {
+    border-left-color: var(--orange);
   }
 }

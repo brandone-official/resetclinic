@@ -1106,17 +1106,17 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
     <>
       {/* PC: 우하단 세로 플로팅 */}
       <div className="qm-pc">
-        <a href="tel:063-221-7500" className="qm-pc-btn" aria-label="전화 연결">
-          <i className="ti ti-phone" />
-          <span>전화</span>
+        <a href="tel:063-221-7500" className="qm-pc-item" aria-label="전화 연결">
+          <span className="qm-pc-label">전화 연결</span>
+          <span className="qm-pc-icon"><i className="ti ti-phone" /></span>
         </a>
-        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-btn" aria-label="카카오톡 상담">
-          <i className="ti ti-message-circle" />
-          <span>카카오톡</span>
+        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-item" aria-label="카카오톡 상담">
+          <span className="qm-pc-label">카카오톡</span>
+          <span className="qm-pc-icon"><i className="ti ti-message-circle" /></span>
         </a>
-        <button onClick={onSurvey} className="qm-pc-btn qm-pc-survey" aria-label="자가진단">
-          <i className="ti ti-clipboard-heart" />
-          <span>자가진단</span>
+        <button onClick={onSurvey} className="qm-pc-item qm-pc-survey" aria-label="자가진단">
+          <span className="qm-pc-label">자가진단</span>
+          <span className="qm-pc-icon"><i className="ti ti-clipboard-heart" /></span>
         </button>
       </div>
 
@@ -1127,7 +1127,7 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
           <span>전화</span>
         </a>
         <button onClick={onSurvey} className="qm-mob-btn qm-mob-survey">
-          <i className="ti ti-clipboard-heart" />
+          <span className="qm-mob-survey-icon"><i className="ti ti-clipboard-heart" /></span>
           <span>자가진단</span>
         </button>
         <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-mob-btn">
