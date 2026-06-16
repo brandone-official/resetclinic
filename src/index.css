@@ -2314,6 +2314,20 @@ br.pc { display: none; }
   transform: scale(.93);
 }
 
+.qm-mob-kakao {
+  color: #3C1E1E;
+}
+.qm-mob-kakao i {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #FEE500;
+  font-size: 1.1rem;
+}
+
 /* Footer 하단 여백 확보 (모바일) */
 .s-footer { padding-bottom: 76px; }
 
@@ -2414,5 +2428,20 @@ br.pc { display: none; }
   .qm-pc-survey:hover .qm-pc-pill {
     background: #c05510;
     box-shadow: 0 5px 22px rgba(215,102,24,.4);
+  }
+
+  .qm-pc-kakao .qm-pc-pill {
+    background: #FEE500;
+    box-shadow: 0 2px 12px rgba(254,229,0,.35);
+  }
+  .qm-pc-kakao .qm-pc-icon {
+    color: #3C1E1E;
+  }
+  .qm-pc-kakao .qm-pc-label {
+    color: #3C1E1E;
+  }
+  .qm-pc-kakao:hover .qm-pc-pill {
+    background: #F5DC00;
+    box-shadow: 0 4px 20px rgba(254,229,0,.45);
   }
 }
