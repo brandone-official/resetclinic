@@ -1065,6 +1065,11 @@ function HomePage() {
     }
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = showSurvey ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [showSurvey])
+
   function closeSurvey() {
     setShowSurvey(false)
   }
