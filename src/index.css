@@ -2314,6 +2314,9 @@ br.pc { display: none; }
   transform: scale(.93);
 }
 
+.qm-mob-phone {
+  color: #3C1E1E;
+}
 .qm-mob-phone i {
   width: 32px;
   height: 32px;
