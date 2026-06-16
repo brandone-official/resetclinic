@@ -142,7 +142,7 @@ body {
 
 /* 브랜드 그룹 — 로고 + 서브 텍스트 한 세트 */
 .s-top-brand {
-  margin-top: 12px;
+  margin-top: 32px;
   display: flex; flex-direction: column; align-items: center;
   opacity: 0;
   animation: top-logo-in 1s cubic-bezier(.19,1,.22,1) forwards;
@@ -167,12 +167,12 @@ body {
   width: 100%;
   height: auto;
   margin-top: -34%;
-  margin-bottom: -18%;
+  margin-bottom: -28%;
 }
 
 /* 서브 텍스트 — 로고 바로 아래 */
 .s-top-sub {
-  margin-top: 4px;
+  margin-top: 0;
   display: flex; align-items: center; justify-content: center; gap: 12px;
 }
 .s-top-sub-text {
