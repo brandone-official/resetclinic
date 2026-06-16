@@ -118,26 +118,20 @@ body {
 .s-top-wipe-line span {
   display: block;
   clip-path: inset(0 100% 0 0);
-  animation: top-wipe .8s cubic-bezier(.77,0,.175,1) forwards;
-  animation-play-state: paused;
 }
 .s-top-bar {
   position: absolute; top: 0; left: 0; width: 3px; height: 100%;
   background: var(--orange);
   opacity: 0;
-  animation: top-bar-show 0s forwards, top-bar .8s cubic-bezier(.77,0,.175,1) forwards;
-  animation-play-state: paused;
 }
-.s-top.is-ready .s-top-wipe-line span,
-.s-top.is-ready .s-top-wipe-line .s-top-bar {
-  animation-play-state: running;
+.s-top-wipe-line.is-active span {
+  animation: top-wipe .8s cubic-bezier(.77,0,.175,1) forwards;
 }
-.s-top-wipe-line--2 span { animation-delay: .9s !important; }
-.s-top-wipe-line--2 .s-top-bar {
-  animation-delay: .9s, .9s !important;
+.s-top-wipe-line.is-active .s-top-bar {
+  opacity: 1;
+  animation: top-bar .8s cubic-bezier(.77,0,.175,1) forwards;
 }
 @keyframes top-wipe { to { clip-path: inset(0 0% 0 0); } }
-@keyframes top-bar-show { to { opacity: 1; } }
 @keyframes top-bar { 0% { left: 0; } 100% { left: 100%; } }
 
 /* 브랜드 그룹 — 로고 + 서브 텍스트 한 세트 */

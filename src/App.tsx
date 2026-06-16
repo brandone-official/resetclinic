@@ -34,11 +34,18 @@ function TopSection() {
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    if (document.readyState === 'complete') {
+    const start = () => {
+      const line1 = el.querySelector('.s-top-wipe-line') as HTMLElement
+      const line2 = el.querySelector('.s-top-wipe-line--2') as HTMLElement
+      if (!line1 || !line2) return
+      line1.classList.add('is-active')
+      line1.querySelector('span')!.addEventListener('animationend', () => {
+        line2.classList.add('is-active')
+      }, { once: true })
       el.classList.add('is-ready')
-    } else {
-      window.addEventListener('load', () => el.classList.add('is-ready'), { once: true })
     }
+    if (document.readyState === 'complete') start()
+    else window.addEventListener('load', start, { once: true })
   }, [])
   return (
     <section className="s-top" ref={ref}>
