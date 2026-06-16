@@ -42,7 +42,9 @@ function TopSection() {
   }, [])
   return (
     <section className="s-top" ref={ref}>
-      <div className="s-top-orbit"><span /><span /></div>
+      <svg className="s-top-ring" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="90" />
+      </svg>
 
       <div className="s-top-content">
         <div className="s-top-text">
@@ -56,9 +58,6 @@ function TopSection() {
           </div>
         </div>
         <img className="s-top-logo" src="/images/logo.png" alt="리셋 다이어트" />
-      </div>
-
-      <div className="s-top-bottom">
         <div className="s-top-sub">
           <span className="s-top-sub-line" />
           <span className="s-top-sub-text">리셋 바디</span>
@@ -66,10 +65,11 @@ function TopSection() {
           <span className="s-top-sub-text">리셋 마인드</span>
           <span className="s-top-sub-line" />
         </div>
-        <div className="s-top-scroll" aria-hidden="true">
-          <span>SCROLL</span>
-          <div className="s-top-scroll-dot" />
-        </div>
+      </div>
+
+      <div className="s-top-scroll" aria-hidden="true">
+        <span>SCROLL</span>
+        <div className="s-top-scroll-dot" />
       </div>
     </section>
   )
