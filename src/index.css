@@ -82,23 +82,19 @@ body {
   justify-content: center;
 }
 
-/* 배경 — 리셋 순환 링 */
-.s-top-ring {
+/* 배경 — 리셋 순환 화살표 */
+.s-top-bg {
   position: absolute; z-index: 1;
-  width: 70vmin; height: 70vmin;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  animation: top-ring-spin 20s linear infinite;
+  width: 65vmin; height: 65vmin;
+  color: rgba(215,102,24,.1);
 }
-.s-top-ring circle {
-  fill: none;
-  stroke: var(--orange);
-  stroke-width: .4;
-  stroke-dasharray: 8 20;
-  stroke-linecap: round;
-  opacity: .12;
+.s-top-bg svg {
+  width: 100%; height: 100%;
+  animation: top-bg-spin 18s linear infinite;
 }
-@keyframes top-ring-spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes top-bg-spin { to { transform: rotate(360deg); } }
 
 /* 콘텐츠 영역 */
 .s-top-content {
@@ -111,7 +107,7 @@ body {
 }
 .s-top-wipe-line {
   position: relative; overflow: hidden;
-  font-size: clamp(2.4rem, 9vw, 4.8rem);
+  font-size: clamp(2.6rem, 9.8vw, 5.2rem);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.045em;

@@ -42,9 +42,12 @@ function TopSection() {
   }, [])
   return (
     <section className="s-top" ref={ref}>
-      <svg className="s-top-ring" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="90" />
-      </svg>
+      <div className="s-top-bg" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <path d="M100 10 A90 90 0 1 1 40 160" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
+          <polygon points="44,154 34,166 50,164" fill="currentColor" />
+        </svg>
+      </div>
 
       <div className="s-top-content">
         <div className="s-top-text">
