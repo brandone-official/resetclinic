@@ -1121,7 +1121,7 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
         <button onClick={onSurvey} className="qm-pc-item qm-pc-survey" aria-label="자가진단">
           <span className="qm-pc-pill">
             <span className="qm-pc-label">자가진단</span>
-            <span className="qm-pc-icon"><i className="ti ti-stethoscope"></i></span>
+            <span className="qm-pc-icon"><i className="ti ti-clipboard-heart"></i></span>
           </span>
         </button>
       </div>
