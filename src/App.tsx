@@ -30,10 +30,19 @@ function Reveal({ children }: { children: React.ReactNode }) {
 
 // ── 0. TopSection ────────────────────────────────────
 function TopSection() {
+  const ref = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (document.readyState === 'complete') {
+      el.classList.add('is-ready')
+    } else {
+      window.addEventListener('load', () => el.classList.add('is-ready'), { once: true })
+    }
+  }, [])
   return (
-    <section className="s-top">
-      <div className="s-top-orbit"><span /><span /><span /></div>
-      <div className="s-top-orbit s-top-orbit--2"><span /><span /></div>
+    <section className="s-top" ref={ref}>
+      <div className="s-top-orbit"><span /><span /></div>
 
       <div className="s-top-content">
         <div className="s-top-text">
@@ -47,6 +56,9 @@ function TopSection() {
           </div>
         </div>
         <img className="s-top-logo" src="/images/logo.png" alt="리셋 다이어트" />
+      </div>
+
+      <div className="s-top-bottom">
         <div className="s-top-sub">
           <span className="s-top-sub-line" />
           <span className="s-top-sub-text">리셋 바디</span>
@@ -54,11 +66,10 @@ function TopSection() {
           <span className="s-top-sub-text">리셋 마인드</span>
           <span className="s-top-sub-line" />
         </div>
-      </div>
-
-      <div className="s-top-scroll" aria-hidden="true">
-        <span>SCROLL</span>
-        <div className="s-top-scroll-dot" />
+        <div className="s-top-scroll" aria-hidden="true">
+          <span>SCROLL</span>
+          <div className="s-top-scroll-dot" />
+        </div>
       </div>
     </section>
   )
