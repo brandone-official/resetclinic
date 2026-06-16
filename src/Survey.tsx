@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import './survey.css'
 
 // ─── TYPES ──────────────────────────────────────────────────
@@ -99,19 +98,13 @@ const HRT_MSG: Record<string, string> = {
 interface SurveyProps { onClose?: () => void }
 
 export default function Survey({ onClose }: SurveyProps) {
-  const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
   const [toastVisible, setToastVisible] = useState(false)
 
-  useEffect(() => {
-    if (!onClose) navigate('/', { state: { openSurvey: true } })
-  }, [])
-
   function handleClose() {
     if (onClose) onClose()
-    else navigate('/', { state: { openSurvey: false } })
   }
 
   function handleSetAnswer(id: string, val: number) {

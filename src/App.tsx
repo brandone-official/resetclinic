@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Survey from './Survey'
 
 // ── Scroll Reveal ────────────────────────────────────
@@ -1054,17 +1054,16 @@ function SiteFooter() {
 
 // ── HomePage ─────────────────────────────────────────
 function HomePage() {
-  const [showSurvey, setShowSurvey] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
+  const initState = location.state as { openSurvey?: boolean } | null
+  const [showSurvey, setShowSurvey] = useState(initState?.openSurvey === true)
+
   useEffect(() => {
-    const state = location.state as { openSurvey?: boolean } | null
-    if (state?.openSurvey === true && !sessionStorage.getItem('surveyOpened')) {
-      sessionStorage.setItem('surveyOpened', 'true')
-      setShowSurvey(true)
+    if (initState?.openSurvey !== undefined) {
       navigate(location.pathname, { replace: true, state: {} })
     }
-  }, [location.state])
+  }, [])
 
   function closeSurvey() {
     setShowSurvey(false)
@@ -1146,7 +1145,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/survey" element={<Survey />} />
+      <Route path="/survey" element={<Navigate to="/" state={{ openSurvey: true }} replace />} />
     </Routes>
   )
 }
