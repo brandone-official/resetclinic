@@ -16,6 +16,10 @@
   background: #F7F3EE;
   box-sizing: border-box;
   overflow-y: auto;
+  scrollbar-width: none;
+}
+.sv-overlay::-webkit-scrollbar {
+  display: none;
 }
 .sv-wrap {
   width: 100%;
