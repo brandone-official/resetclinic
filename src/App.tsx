@@ -28,6 +28,48 @@ function Reveal({ children }: { children: React.ReactNode }) {
   return <div ref={ref} className="reveal">{children}</div>
 }
 
+// ── 0. TopSection ────────────────────────────────────
+function TopSection() {
+  return (
+    <section className="s-top">
+      <svg className="s-top-filter" aria-hidden="true">
+        <defs>
+          <filter id="top-goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" />
+            <feColorMatrix in="blur" mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -12" result="goo" />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+          </filter>
+        </defs>
+      </svg>
+
+      <div className="s-top-blobs">
+        <div className="s-top-blob" />
+        <div className="s-top-blob" />
+        <div className="s-top-blob" />
+      </div>
+      <div className="s-top-glass" />
+
+      <div className="s-top-orbit"><span /></div>
+      <div className="s-top-orbit s-top-orbit--2"><span /></div>
+
+      <div className="s-top-content">
+        <div className="s-top-text">
+          <p>갱년기,</p>
+          <p>안 빠지는 몸엔</p>
+        </div>
+        <img className="s-top-logo" src="/images/logo.png" alt="리셋 다이어트" />
+        <p className="s-top-sub">리셋 바디 &amp; 리셋 마인드</p>
+      </div>
+
+      <div className="s-top-scroll" aria-hidden="true">
+        <span>SCROLL</span>
+        <div className="s-top-scroll-dot" />
+      </div>
+    </section>
+  )
+}
+
 // ── 1. Hero ──────────────────────────────────────────
 function Hero() {
   return (
@@ -1077,6 +1119,7 @@ function HomePage() {
   return (
     <>
       <main>
+        <TopSection />
         <Hero />
         <Bridge />
         <Empathy />
