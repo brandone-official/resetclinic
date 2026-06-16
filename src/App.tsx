@@ -60,9 +60,10 @@ function TopSection() {
   return (
     <section className="s-top" ref={ref}>
       <div className="s-top-bg" aria-hidden="true">
+        <div className="s-top-halo" />
         <svg viewBox="0 0 200 200">
-          <path d="M100 10 A90 90 0 1 1 40 160" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
-          <polygon points="44,154 34,166 50,164" fill="currentColor" />
+          <circle className="s-top-arc-orange" cx="100" cy="100" r="90" />
+          <circle className="s-top-arc-navy" cx="100" cy="100" r="70" />
         </svg>
       </div>
 

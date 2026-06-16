@@ -82,19 +82,52 @@ body {
   justify-content: center;
 }
 
-/* 배경 — 리셋 순환 화살표 */
+/* 배경 — CG-2 이중 호 + 후광 */
 .s-top-bg {
   position: absolute; z-index: 1;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 65vmin; height: 65vmin;
-  color: rgba(215,102,24,.1);
+  width: 75vmin; height: 75vmin;
+}
+.s-top-halo {
+  position: absolute; top: 5%; left: 5%; width: 90%; height: 90%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(215,102,24,.06) 12%,
+    rgba(215,102,24,.03) 25%,
+    transparent 42%,
+    transparent 58%,
+    rgba(26,50,112,.04) 72%,
+    rgba(26,50,112,.02) 85%,
+    transparent 100%
+  );
+  animation: top-bg-spin 22s linear infinite;
+  filter: blur(8px);
 }
 .s-top-bg svg {
   width: 100%; height: 100%;
-  animation: top-bg-spin 18s linear infinite;
+  position: absolute; top: 0; left: 0;
+}
+.s-top-arc-orange {
+  fill: none; stroke: var(--orange); stroke-width: 1;
+  stroke-linecap: round; stroke-dasharray: 110 460;
+  opacity: .1;
+  --op-lo: .07; --op-hi: .14;
+  animation: top-bg-spin 16s linear infinite, top-bg-breathe 6s ease-in-out infinite;
+  transform-origin: center;
+}
+.s-top-arc-navy {
+  fill: none; stroke: var(--navy); stroke-width: .7;
+  stroke-linecap: round; stroke-dasharray: 65 375;
+  opacity: .06;
+  --op-lo: .04; --op-hi: .08;
+  animation: top-bg-spin 16s linear infinite reverse, top-bg-breathe 7s ease-in-out infinite;
+  transform-origin: center;
 }
 @keyframes top-bg-spin { to { transform: rotate(360deg); } }
+@keyframes top-bg-breathe { 0%,100% { opacity: var(--op-lo); } 50% { opacity: var(--op-hi); } }
 
 /* 콘텐츠 영역 */
 .s-top-content {
