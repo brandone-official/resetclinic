@@ -15,6 +15,7 @@
   padding: 20px 16px;
   background: #F7F3EE;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 .sv-wrap {
   width: 100%;
@@ -28,6 +29,7 @@
     background: rgba(0, 0, 0, 0.5);
     align-items: center;
     padding: 40px 16px;
+    overflow: hidden;
   }
   .sv-wrap {
     background: #F7F3EE;
@@ -35,6 +37,22 @@
     padding: 32px 28px;
     max-height: 90vh;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,.15) transparent;
+  }
+  .sv-wrap::-webkit-scrollbar {
+    width: 6px;
+  }
+  .sv-wrap::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 12px 0;
+  }
+  .sv-wrap::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.15);
+    border-radius: 3px;
+  }
+  .sv-wrap::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
   }
 }
 

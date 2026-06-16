@@ -1087,7 +1087,7 @@ function HomePage() {
       <SiteFooter />
       {!showSurvey && <QuickMenu onSurvey={() => setShowSurvey(true)} />}
       {showSurvey && (
-        <div style={{ position:'fixed', inset:0, zIndex:1000, overflowY:'auto' }}>
+        <div style={{ position:'fixed', inset:0, zIndex:1000 }}>
           <Survey onClose={closeSurvey} />
         </div>
       )}
