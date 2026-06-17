@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Survey from './Survey'
+
+const Admin = lazy(() => import('./Admin'))
 
 // ── Scroll Reveal ────────────────────────────────────
 function useReveal(threshold = 0.3) {
@@ -1218,6 +1220,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/survey" element={<Navigate to="/" state={{ openSurvey: true }} replace />} />
+      <Route path="/admin" element={<Suspense fallback={null}><Admin /></Suspense>} />
     </Routes>
   )
 }

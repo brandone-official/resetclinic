@@ -1,0 +1,130 @@
+.adm {
+  min-height: 100vh;
+  background: #f5f6f8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a2e;
+}
+.adm-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6f8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.adm-loading { color: #888; font-size: 0.95rem; }
+.adm-box {
+  text-align: center;
+  padding: 48px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  max-width: 380px;
+  width: 90%;
+}
+
+/* Buttons */
+.adm-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.adm-btn:hover { opacity: 0.85; }
+.adm-btn-google { background: #4285f4; color: #fff; padding: 12px 32px; font-size: 1rem; }
+.adm-btn-logout { background: #e8e8e8; color: #333; padding: 8px 16px; font-size: 0.8rem; }
+.adm-btn-more { display: block; margin: 20px auto 0; background: #e8e8e8; color: #333; }
+
+/* Header */
+.adm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.adm-header h1 { font-size: 1.15rem; font-weight: 700; }
+.adm-header-right { display: flex; align-items: center; gap: 12px; }
+.adm-user { font-size: 0.8rem; color: #888; }
+
+/* Body */
+.adm-body { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+
+/* Summary Cards */
+.adm-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.adm-card { background: #fff; border-radius: 12px; padding: 22px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+.adm-card-label { font-size: 0.78rem; color: #888; margin-bottom: 8px; font-weight: 500; }
+.adm-card-value { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; }
+.adm-card-sub { font-size: 0.72rem; color: #aaa; margin-top: 4px; }
+
+/* Sections */
+.adm-section { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.adm-section-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+.adm-section-count { font-weight: 400; color: #aaa; font-size: 0.8rem; margin-left: 8px; }
+.adm-empty { text-align: center; color: #bbb; padding: 32px 0; font-size: 0.9rem; }
+
+/* Distribution */
+.adm-dist { display: flex; flex-direction: column; gap: 14px; }
+.adm-dist-row { display: flex; align-items: center; gap: 12px; }
+.adm-dist-label { width: 80px; font-size: 0.85rem; font-weight: 600; flex-shrink: 0; text-align: right; }
+.adm-dist-bar-wrap { flex: 1; height: 26px; background: #f3f4f6; border-radius: 6px; overflow: hidden; }
+.adm-dist-bar { height: 100%; border-radius: 6px; transition: width 0.5s ease; min-width: 4px; opacity: 0.85; }
+.adm-dist-count { width: 120px; font-size: 0.78rem; color: #666; text-align: right; flex-shrink: 0; }
+
+/* Table */
+.adm-table-wrap { overflow-x: auto; margin: 0 -4px; }
+.adm-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.adm-table th { text-align: left; padding: 10px 12px; color: #999; font-weight: 500; font-size: 0.78rem; border-bottom: 1px solid #eee; white-space: nowrap; }
+.adm-table td { padding: 12px; border-bottom: 1px solid #f5f5f5; white-space: nowrap; }
+.adm-row { cursor: pointer; transition: background 0.12s; }
+.adm-row:hover { background: #f8f9fb; }
+.adm-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; color: #fff; font-size: 0.72rem; font-weight: 600; }
+.adm-badge-lg { padding: 6px 16px; font-size: 0.88rem; border-radius: 16px; }
+.adm-kakao-yes { color: #2E5DA8; font-weight: 600; }
+
+/* Modal */
+.adm-modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+.adm-modal { background: #fff; border-radius: 16px; max-width: 540px; width: 100%; max-height: 85vh; overflow-y: auto; }
+.adm-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: #fff; border-radius: 16px 16px 0 0; z-index: 1; }
+.adm-modal-head h2 { font-size: 1.05rem; font-weight: 700; }
+.adm-modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888; padding: 4px 8px; }
+.adm-modal-close:hover { color: #333; }
+.adm-modal-body { padding: 24px; }
+
+/* Detail */
+.adm-detail-sec { margin-bottom: 28px; }
+.adm-detail-sec:last-child { margin-bottom: 0; }
+.adm-detail-sec h3 { font-size: 0.75rem; font-weight: 600; color: #999; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+.adm-detail-time { font-size: 0.85rem; color: #666; margin-bottom: 14px; }
+.adm-detail-grid { display: flex; flex-direction: column; gap: 10px; }
+.adm-detail-item { display: flex; gap: 12px; }
+.adm-detail-key { font-size: 0.8rem; color: #999; width: 120px; flex-shrink: 0; }
+.adm-detail-val { font-size: 0.85rem; font-weight: 500; }
+.adm-detail-result { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.adm-detail-kakao { font-size: 0.85rem; color: #666; }
+.adm-detail-answers { display: flex; flex-direction: column; gap: 14px; }
+.adm-detail-answer { display: flex; flex-direction: column; gap: 4px; padding-bottom: 14px; border-bottom: 1px solid #f5f5f5; }
+.adm-detail-answer:last-child { border-bottom: none; padding-bottom: 0; }
+.adm-detail-q { font-size: 0.72rem; color: #aaa; font-weight: 600; }
+.adm-detail-a { font-size: 0.85rem; line-height: 1.55; word-break: keep-all; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .adm-header { padding: 12px 16px; }
+  .adm-header h1 { font-size: 1rem; }
+  .adm-cards { grid-template-columns: 1fr; gap: 12px; }
+  .adm-card { padding: 18px 20px; }
+  .adm-card-value { font-size: 1.5rem; }
+  .adm-dist-label { width: 66px; font-size: 0.78rem; }
+  .adm-dist-count { width: 95px; font-size: 0.72rem; }
+  .adm-user { display: none; }
+  .adm-section { padding: 18px 16px; }
+  .adm-modal { border-radius: 12px; }
+}

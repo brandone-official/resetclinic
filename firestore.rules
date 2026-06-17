@@ -4,7 +4,9 @@ service cloud.firestore {
     match /surveyResults/{docId} {
       allow create: if true;
       allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['kakaoClicked']);
-      allow read: if false;
+      allow read: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['jhndy20170101@gmail.com', 'forwhani23@gmail.com'];
     }
   }
 }
