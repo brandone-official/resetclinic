@@ -96,6 +96,30 @@ const HRT_MSG: Record<string, string> = {
   '과거 복용 후 중단': '호르몬 치료를 중단하신 이후 증상이 다시 나타나거나 달라질 수 있습니다. 특히 중단 직후에는 반동성 증상(열감 재발, 수면 장애 등)이 일시적으로 강해지는 시기가 있으며, 이 시기에 한의학적 접근이 도움이 될 수 있습니다.',
 }
 
+// ─── DEVICE INFO ───────────────────────────────────────────
+function getDeviceInfo() {
+  const ua = navigator.userAgent
+  let deviceType = 'PC'
+  if (/Tablet|iPad/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua))) deviceType = '태블릿'
+  else if (/Mobile|iPhone|Android.*Mobile/i.test(ua)) deviceType = '모바일'
+
+  let os = '기타'
+  if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS'
+  else if (/Android/i.test(ua)) os = 'Android'
+  else if (/Windows/i.test(ua)) os = 'Windows'
+  else if (/Mac/i.test(ua)) os = 'macOS'
+  else if (/Linux/i.test(ua)) os = 'Linux'
+
+  let browser = '기타'
+  if (/Edg\//i.test(ua)) browser = 'Edge'
+  else if (/SamsungBrowser/i.test(ua)) browser = 'Samsung'
+  else if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = 'Chrome'
+  else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari'
+  else if (/Firefox/i.test(ua)) browser = 'Firefox'
+
+  return { deviceType, os, browser, screenWidth: window.innerWidth }
+}
+
 // ─── COMPONENT ──────────────────────────────────────────────
 interface SurveyProps { onClose?: () => void }
 
@@ -106,6 +130,7 @@ export default function Survey({ onClose }: SurveyProps) {
   const [toastVisible, setToastVisible] = useState(false)
   const savedDocId = useRef<string | null>(null)
   const saving = useRef(false)
+  const startTime = useRef(Date.now())
 
   function handleClose() {
     if (onClose) onClose()
@@ -123,7 +148,7 @@ export default function Survey({ onClose }: SurveyProps) {
     else if (step > 0) setStep(s => s - 1)
   }
   function handleRestart() {
-    setStep(0); setAnswers({}); setShowResult(false); savedDocId.current = null; saving.current = false
+    setStep(0); setAnswers({}); setShowResult(false); savedDocId.current = null; saving.current = false; startTime.current = Date.now()
   }
   function handleCopyLink() {
     navigator.clipboard.writeText('https://resetclinic.web.app/survey').then(() => {
@@ -145,6 +170,7 @@ export default function Survey({ onClose }: SurveyProps) {
           mainAnswers[q.id] = { index: answers[q.id], text: q.opts[answers[q.id]].t }
         }
       })
+      const durationSec = Math.round((Date.now() - startTime.current) / 1000)
       const ref = await addDoc(collection(db, 'surveyResults'), {
         preAnswers,
         mainAnswers,
@@ -152,6 +178,8 @@ export default function Survey({ onClose }: SurveyProps) {
         resultLabel: resultType ? TYPE_META[resultType as TypeKey]?.label ?? null : null,
         kakaoClicked: false,
         createdAt: serverTimestamp(),
+        deviceInfo: getDeviceInfo(),
+        durationSec,
       })
       savedDocId.current = ref.id
     } catch (_) { saving.current = false }

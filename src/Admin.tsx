@@ -21,6 +21,13 @@ const PRE_LABELS: Record<string, string> = {
   age: '연령대', menopause: '월경·완경 상태', hrt: '호르몬 치료(HRT)',
 }
 
+interface DeviceInfo {
+  deviceType: string
+  os: string
+  browser: string
+  screenWidth: number
+}
+
 interface SurveyDoc {
   id: string
   preAnswers: Record<string, string>
@@ -29,6 +36,8 @@ interface SurveyDoc {
   resultLabel: string | null
   kakaoClicked: boolean
   createdAt: Timestamp | null
+  deviceInfo?: DeviceInfo
+  durationSec?: number
 }
 
 function formatDate(ts: Timestamp | null) {
@@ -204,7 +213,7 @@ export default function Admin() {
                 <div className="adm-table-wrap">
                   <table className="adm-table">
                     <thead>
-                      <tr><th>날짜/시간</th><th>연령대</th><th>판별 유형</th><th>카카오</th></tr>
+                      <tr><th>날짜/시간</th><th>연령대</th><th>판별 유형</th><th>기기</th><th>카카오</th></tr>
                     </thead>
                     <tbody>
                       {visibleDocs.map(d => (
@@ -216,6 +225,7 @@ export default function Admin() {
                               {d.resultLabel || '미판별'}
                             </span>
                           </td>
+                          <td>{d.deviceInfo?.deviceType || '-'}</td>
                           <td className={d.kakaoClicked ? 'adm-kakao-yes' : ''}>{d.kakaoClicked ? '✓' : '-'}</td>
                         </tr>
                       ))}
@@ -252,6 +262,31 @@ export default function Admin() {
                       <span className="adm-detail-val">{selectedDoc.preAnswers?.[key] || '-'}</span>
                     </div>
                   ))}
+                </div>
+              </section>
+              <section className="adm-detail-sec">
+                <h3>기기 정보 / 소요 시간</h3>
+                <div className="adm-detail-grid">
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">기기</span>
+                    <span className="adm-detail-val">{selectedDoc.deviceInfo?.deviceType || '-'}</span>
+                  </div>
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">OS</span>
+                    <span className="adm-detail-val">{selectedDoc.deviceInfo?.os || '-'}</span>
+                  </div>
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">브라우저</span>
+                    <span className="adm-detail-val">{selectedDoc.deviceInfo?.browser || '-'}</span>
+                  </div>
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">화면 너비</span>
+                    <span className="adm-detail-val">{selectedDoc.deviceInfo?.screenWidth ? `${selectedDoc.deviceInfo.screenWidth}px` : '-'}</span>
+                  </div>
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">소요 시간</span>
+                    <span className="adm-detail-val">{selectedDoc.durationSec != null ? `${Math.floor(selectedDoc.durationSec / 60)}분 ${selectedDoc.durationSec % 60}초` : '-'}</span>
+                  </div>
                 </div>
               </section>
               <section className="adm-detail-sec">
