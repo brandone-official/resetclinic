@@ -107,7 +107,7 @@ export default function Admin() {
       <div className="adm-center">
         <div className="adm-box">
           <p style={{ fontSize: '2.5rem', marginBottom: 16 }}>🚫</p>
-          <p style={{ fontSize: '1.1rem', fontWeight: 600, color: '#c0392b', marginBottom: 24 }}>접근 권한이 없습니다</p>
+          <p style={{ fontSize: '1.1rem', fontWeight: 600, color: '#D76618', marginBottom: 24 }}>접근 권한이 없습니다</p>
           <button className="adm-btn" onClick={() => setDenied(false)}>다른 계정으로 로그인</button>
         </div>
       </div>
@@ -118,10 +118,10 @@ export default function Admin() {
     return (
       <div className="adm-center">
         <div className="adm-box">
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8 }}>자가진단 대시보드</h1>
-          <p style={{ color: '#888', marginBottom: 28, fontSize: '0.9rem' }}>관리자 로그인이 필요합니다</p>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8, color: '#1A3270' }}>자가진단 대시보드</h1>
+          <p style={{ color: '#999', marginBottom: 28, fontSize: '0.9rem' }}>관리자 로그인이 필요합니다</p>
           <button className="adm-btn adm-btn-google" onClick={handleLogin}>Google로 로그인</button>
-          {loginError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: 16 }}>{loginError}</p>}
+          {loginError && <p style={{ color: '#D76618', fontSize: '0.85rem', marginTop: 16 }}>{loginError}</p>}
         </div>
       </div>
     )
