@@ -39,7 +39,7 @@ body {
 /* ── Reveal ──────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(1.25rem);
   transition:
     opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -171,7 +171,7 @@ body {
 
 /* 브랜드 그룹 — 로고 + 서브 텍스트 한 세트 */
 .s-top-brand {
-  margin-top: 64px;
+  margin-top: 4rem;
   display: flex; flex-direction: column; align-items: center;
   opacity: 0;
 }
@@ -198,8 +198,8 @@ body {
 
 /* 서브 텍스트 — 로고 바로 아래 */
 .s-top-sub {
-  margin-top: 10px;
-  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-top: 0.625rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
   opacity: 0;
 }
 .s-top-sub.is-active {
@@ -218,7 +218,7 @@ body {
 }
 .s-top-sub-line {
   display: block;
-  width: 32px; height: 1px;
+  width: 2rem; height: 1px;
   background: linear-gradient(90deg, transparent, var(--orange), transparent);
 }
 @keyframes top-fade-in { to { opacity: 1; } }
@@ -226,10 +226,10 @@ body {
 /* 스크롤 힌트 — 하단 고정 */
 .s-top-scroll {
   position: absolute;
-  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
   left: 50%; transform: translateX(-50%);
   z-index: 5;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 0.375rem;
   opacity: 0;
 }
 .s-top-scroll.is-active {
@@ -239,17 +239,17 @@ body {
   font-size: .6rem; letter-spacing: .15em; color: var(--muted);
 }
 .s-top-scroll-dot {
-  width: 16px; height: 26px; border-radius: 8px;
+  width: 1rem; height: 1.625rem; border-radius: 8px;
   border: 1.5px solid rgba(0,0,0,.12); position: relative;
 }
 .s-top-scroll-dot::after {
-  content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+  content: ''; position: absolute; top: 0.3125rem; left: 50%; transform: translateX(-50%);
   width: 2.5px; height: 5px; border-radius: 2px; background: var(--orange);
   animation: top-scroll-move 1.8s ease-in-out infinite;
 }
 @keyframes top-scroll-move {
-  0%, 100% { top: 5px; opacity: 1; }
-  50% { top: 14px; opacity: .3; }
+  0%, 100% { top: 0.3125rem; opacity: 1; }
+  50% { top: 0.875rem; opacity: .3; }
 }
 
 @media (min-width: 640px) {
@@ -290,10 +290,10 @@ body {
 
 .hero-scroll-hint {
   position: absolute;
-  bottom: 36px;
+  bottom: 2.25rem;
   left: 50%;
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   border-right: 2px solid #D76618;
   border-bottom: 2px solid #D76618;
   animation: hint-bounce 2s ease-in-out infinite;
@@ -301,7 +301,7 @@ body {
 
 @keyframes hint-bounce {
   0%, 100% { transform: translateX(-50%) rotate(45deg) translateY(0); }
-  50%       { transform: translateX(-50%) rotate(45deg) translateY(7px); }
+  50%       { transform: translateX(-50%) rotate(45deg) translateY(0.4375rem); }
 }
 
 /* ── 2. Bridge ───────────────────────────── */
@@ -313,7 +313,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 80px var(--px);
+  padding: 5rem var(--px);
 }
 
 .bridge-inner {
@@ -321,7 +321,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 28px;
+  gap: 1.75rem;
 }
 
 .bp-1 {
@@ -339,7 +339,7 @@ body {
   letter-spacing: -0.045em;
   word-break: keep-all;
   color: var(--text);
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 .bp-3 {
   font-size: clamp(1.3rem, 5vw, 1.8rem);
@@ -397,7 +397,7 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(2.5rem);
   transition:
     opacity   0.5s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -411,7 +411,7 @@ body {
 }
 .emp-scene.exit {
   opacity: 0;
-  transform: translateY(-40px);
+  transform: translateY(-2.5rem);
   pointer-events: none;
 }
 
@@ -438,18 +438,18 @@ body {
 /* 진행 바 — 정중앙 하단 */
 .emp-prog {
   position: absolute;
-  bottom: 40px;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 7px;
+  gap: 0.4375rem;
   align-items: center;
   z-index: 3;
 }
 
 .prog-bar {
   display: block;
-  width: 14px;
+  width: 0.875rem;
   height: 3px;
   background: var(--line);
   border-radius: 2px;
@@ -457,7 +457,7 @@ body {
 }
 .prog-bar.filled {
   background: var(--navy);
-  width: 24px;
+  width: 1.5rem;
 }
 
 /* ── 4. Bridge2 ──────────────────────────── */
@@ -468,14 +468,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px var(--px);
+  padding: 5rem var(--px);
 }
 
 .b2-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 1.5rem;
   text-align: center;
   max-width: 600px;
   width: 100%;
@@ -519,7 +519,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px var(--px);
+  padding: 3.75rem var(--px);
 }
 
 .cp1-img-wrap {
@@ -536,7 +536,7 @@ body {
 }
 
 .cp1-text {
-  padding: 40px 0 0;
+  padding: 2.5rem 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -558,8 +558,8 @@ body {
   font-weight: 500;
   letter-spacing: 0.35em;
   color: #D76618;
-  margin-top: 6px;
-  margin-bottom: 32px;
+  margin-top: 0.375rem;
+  margin-bottom: 2rem;
 }
 
 .cp1-body {
@@ -581,11 +581,11 @@ body {
   background: #F7F3EE;
   border-top: 1px solid #e8ecf2;
   border-bottom: 1px solid #e8ecf2;
-  padding: 120px var(--px);
+  padding: 7.5rem var(--px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 36px;
+  gap: 2.25rem;
 }
 
 .cp2-main {
@@ -611,7 +611,7 @@ body {
 /* Part 3 — 4가지 변화 */
 .cause-p3 {
   background: #FFFFFF;
-  padding: 60px 0;
+  padding: 3.75rem 0;
 }
 
 .cp3-eyebrow {
@@ -619,7 +619,7 @@ body {
   font-weight: 300;
   line-height: 1.75;
   color: #444444;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   text-align: center;
   padding: 0 var(--px);
 }
@@ -630,7 +630,7 @@ body {
   line-height: 1.3;
   letter-spacing: -0.04em;
   color: #1A1A1A;
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   text-align: center;
   word-break: keep-all;
   padding: 0 var(--px);
@@ -638,7 +638,7 @@ body {
 
 /* ─ 트리 인포그래픽 ─ */
 .cp3-tree {
-  padding: 60px var(--px);
+  padding: 3.75rem var(--px);
   margin-bottom: 0;
 }
 
@@ -661,7 +661,7 @@ body {
 
 .cp3-trunk {
   width: 1px;
-  height: 36px;
+  height: 2.25rem;
   background: #D76618;
   margin: 0 auto;
 }
@@ -686,7 +686,7 @@ body {
 
 .cp3-branch {
   position: relative;
-  padding: 20px 0;
+  padding: 1.25rem 0;
 }
 
 .cp3-branch:nth-child(odd) {
@@ -714,7 +714,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 100%;
-  height: 60px;
+  height: 3.75rem;
   width: 1px;
   background: #D76618;
 }
@@ -725,7 +725,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #D76618;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
 }
 
 .cp3-sym {
@@ -734,7 +734,7 @@ body {
   letter-spacing: -0.04em;
   line-height: 1;
   color: #1A3270;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   word-break: keep-all;
 }
 
@@ -753,14 +753,14 @@ body {
   background: #D76618;
   position: absolute;
   left: 50%;
-  top: 20px;
+  top: 1.25rem;
   transform: translateX(-50%);
   margin: 0;
   box-shadow: 0 0 0 4px rgba(215, 102, 24, 0.15);
 }
 
 .cp3-conc-wrap {
-  padding: 48px var(--px) 0;
+  padding: 3rem var(--px) 0;
   text-align: center;
   position: relative;
 }
@@ -771,18 +771,18 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  height: 48px;
+  height: 3rem;
   width: 1px;
   background: #D76618;
 }
 
 .cp3-chevron {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   border-right: 2px solid #D76618;
   border-bottom: 2px solid #D76618;
   transform: rotate(45deg);
-  margin: 0 auto 32px;
+  margin: 0 auto 2rem;
 }
 
 .cp3-conclusion {
@@ -804,7 +804,7 @@ body {
 
 /* 섹션 헤더 */
 .sym-head {
-  padding: 64px var(--px) 36px;
+  padding: 4rem var(--px) 2.25rem;
   text-align: center;
 }
 
@@ -815,7 +815,7 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #8AAACE;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .sym-title {
@@ -839,7 +839,7 @@ body {
 
 .sym-tab {
   flex: 1;
-  padding: 18px 4px;
+  padding: 1.125rem 0.25rem;
   background: none;
   border: none;
   border-bottom: 2.5px solid transparent;
@@ -871,8 +871,8 @@ body {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: var(--px) var(--px) 64px;
-  gap: 16px;
+  padding: var(--px) var(--px) 4rem;
+  gap: 1rem;
 }
 
 .sym-slider::-webkit-scrollbar {
@@ -897,7 +897,7 @@ body {
 
 /* 카드 텍스트 영역 */
 .sym-content {
-  padding: 28px 24px 32px;
+  padding: 1.75rem 1.5rem 2rem;
 }
 
 /* 환자 목소리 */
@@ -909,16 +909,16 @@ body {
   letter-spacing: -0.02em;
   color: #8AAACE;
   word-break: keep-all;
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
 }
 
 /* 주황 구분선 */
 .sym-rule {
   display: block;
-  width: 28px;
+  width: 1.75rem;
   height: 2px;
   background: #D76618;
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
 }
 
 /* 원인 설명 */
@@ -929,7 +929,7 @@ body {
   letter-spacing: -0.02em;
   color: #FFFFFF;
   word-break: keep-all;
-  margin-bottom: 14px;
+  margin-bottom: 0.875rem;
 }
 
 .sym-explain p:last-child {
@@ -938,7 +938,7 @@ body {
 
 /* PC — 탭 클릭 전환 + 페이드인 */
 @keyframes sym-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(0.875rem); }
   to   { opacity: 1; transform: none; }
 }
 
@@ -969,7 +969,7 @@ body {
 /* ── 7. SelfTest — 자가진단 ──────────────── */
 .s-selftest {
   background: #F7F3EE;
-  padding: 96px var(--px);
+  padding: 6rem var(--px);
   text-align: center;
 }
 
@@ -979,7 +979,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 1.75rem;
 }
 
 .st-body {
@@ -1010,7 +1010,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 36px;
+  margin-top: 2.25rem;
 }
 .st-btn-wrap::before,
 .st-btn-wrap::after {
@@ -1032,7 +1032,7 @@ body {
   font-size: clamp(1.1rem, 3.5vw, 1.3rem);
   font-weight: 600;
   letter-spacing: -0.01em;
-  padding: 18px 44px;
+  padding: 1.125rem 2.75rem;
   border-radius: 50px;
   text-decoration: none;
   position: relative;
@@ -1049,7 +1049,7 @@ body {
 /* Part 1: 인용구 */
 .tr-quote-wrap {
   background: #1A3270;
-  padding: 80px var(--px);
+  padding: 5rem var(--px);
   border-top: 1px solid #e8ecf2;
   text-align: center;
 }
@@ -1062,7 +1062,7 @@ body {
   letter-spacing: -0.02em;
   color: #E4EBF8;
   word-break: keep-all;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .tr-attr {
@@ -1075,7 +1075,7 @@ body {
 /* Part 2: 진료 철학 */
 .tr-philosophy {
   background: #ffffff;
-  padding: 80px var(--px) 40px;
+  padding: 5rem var(--px) 2.5rem;
   text-align: center;
 }
 
@@ -1086,7 +1086,7 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #444444;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .tr-ph-head {
@@ -1102,12 +1102,12 @@ body {
 .tr-ph-list {
   display: flex;
   flex-direction: column;
-  gap: 44px;
+  gap: 2.75rem;
 }
 
 .tr-ph-item {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   align-items: flex-start;
 }
 
@@ -1117,7 +1117,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #D76618;
-  padding-top: 5px;
+  padding-top: 0.3125rem;
 }
 
 .tr-ph-title {
@@ -1125,7 +1125,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.025em;
   color: #1A3270;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   word-break: keep-all;
 }
 
@@ -1164,7 +1164,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 52px 24px 52px;
+  padding: 3.25rem 1.5rem;
   overflow: hidden;
 }
 .b-slide:nth-child(odd)  { background: #FFFFFF; }
@@ -1177,8 +1177,8 @@ body {
 
 .b-graphic {
   width: 100%;
-  height: 280px;
-  margin-bottom: 28px;
+  height: 17.5rem;
+  margin-bottom: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1199,21 +1199,21 @@ body {
 
 .b-nav {
   position: absolute;
-  bottom: 48px; left: 50%;
+  bottom: 3rem; left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   z-index: 10;
 }
 
 .b-dots {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 0.4375rem;
 }
 .b-dot {
-  height: 6px;
+  height: 0.375rem;
   border-radius: 3px;
   border: none;
   cursor: pointer;
@@ -1221,12 +1221,12 @@ body {
   transition: all 0.3s ease;
   background: #1A3270;
   opacity: 0.18;
-  width: 6px;
+  width: 0.375rem;
 }
 .b-dot.b-active {
   background: #D76618;
   opacity: 1;
-  width: 22px;
+  width: 1.375rem;
 }
 
 .b-counter {
@@ -1239,7 +1239,7 @@ body {
 
 .b-hint {
   position: absolute;
-  bottom: 76px; left: 50%;
+  bottom: 4.75rem; left: 50%;
   transform: translateX(-50%);
   font-size: 0.65rem;
   font-weight: 500;
@@ -1261,10 +1261,10 @@ body {
 }
 
 .b-divider {
-  width: 40px;
+  width: 2.5rem;
   height: 2px;
   background: #D76618;
-  margin: 0 0 20px;
+  margin: 0 0 1.25rem;
 }
 
 .b-arrow {
@@ -1272,8 +1272,8 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: none;
   background: #1A3270;
@@ -1283,8 +1283,8 @@ body {
   z-index: 10;
   transition: opacity 0.2s ease;
 }
-.b-arrow--prev { left: 20px; }
-.b-arrow--next { right: 20px; }
+.b-arrow--prev { left: 1.25rem; }
+.b-arrow--next { right: 1.25rem; }
 .b-arrow--disabled { opacity: 0.25; cursor: default; }
 
 @media (min-width: 640px) {
@@ -1335,7 +1335,7 @@ body {
   grid-column: 1;
   grid-row: 1;
   align-self: end;
-  padding: 48px var(--px) 24px;
+  padding: 3rem var(--px) 1.5rem;
   text-align: center;
   background: linear-gradient(
     to bottom,
@@ -1354,7 +1354,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.04em;
   color: #1A1A1A;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
 }
 
 .tr-prof-sub {
@@ -1372,7 +1372,7 @@ body {
 
 .tr-prof-anchor {
   background: #1A3270;
-  padding: 48px var(--px);
+  padding: 3rem var(--px);
   font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 800;
   letter-spacing: -0.045em;
@@ -1394,10 +1394,10 @@ body {
 
 .tr-prof-story {
   background: #F7F3EE;
-  padding: 48px var(--px);
+  padding: 3rem var(--px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .tr-prof-story-lead {
@@ -1520,7 +1520,7 @@ body {
 /* Part 4: 유튜브 */
 .tr-youtube {
   background: #ffffff;
-  padding: 64px var(--px) 80px;
+  padding: 4rem var(--px) 5rem;
   border-top: 1px solid #e8ecf2;
   text-align: center;
 }
@@ -1530,7 +1530,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #1A3270;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .tr-yt-desc {
@@ -1538,7 +1538,7 @@ body {
   font-weight: 300;
   letter-spacing: -0.01em;
   color: #444444;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   word-break: keep-all;
 }
 
@@ -1548,8 +1548,8 @@ body {
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
-  margin-top: 40px;
-  margin-bottom: 36px;
+  margin-top: 2.5rem;
+  margin-bottom: 2.25rem;
 }
 
 .tr-yt-iframe {
@@ -1567,7 +1567,7 @@ body {
   font-size: clamp(1.1rem, 3.5vw, 1.3rem);
   font-weight: 600;
   letter-spacing: -0.01em;
-  padding: 16px 40px;
+  padding: 1rem 2.5rem;
   border-radius: 50px;
   text-decoration: none;
   transition: background 0.2s ease, transform 0.15s ease;
@@ -1588,7 +1588,7 @@ body {
 /* ── 9. FAQ ───────────────────────────────── */
 .s-faq {
   background: #F7F3EE;
-  padding: 80px var(--px);
+  padding: 5rem var(--px);
   border-top: 1px solid #e8ecf2;
 }
 
@@ -1597,12 +1597,12 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 52px;
+  margin-bottom: 3.25rem;
 }
 
 .faq-bubble {
   color: #D76618;
-  margin-bottom: 18px;
+  margin-bottom: 1.125rem;
 }
 
 .faq-head {
@@ -1636,8 +1636,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
-  padding: 22px 0;
+  gap: 1.25rem;
+  padding: 1.375rem 0;
   background: none;
   border: none;
   font-family: inherit;
@@ -1653,9 +1653,9 @@ body {
 }
 
 .faq-chev {
-  flex: 0 0 22px;
+  flex: 0 0 1.375rem;
   color: #aaa;
-  margin-top: 4px;
+  margin-top: 0.25rem;
   transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s;
 }
 .faq-item.open .faq-chev {
@@ -1679,14 +1679,14 @@ body {
 
 .faq-a-inner {
   position: relative;
-  padding: 0 0 28px 20px;
+  padding: 0 0 1.75rem 1.25rem;
 }
 .faq-a-inner::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
-  bottom: 28px;
+  bottom: 1.75rem;
   width: 2px;
   background: rgba(215, 102, 24, 0.45);
   border-radius: 1px;
@@ -1698,7 +1698,7 @@ body {
   color: #1A3270;
   letter-spacing: -0.025em;
   line-height: 1.4;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   word-break: keep-all;
 }
 
@@ -1714,14 +1714,14 @@ body {
 .faq-cta {
   display: flex;
   justify-content: center;
-  margin-top: 48px;
+  margin-top: 3rem;
 }
 
 .faq-kakao {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   font-size: clamp(1rem, 3.5vw, 1.2rem);
   font-weight: 300;
   line-height: 1.75;
@@ -1742,7 +1742,7 @@ body {
 /* ── 10. KakaoConsult ─────────────────────── */
 .s-kakao {
   background: #07112B;
-  padding: 96px var(--px);
+  padding: 6rem var(--px);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 }
@@ -1753,7 +1753,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 2.25rem;
 }
 
 .kk-kicker {
@@ -1762,7 +1762,7 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #8AAACE;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .kk-body {
@@ -1779,15 +1779,15 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 2.25rem;
   text-align: left;
-  padding: 12px 0;
+  padding: 0.75rem 0;
 }
 
 .kk-msg-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .kk-msg-avatar {
@@ -1803,7 +1803,7 @@ body {
 .kk-msg-bubble {
   background: #ffffff;
   border-radius: 4px 16px 16px 16px;
-  padding: 13px 18px;
+  padding: 0.8125rem 1.125rem;
   position: relative;
   filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.28));
   max-width: calc(100% - 58px);
@@ -1825,7 +1825,7 @@ body {
   font-weight: 600;
   color: #999999;
   letter-spacing: -0.01em;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
 }
 
 .kk-msg-text {
@@ -1841,9 +1841,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0.75rem;
   width: 100%;
-  padding: 12px 12px 12px 20px;
+  padding: 0.75rem 0.75rem 0.75rem 1.25rem;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50px;
@@ -1868,8 +1868,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   background: #FEE500;
   border-radius: 50%;
   color: #1A1A1A;
@@ -1888,13 +1888,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .kk-strengths li {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   font-weight: 300;
   line-height: 1.75;
@@ -1912,7 +1912,7 @@ body {
 /* ── 11. VisitGuide ──────────────────────── */
 .s-visit {
   background: #ffffff;
-  padding: 80px var(--px);
+  padding: 5rem var(--px);
   border-top: 1px solid #e8ecf2;
 }
 
@@ -1922,7 +1922,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 52px;
+  gap: 3.25rem;
 }
 
 .visit-inner .reveal {
@@ -1945,7 +1945,7 @@ body {
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 }
 
 .visit-label {
@@ -1958,7 +1958,7 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0.875rem;
 }
 
 .visit-hours li {
@@ -2015,7 +2015,7 @@ body {
 .visit-addr-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.375rem;
 }
 
 .visit-map-btn {
@@ -2028,7 +2028,7 @@ body {
   font-size: clamp(1rem, 3.5vw, 1.15rem);
   font-weight: 600;
   letter-spacing: -0.01em;
-  padding: 16px 40px;
+  padding: 1rem 2.5rem;
   border-radius: 50px;
   text-decoration: none;
   transition: background 0.2s ease, transform 0.15s ease;
@@ -2040,7 +2040,7 @@ body {
 /* ── 12. Footer ───────────────────────────── */
 .s-footer {
   background: #1A3270;
-  padding: 52px var(--px) 44px;
+  padding: 3.25rem var(--px) 2.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
 }
 
@@ -2054,15 +2054,15 @@ body {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.92);
   letter-spacing: -0.01em;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .ft-info {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-bottom: 28px;
+  gap: 0.3125rem;
+  margin-bottom: 1.75rem;
 }
 
 .ft-info li {
@@ -2076,8 +2076,8 @@ body {
 .ft-legal {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .ft-legal-btn {
@@ -2104,7 +2104,7 @@ body {
   color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.01em;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 20px;
+  padding-top: 1.25rem;
 }
 
 .ft-modal-backdrop {
@@ -2220,7 +2220,7 @@ body {
   .emp-text[data-step='2'] { font-size: clamp(1.3rem, 6.3vw, 2.5rem); }
   .emp-text[data-step='3'] { font-size: clamp(1.5rem, 7.5vw, 3.2rem); }
   .emp-text[data-step='4'] { font-size: clamp(1.7rem, 8.7vw, 4rem);  }
-  .emp-text[data-step='5'] { font-size: clamp(2.2rem, 11.5vw, 5rem); left: 12px; right: 12px; }
+  .emp-text[data-step='5'] { font-size: clamp(2.2rem, 11.5vw, 5rem); left: 0.75rem; right: 0.75rem; }
 }
 
 /* ── Desktop ─────────────────────────────── */
@@ -2536,7 +2536,7 @@ br.pc { display: none; }
 }
 
 /* Footer 하단 여백 확보 (모바일) */
-.s-footer { padding-bottom: 76px; }
+.s-footer { padding-bottom: 4.75rem; }
 
 /* ── PC 플로팅 ── */
 @media (min-width: 640px) {
