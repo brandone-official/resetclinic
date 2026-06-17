@@ -6,6 +6,14 @@ import './admin.css'
 
 const ADMIN_EMAILS = ['jhndy20170101@gmail.com', 'forwhani23@gmail.com']
 const PAGE_SIZE = 20
+const EXPORT_SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+const PICKER_APP_ID = '602684917728'
+const SHEET_HEADERS = [
+  '응답일시', '연령대', '폐경 상태', 'HRT 복용 여부', '판별 유형',
+  '카카오 클릭', 'Q1 체온변화', 'Q2 땀', 'Q3 수면', 'Q4 에너지·피로',
+  'Q5 체형·체중', 'Q6 정서', 'Q7 소화·식욕', 'Q8 피부·모발·감각',
+  '기기 종류', 'OS', '브라우저', '소요 시간(초)',
+]
 
 const TYPE_COLORS: Record<string, string> = {
   '열감형': '#E85A30', '냉증형': '#2E5DA8', '무기력형': '#D49B2A',
@@ -56,6 +64,8 @@ export default function Admin() {
   const [loading, setLoading] = useState(false)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [selectedDoc, setSelectedDoc] = useState<SurveyDoc | null>(null)
+  const [exporting, setExporting] = useState(false)
+  const [exportResult, setExportResult] = useState<{ url?: string; error?: string } | null>(null)
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
@@ -106,6 +116,140 @@ export default function Admin() {
     signOut(auth)
     setDocs([])
     setVisibleCount(PAGE_SIZE)
+  }
+
+  function loadPickerApi(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const w = window as any
+      if (w.google?.picker) { resolve(); return }
+      const load = () => w.gapi.load('picker', { callback: resolve, onerror: reject })
+      if (w.gapi) { load(); return }
+      const s = document.createElement('script')
+      s.src = 'https://apis.google.com/js/api.js'
+      s.onload = load
+      s.onerror = () => reject(new Error('Google API 로드 실패'))
+      document.head.appendChild(s)
+    })
+  }
+
+  async function handleExport() {
+    setExporting(true)
+    setExportResult(null)
+    try {
+      const provider = new GoogleAuthProvider()
+      EXPORT_SCOPES.forEach(s => provider.addScope(s))
+      provider.setCustomParameters({ login_hint: user!.email! })
+      const result = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential?.accessToken
+      if (!token) throw new Error('인증 토큰을 가져올 수 없습니다')
+
+      await loadPickerApi()
+      const folderId = await new Promise<string>((resolve, reject) => {
+        const gp = (window as any).google.picker
+        const view = new gp.DocsView(gp.ViewId.FOLDERS).setSelectFolderEnabled(true)
+        new gp.PickerBuilder()
+          .addView(view)
+          .setOAuthToken(token)
+          .setDeveloperKey('AIzaSyBS21dyXNLlQPdm2XiVBW1LtoT-PoInK7s')
+          .setAppId(PICKER_APP_ID)
+          .setCallback((data: any) => {
+            if (data.action === gp.Action.PICKED) resolve(data.docs[0].id)
+            else if (data.action === gp.Action.CANCEL) reject(new Error('cancel'))
+          })
+          .setTitle('저장할 폴더를 선택하세요')
+          .build()
+          .setVisible(true)
+      })
+
+      const today = new Date()
+      const pad = (n: number) => String(n).padStart(2, '0')
+      const dateStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
+
+      const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          properties: { title: `리셋클리닉 자가진단 결과_${dateStr}` },
+          sheets: [{ properties: { title: '설문결과' } }],
+        }),
+      })
+      if (!createRes.ok) throw new Error('스프레드시트 생성 실패')
+      const { spreadsheetId } = await createRes.json()
+
+      await fetch(
+        `https://www.googleapis.com/drive/v3/files/${spreadsheetId}?addParents=${folderId}&removeParents=root`,
+        { method: 'PATCH', headers: { 'Authorization': `Bearer ${token}` } }
+      )
+
+      const rows: (string | number)[][] = [SHEET_HEADERS]
+      for (const d of docs) {
+        rows.push([
+          formatDate(d.createdAt),
+          d.preAnswers?.age || '',
+          d.preAnswers?.menopause || '',
+          d.preAnswers?.hrt || '',
+          d.resultLabel || '미판별',
+          d.kakaoClicked ? 'O' : 'X',
+          d.mainAnswers?.q1?.text || '',
+          d.mainAnswers?.q2?.text || '',
+          d.mainAnswers?.q3?.text || '',
+          d.mainAnswers?.q4?.text || '',
+          d.mainAnswers?.q5?.text || '',
+          d.mainAnswers?.q6?.text || '',
+          d.mainAnswers?.q7?.text || '',
+          d.mainAnswers?.q8?.text || '',
+          d.deviceInfo?.deviceType || '',
+          d.deviceInfo?.os || '',
+          d.deviceInfo?.browser || '',
+          d.durationSec != null ? d.durationSec : '',
+        ])
+      }
+
+      const writeRes = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent('설문결과!A1')}?valueInputOption=RAW`,
+        {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ range: '설문결과!A1', majorDimension: 'ROWS', values: rows }),
+        }
+      )
+      if (!writeRes.ok) throw new Error('데이터 입력 실패')
+
+      await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [
+            {
+              repeatCell: {
+                range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 },
+                cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } },
+                fields: 'userEnteredFormat(textFormat.bold,backgroundColor)',
+              }
+            },
+            {
+              updateSheetProperties: {
+                properties: { sheetId: 0, gridProperties: { frozenRowCount: 1 } },
+                fields: 'gridProperties.frozenRowCount',
+              }
+            },
+            {
+              autoResizeDimensions: {
+                dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 18 },
+              }
+            },
+          ]
+        }),
+      })
+
+      setExportResult({ url: `https://docs.google.com/spreadsheets/d/${spreadsheetId}` })
+    } catch (e: any) {
+      if (e?.code === 'auth/popup-closed-by-user' || e?.message === 'cancel') { /* cancelled */ }
+      else setExportResult({ error: e?.message || '내보내기 중 오류가 발생했습니다' })
+    } finally {
+      setExporting(false)
+    }
   }
 
   // ── Auth screens ──
@@ -205,7 +349,28 @@ export default function Admin() {
 
           {/* Response List */}
           <div className="adm-section">
-            <h2 className="adm-section-title">개별 응답 <span className="adm-section-count">{totalCount}건</span></h2>
+            <h2 className="adm-section-title">
+              개별 응답 <span className="adm-section-count">{totalCount}건</span>
+              <button className="adm-btn adm-btn-export" onClick={handleExport} disabled={exporting || totalCount === 0}>
+                {exporting ? '내보내는 중...' : '스프레드시트로 내보내기'}
+              </button>
+            </h2>
+            {exportResult && (
+              <div className={`adm-export-msg ${exportResult.error ? 'adm-export-error' : 'adm-export-success'}`}>
+                {exportResult.url ? (
+                  <>
+                    <span>스프레드시트가 생성되었습니다.</span>
+                    <a href={exportResult.url} target="_blank" rel="noopener noreferrer">열기</a>
+                    <button onClick={() => setExportResult(null)}>✕</button>
+                  </>
+                ) : (
+                  <>
+                    <span>{exportResult.error}</span>
+                    <button onClick={() => setExportResult(null)}>✕</button>
+                  </>
+                )}
+              </div>
+            )}
             {totalCount === 0 ? (
               <p className="adm-empty">데이터가 없습니다</p>
             ) : (

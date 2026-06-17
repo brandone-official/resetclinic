@@ -205,6 +205,47 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* ── Export ── */
+.adm-btn-export {
+  margin-left: auto;
+  background: #0F9D58;
+  color: #fff;
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.adm-btn-export:hover:not(:disabled) { background: #0B8043; transform: translateY(-1px); }
+.adm-btn-export:disabled { opacity: 0.5; cursor: not-allowed; }
+.adm-export-msg {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+.adm-export-success { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
+.adm-export-error { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
+.adm-export-msg a { color: inherit; font-weight: 700; text-decoration: underline; }
+.adm-export-msg > button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 1rem;
+  padding: 0 4px;
+}
+.adm-export-msg > button:hover { opacity: 1; }
+
 /* ── Table ── */
 .adm-table-wrap { overflow-x: auto; margin: 0 -4px; }
 .adm-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
