@@ -14,9 +14,11 @@
   --orange: #d76618;
   --navy:   #1a3270;
   --line:   #ebebeb;
+  --px:     1.75rem;
 }
 
 html {
+  font-size: clamp(13px, 4.07vw, 16px);
   scroll-behavior: smooth;
 }
 
@@ -269,7 +271,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0 28px;
+  padding: 0 var(--px);
   position: relative;
 }
 
@@ -311,7 +313,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 80px 28px;
+  padding: 80px var(--px);
 }
 
 .bridge-inner {
@@ -417,8 +419,8 @@ body {
 .emp-text {
   position: absolute;
   top: 50%;
-  left: 28px;
-  right: 28px;
+  left: var(--px);
+  right: var(--px);
   transform: translateY(-50%);
   text-align: center;
   line-height: 1.4;
@@ -466,7 +468,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 28px;
+  padding: 80px var(--px);
 }
 
 .b2-inner {
@@ -517,7 +519,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 28px;
+  padding: 60px var(--px);
 }
 
 .cp1-img-wrap {
@@ -579,7 +581,7 @@ body {
   background: #F7F3EE;
   border-top: 1px solid #e8ecf2;
   border-bottom: 1px solid #e8ecf2;
-  padding: 120px 28px;
+  padding: 120px var(--px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -619,7 +621,7 @@ body {
   color: #444444;
   margin-bottom: 8px;
   text-align: center;
-  padding: 0 28px;
+  padding: 0 var(--px);
 }
 
 .cp3-htitle {
@@ -631,12 +633,12 @@ body {
   margin-bottom: 40px;
   text-align: center;
   word-break: keep-all;
-  padding: 0 28px;
+  padding: 0 var(--px);
 }
 
 /* ─ 트리 인포그래픽 ─ */
 .cp3-tree {
-  padding: 60px 28px;
+  padding: 60px var(--px);
   margin-bottom: 0;
 }
 
@@ -688,12 +690,12 @@ body {
 }
 
 .cp3-branch:nth-child(odd) {
-  padding-right: calc(50% + 28px);
+  padding-right: calc(50% + var(--px));
   text-align: right;
 }
 
 .cp3-branch:nth-child(even) {
-  padding-left: calc(50% + 28px);
+  padding-left: calc(50% + var(--px));
   text-align: left;
 }
 
@@ -758,7 +760,7 @@ body {
 }
 
 .cp3-conc-wrap {
-  padding: 48px 28px 0;
+  padding: 48px var(--px) 0;
   text-align: center;
   position: relative;
 }
@@ -802,7 +804,7 @@ body {
 
 /* 섹션 헤더 */
 .sym-head {
-  padding: 64px 28px 36px;
+  padding: 64px var(--px) 36px;
   text-align: center;
 }
 
@@ -832,7 +834,7 @@ body {
   z-index: 20;
   display: flex;
   background: #07112B;
-  padding: 0 28px;
+  padding: 0 var(--px);
 }
 
 .sym-tab {
@@ -869,7 +871,7 @@ body {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 28px 28px 64px;
+  padding: var(--px) var(--px) 64px;
   gap: 16px;
 }
 
@@ -967,7 +969,7 @@ body {
 /* ── 7. SelfTest — 자가진단 ──────────────── */
 .s-selftest {
   background: #F7F3EE;
-  padding: 96px 28px;
+  padding: 96px var(--px);
   text-align: center;
 }
 
@@ -1047,7 +1049,7 @@ body {
 /* Part 1: 인용구 */
 .tr-quote-wrap {
   background: #1A3270;
-  padding: 80px 28px;
+  padding: 80px var(--px);
   border-top: 1px solid #e8ecf2;
   text-align: center;
 }
@@ -1073,7 +1075,7 @@ body {
 /* Part 2: 진료 철학 */
 .tr-philosophy {
   background: #ffffff;
-  padding: 80px 28px 40px;
+  padding: 80px var(--px) 40px;
   text-align: center;
 }
 
@@ -1333,7 +1335,7 @@ body {
   grid-column: 1;
   grid-row: 1;
   align-self: end;
-  padding: 48px 28px 24px;
+  padding: 48px var(--px) 24px;
   text-align: center;
   background: linear-gradient(
     to bottom,
@@ -1370,7 +1372,7 @@ body {
 
 .tr-prof-anchor {
   background: #1A3270;
-  padding: 48px 28px;
+  padding: 48px var(--px);
   font-size: clamp(2.4rem, 8vw, 3.6rem);
   font-weight: 800;
   letter-spacing: -0.045em;
@@ -1392,7 +1394,7 @@ body {
 
 .tr-prof-story {
   background: #F7F3EE;
-  padding: 48px 28px;
+  padding: 48px var(--px);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1518,7 +1520,7 @@ body {
 /* Part 4: 유튜브 */
 .tr-youtube {
   background: #ffffff;
-  padding: 64px 28px 80px;
+  padding: 64px var(--px) 80px;
   border-top: 1px solid #e8ecf2;
   text-align: center;
 }
@@ -1577,16 +1579,16 @@ body {
 @media (max-width: 639px) {
   .tr-yt-iframe-wrap {
     border-radius: 0;
-    margin-left: -28px;
-    margin-right: -28px;
-    width: calc(100% + 56px);
+    margin-left: calc(-1 * var(--px));
+    margin-right: calc(-1 * var(--px));
+    width: calc(100% + var(--px) * 2);
   }
 }
 
 /* ── 9. FAQ ───────────────────────────────── */
 .s-faq {
   background: #F7F3EE;
-  padding: 80px 28px;
+  padding: 80px var(--px);
   border-top: 1px solid #e8ecf2;
 }
 
@@ -1740,7 +1742,7 @@ body {
 /* ── 10. KakaoConsult ─────────────────────── */
 .s-kakao {
   background: #07112B;
-  padding: 96px 28px;
+  padding: 96px var(--px);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   text-align: center;
 }
@@ -1910,7 +1912,7 @@ body {
 /* ── 11. VisitGuide ──────────────────────── */
 .s-visit {
   background: #ffffff;
-  padding: 80px 28px;
+  padding: 80px var(--px);
   border-top: 1px solid #e8ecf2;
 }
 
@@ -1962,7 +1964,7 @@ body {
 .visit-hours li {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .visit-day {
@@ -2038,7 +2040,7 @@ body {
 /* ── 12. Footer ───────────────────────────── */
 .s-footer {
   background: #1A3270;
-  padding: 52px 28px 44px;
+  padding: 52px var(--px) 44px;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
 }
 
@@ -2254,7 +2256,7 @@ br.pc { display: none; }
   }
 
   /* SelfTest */
-  .s-selftest { padding-left: 28px; padding-right: 28px; }
+  .s-selftest { padding-left: var(--px); padding-right: var(--px); }
 
   /* Trust */
   .tr-quote-wrap,
