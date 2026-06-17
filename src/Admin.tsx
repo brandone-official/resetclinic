@@ -8,8 +8,8 @@ const ADMIN_EMAILS = ['jhndy20170101@gmail.com', 'forwhani23@gmail.com']
 const PAGE_SIZE = 20
 
 const TYPE_COLORS: Record<string, string> = {
-  '열감형': '#E8682A', '냉증형': '#2E5DA8', '무기력형': '#E8A030',
-  '건조형': '#8B6CA8', '스트레스형': '#555555', '미판별': '#CCCCCC',
+  '열감형': '#E85A30', '냉증형': '#2E5DA8', '무기력형': '#D49B2A',
+  '건조형': '#8B6CA8', '스트레스형': '#3D8B7A', '미판별': '#B8B8B8',
 }
 
 const Q_TITLES: Record<string, string> = {
