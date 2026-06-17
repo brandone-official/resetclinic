@@ -171,6 +171,13 @@ export default function Survey({ onClose }: SurveyProps) {
         }
       })
       const durationSec = Math.round((Date.now() - startTime.current) / 1000)
+      const rawReferrer = sessionStorage.getItem('rc_referrer')
+      const referrer = rawReferrer || 'direct'
+      const utmParams: Record<string, string> = {}
+      try {
+        const parsed = JSON.parse(sessionStorage.getItem('rc_utm') || '{}')
+        for (const [k, v] of Object.entries(parsed)) { if (v) utmParams[k] = v as string }
+      } catch { /* ignore */ }
       const ref = await addDoc(collection(db, 'surveyResults'), {
         preAnswers,
         mainAnswers,
@@ -180,6 +187,8 @@ export default function Survey({ onClose }: SurveyProps) {
         createdAt: serverTimestamp(),
         deviceInfo: getDeviceInfo(),
         durationSec,
+        referrer,
+        utmParams: Object.keys(utmParams).length > 0 ? utmParams : null,
       })
       savedDocId.current = ref.id
     } catch (_) { saving.current = false }

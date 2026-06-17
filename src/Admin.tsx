@@ -13,6 +13,7 @@ const SHEET_HEADERS = [
   '카카오 클릭', 'Q1 체온변화', 'Q2 땀', 'Q3 수면', 'Q4 에너지·피로',
   'Q5 체형·체중', 'Q6 정서', 'Q7 소화·식욕', 'Q8 피부·모발·감각',
   '기기 종류', 'OS', '브라우저', '소요 시간(초)',
+  'referrer', 'utm_source', 'utm_medium', 'utm_campaign',
 ]
 
 const TYPE_COLORS: Record<string, string> = {
@@ -46,6 +47,8 @@ interface SurveyDoc {
   createdAt: Timestamp | null
   deviceInfo?: DeviceInfo
   durationSec?: number
+  referrer?: string
+  utmParams?: Record<string, string> | null
 }
 
 function formatDate(ts: Timestamp | null) {
@@ -203,6 +206,10 @@ export default function Admin() {
           d.deviceInfo?.os || '',
           d.deviceInfo?.browser || '',
           d.durationSec != null ? d.durationSec : '',
+          d.referrer || '',
+          d.utmParams?.utm_source || '',
+          d.utmParams?.utm_medium || '',
+          d.utmParams?.utm_campaign || '',
         ])
       }
 
@@ -236,7 +243,7 @@ export default function Admin() {
             },
             {
               autoResizeDimensions: {
-                dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 18 },
+                dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 22 },
               }
             },
           ]
@@ -452,6 +459,21 @@ export default function Admin() {
                     <span className="adm-detail-key">소요 시간</span>
                     <span className="adm-detail-val">{selectedDoc.durationSec != null ? `${Math.floor(selectedDoc.durationSec / 60)}분 ${selectedDoc.durationSec % 60}초` : '-'}</span>
                   </div>
+                </div>
+              </section>
+              <section className="adm-detail-sec">
+                <h3>유입 경로</h3>
+                <div className="adm-detail-grid">
+                  <div className="adm-detail-item">
+                    <span className="adm-detail-key">Referrer</span>
+                    <span className="adm-detail-val">{selectedDoc.referrer || '-'}</span>
+                  </div>
+                  {selectedDoc.utmParams && Object.entries(selectedDoc.utmParams).map(([k, v]) => (
+                    <div key={k} className="adm-detail-item">
+                      <span className="adm-detail-key">{k}</span>
+                      <span className="adm-detail-val">{v}</span>
+                    </div>
+                  ))}
                 </div>
               </section>
               <section className="adm-detail-sec">

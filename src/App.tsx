@@ -1140,6 +1140,18 @@ function HomePage() {
   }, [])
 
   useEffect(() => {
+    if (sessionStorage.getItem('rc_referrer')) return
+    sessionStorage.setItem('rc_referrer', document.referrer || '')
+    const params = new URLSearchParams(window.location.search)
+    const utm: Record<string, string> = {}
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
+      const v = params.get(key)
+      if (v) utm[key] = v
+    }
+    sessionStorage.setItem('rc_utm', JSON.stringify(utm))
+  }, [])
+
+  useEffect(() => {
     document.body.style.overflow = showSurvey ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [showSurvey])
