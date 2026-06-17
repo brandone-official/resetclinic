@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { collection, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { db } from './firebase'
 import './survey.css'
 
 // ─── TYPES ──────────────────────────────────────────────────
@@ -102,6 +104,8 @@ export default function Survey({ onClose }: SurveyProps) {
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [showResult, setShowResult] = useState(false)
   const [toastVisible, setToastVisible] = useState(false)
+  const savedDocId = useRef<string | null>(null)
+  const saving = useRef(false)
 
   function handleClose() {
     if (onClose) onClose()
@@ -119,13 +123,42 @@ export default function Survey({ onClose }: SurveyProps) {
     else if (step > 0) setStep(s => s - 1)
   }
   function handleRestart() {
-    setStep(0); setAnswers({}); setShowResult(false)
+    setStep(0); setAnswers({}); setShowResult(false); savedDocId.current = null; saving.current = false
   }
   function handleCopyLink() {
     navigator.clipboard.writeText('https://resetclinic.web.app/survey').then(() => {
       setToastVisible(true)
       setTimeout(() => setToastVisible(false), 2500)
     })
+  }
+  async function saveResult(resultType: string | null) {
+    if (savedDocId.current || saving.current) return
+    saving.current = true
+    try {
+      const preAnswers: Record<string, string> = {}
+      Q0.forEach(q => {
+        if (answers[q.id] !== undefined) preAnswers[q.id] = q.opts[answers[q.id]]
+      })
+      const mainAnswers: Record<string, { index: number; text: string }> = {}
+      QS.forEach(q => {
+        if (answers[q.id] !== undefined) {
+          mainAnswers[q.id] = { index: answers[q.id], text: q.opts[answers[q.id]].t }
+        }
+      })
+      const ref = await addDoc(collection(db, 'surveyResults'), {
+        preAnswers,
+        mainAnswers,
+        resultType,
+        resultLabel: resultType ? TYPE_META[resultType as TypeKey]?.label ?? null : null,
+        kakaoClicked: false,
+        createdAt: serverTimestamp(),
+      })
+      savedDocId.current = ref.id
+    } catch (_) { saving.current = false }
+  }
+  function handleKakaoClick() {
+    if (!savedDocId.current) return
+    updateDoc(doc(db, 'surveyResults', savedDocId.current), { kakaoClicked: true }).catch(() => {})
   }
   function isValid() {
     if (step < 3) return answers[Q0[step].id] !== undefined
@@ -159,6 +192,7 @@ export default function Survey({ onClose }: SurveyProps) {
     const { primary } = calcResult()
     const hrtVal = Q0[2].opts[answers.hrt]
     const hrt = HRT_MSG[hrtVal] || ''
+    saveResult(primary ? primary.key : null)
 
     const BottomButtons = () => (
       <div style={{ display:'flex', justifyContent:'center', gap:'12px', flexWrap:'wrap' }}>
@@ -216,7 +250,7 @@ export default function Survey({ onClose }: SurveyProps) {
 
               <div className="sv-cta-box">
                 <p>정확한 진단과 맞춤 처방은<br />진료를 통해 이루어집니다.</p>
-                <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer">
+                <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" onClick={handleKakaoClick}>
                   카카오톡 상담하기
                 </a>
               </div>
