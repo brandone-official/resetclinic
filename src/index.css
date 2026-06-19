@@ -1270,27 +1270,27 @@ body {
   letter-spacing: 0.06em;
 }
 
-.b-hint {
+.b-swipe-hint {
   position: absolute;
   bottom: 4.75rem; left: 50%;
   transform: translateX(-50%);
-  font-size: 0.65rem;
-  font-weight: 500;
-  color: #1A3270;
-  letter-spacing: 0.14em;
   z-index: 10;
-  white-space: nowrap;
   pointer-events: none;
+  color: #1A3270;
   opacity: 0;
-  animation: bHintPulse 3.5s ease-in-out 1.2s forwards;
+  transition: opacity 0.4s ease;
 }
-.b-hint.b-hint--hidden { display: none; }
+.b-swipe-hint.is-visible {
+  opacity: 0.4;
+}
 
-@keyframes bHintPulse {
-  0%   { opacity: 0; }
-  15%  { opacity: 0.45; }
-  75%  { opacity: 0.45; }
-  100% { opacity: 0; }
+.b-track--nudge {
+  animation: bNudge 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes bNudge {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(-40px); }
+  100% { transform: translateX(0); }
 }
 
 .b-divider {
