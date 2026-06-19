@@ -290,7 +290,8 @@ function Empathy() {
 
       const r = wrap.getBoundingClientRect()
       if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
-        window.scrollTo({ top: sy + r.top, behavior: 'instant' })
+        wrap.scrollIntoView({ behavior: 'instant', block: 'start' })
+        lastSY = window.scrollY
         show(dir > 0 ? 0 : N - 1)
         lock()
       }
