@@ -1377,7 +1377,7 @@ function ScrollTopBtn() {
   return (
     <button
       className={`scroll-top-btn${visible ? ' is-visible' : ''}`}
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
       aria-label="맨 위로 이동"
     >
       <i className="ti ti-chevron-up" />
