@@ -1186,7 +1186,7 @@ body {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  touch-action: pan-x pinch-zoom;
+  touch-action: pan-y pinch-zoom;
 }
 .b-track::-webkit-scrollbar { display: none; }
 

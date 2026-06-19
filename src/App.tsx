@@ -817,9 +817,50 @@ function PhilosophySwipe() {
     const readIdx = () =>
       setIdx(Math.round(track.scrollLeft / track.clientWidth))
 
+    let startX = 0
+    let startY = 0
+    let scrollStart = 0
+    let axis: '' | 'x' | 'y' = ''
+
+    const onTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX
+      startY = e.touches[0].clientY
+      scrollStart = track.scrollLeft
+      axis = ''
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (axis === 'y') return
+      if (!axis) {
+        const dx = Math.abs(e.touches[0].clientX - startX)
+        const dy = Math.abs(e.touches[0].clientY - startY)
+        if (dx < 8 && dy < 8) return
+        axis = dx > dy ? 'x' : 'y'
+        if (axis === 'y') return
+      }
+      track.scrollLeft = scrollStart - (e.touches[0].clientX - startX)
+    }
+
+    const onTouchEnd = () => {
+      if (axis === 'x') {
+        const w = track.clientWidth
+        const target = Math.round(track.scrollLeft / w) * w
+        track.scrollTo({ left: target, behavior: 'smooth' })
+      }
+    }
+
+    track.addEventListener('touchstart', onTouchStart, { passive: true })
+    track.addEventListener('touchmove', onTouchMove, { passive: true })
+    track.addEventListener('touchend', onTouchEnd, { passive: true })
+
     if ('onscrollend' in window) {
       track.addEventListener('scrollend', readIdx, { passive: true })
-      return () => track.removeEventListener('scrollend', readIdx)
+      return () => {
+        track.removeEventListener('scrollend', readIdx)
+        track.removeEventListener('touchstart', onTouchStart)
+        track.removeEventListener('touchmove', onTouchMove)
+        track.removeEventListener('touchend', onTouchEnd)
+      }
     } else {
       let timer: ReturnType<typeof setTimeout>
       const onScroll = () => {
@@ -830,6 +871,9 @@ function PhilosophySwipe() {
       return () => {
         clearTimeout(timer)
         track.removeEventListener('scroll', onScroll)
+        track.removeEventListener('touchstart', onTouchStart)
+        track.removeEventListener('touchmove', onTouchMove)
+        track.removeEventListener('touchend', onTouchEnd)
       }
     }
   }, [])
