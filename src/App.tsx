@@ -172,6 +172,7 @@ function Empathy() {
     let active    = false
     let exitGuard = false
     let exitGuardTimer = 0
+    let exitDir      = 0
     let lastDir      = 0
     let reverseTimer = 0
     let gestureActive = false
@@ -214,6 +215,7 @@ function Empathy() {
 
     function unlock() {
       if (!active) return
+      exitDir = lastDir
       active = false
       lastDir = 0
       gestureActive = false
@@ -304,8 +306,12 @@ function Empathy() {
         return
       }
       if (exitGuard) {
-        if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) exitGuard = false
-        return
+        if (dir !== exitDir || Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) {
+          exitGuard = false
+          clearTimeout(exitGuardTimer)
+        } else {
+          return
+        }
       }
       const r = wrap.getBoundingClientRect()
       if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
