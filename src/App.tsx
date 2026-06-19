@@ -195,7 +195,7 @@ function Empathy() {
         }
       })
       bars.forEach((b, i) => b.classList.toggle('filled', i <= idx))
-      counter.textContent = `${idx + 1} / ${N}`
+      counter.querySelector('.emp-cur')!.textContent = `${idx + 1}`
       sticky.style.backgroundColor = EMP_CFG[idx].bg
       breath.style.opacity   = '1'
       breath.style.transform = `translate(-50%,-50%) scale(${EMP_CFG[idx].scale})`
@@ -343,7 +343,7 @@ function Empathy() {
         ))}
 
         <div className="emp-prog" aria-hidden="true">
-          <span className="emp-counter">1 / {N}</span>
+          <span className="emp-counter"><span className="emp-cur">1</span><span className="emp-sep"> / {N}</span></span>
           <div className="emp-bars">
             {EMPATHY.map((_, i) => (
               <span key={i} className={`prog-bar${i === 0 ? ' filled' : ''}`} />
