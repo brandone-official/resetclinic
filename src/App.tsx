@@ -174,7 +174,6 @@ function Empathy() {
     let lastDir      = 0
     let reverseTimer = 0
     let gestureActive = false
-    let peakDelta     = 0
     let gapTimer      = 0
     const REVERSE_DEBOUNCE = 150
     const GAP_TIMEOUT      = 80
@@ -215,7 +214,6 @@ function Empathy() {
       active = false
       lastDir = 0
       gestureActive = false
-      peakDelta = 0
       clearTimeout(gapTimer)
       clearTimeout(reverseTimer)
       document.documentElement.style.overflow = ''
@@ -226,14 +224,12 @@ function Empathy() {
     function onWheel(e: WheelEvent) {
       if (!active) return
       if (e.deltaY === 0) { e.preventDefault(); return }
-      const absDelta = Math.abs(e.deltaY)
       const dir = e.deltaY > 0 ? 1 : -1
 
       if (dir !== lastDir && lastDir !== 0) {
         e.preventDefault()
         clearTimeout(reverseTimer)
         gestureActive = false
-        peakDelta = 0
         reverseTimer = window.setTimeout(() => {
           if (!active) return
           const n = cur + dir
@@ -241,25 +237,16 @@ function Empathy() {
           show(n)
           lastDir = dir
           gestureActive = true
-          peakDelta = absDelta
           clearTimeout(gapTimer)
-          gapTimer = window.setTimeout(() => { gestureActive = false; peakDelta = 0 }, GAP_TIMEOUT)
+          gapTimer = window.setTimeout(() => { gestureActive = false }, GAP_TIMEOUT)
         }, REVERSE_DEBOUNCE)
         return
       }
 
-      let isNewGesture = false
-      if (!gestureActive) {
-        isNewGesture = true
-      } else if (absDelta > peakDelta * 1.5) {
-        isNewGesture = true
-      }
-
-      if (absDelta > peakDelta) peakDelta = absDelta
       clearTimeout(gapTimer)
-      gapTimer = window.setTimeout(() => { gestureActive = false; peakDelta = 0 }, GAP_TIMEOUT)
+      gapTimer = window.setTimeout(() => { gestureActive = false }, GAP_TIMEOUT)
 
-      if (!isNewGesture) { e.preventDefault(); return }
+      if (gestureActive) { e.preventDefault(); return }
 
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
