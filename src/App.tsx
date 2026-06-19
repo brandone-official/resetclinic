@@ -171,13 +171,16 @@ function Empathy() {
     let cur       = -1
     let active    = false
     let exitGuard = false
+    let exitGuardTimer = 0
     let lastDir      = 0
     let reverseTimer = 0
     let gestureActive = false
     let gapTimer      = 0
+    let safetyTimer   = 0
     const REVERSE_DEBOUNCE = 150
     const STEP_INTERVAL    = 350
     const SNAP     = 80
+    const SAFETY_MAX = 1200
 
     const show = (idx: number) => {
       if (idx === cur) return
@@ -216,9 +219,17 @@ function Empathy() {
       gestureActive = false
       clearTimeout(gapTimer)
       clearTimeout(reverseTimer)
+      clearTimeout(safetyTimer)
+      clearTimeout(exitGuardTimer)
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
       exitGuard = true
+      exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
+    }
+
+    function resetGesture() {
+      gestureActive = false
+      clearTimeout(safetyTimer)
     }
 
     function onWheel(e: WheelEvent) {
@@ -229,7 +240,7 @@ function Empathy() {
       if (dir !== lastDir && lastDir !== 0) {
         e.preventDefault()
         clearTimeout(reverseTimer)
-        gestureActive = false
+        resetGesture()
         reverseTimer = window.setTimeout(() => {
           if (!active) return
           const n = cur + dir
@@ -237,7 +248,8 @@ function Empathy() {
           show(n)
           lastDir = dir
           gestureActive = true
-          gapTimer = window.setTimeout(() => { gestureActive = false }, STEP_INTERVAL)
+          gapTimer = window.setTimeout(() => { resetGesture() }, STEP_INTERVAL)
+          safetyTimer = window.setTimeout(() => { resetGesture() }, SAFETY_MAX)
         }, REVERSE_DEBOUNCE)
         return
       }
@@ -250,7 +262,8 @@ function Empathy() {
       show(next)
       lastDir = dir
       gestureActive = true
-      gapTimer = window.setTimeout(() => { gestureActive = false }, STEP_INTERVAL)
+      gapTimer = window.setTimeout(() => { resetGesture() }, STEP_INTERVAL)
+      safetyTimer = window.setTimeout(() => { resetGesture() }, SAFETY_MAX)
     }
 
     let touchY    = 0
@@ -285,7 +298,11 @@ function Empathy() {
       const sy  = window.scrollY
       const dir = sy > lastSY ? 1 : -1
       lastSY    = sy
-      if (active) return
+      if (active) {
+        const r = wrap.getBoundingClientRect()
+        if (r.bottom < 0 || r.top > window.innerHeight) unlock()
+        return
+      }
       if (exitGuard) {
         if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) exitGuard = false
         return
@@ -305,6 +322,8 @@ function Empathy() {
     wrap.addEventListener('touchmove', onTouchMove, { passive: false })
 
     return () => {
+      clearTimeout(exitGuardTimer)
+      clearTimeout(safetyTimer)
       unlock()
       window.removeEventListener('scroll', onScroll)
       wrap.removeEventListener('wheel', onWheel)
