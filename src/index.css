@@ -1174,7 +1174,7 @@ body {
 /* ── 진료 철학 스와이프 ── */
 .tr-ph-swipe {
   position: relative;
-  height: 100svh;
+  min-height: 100svh;
   overflow: hidden;
 }
 
@@ -1185,6 +1185,7 @@ body {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  touch-action: pan-x pinch-zoom;
 }
 .b-track::-webkit-scrollbar { display: none; }
 
