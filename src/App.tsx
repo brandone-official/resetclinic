@@ -172,7 +172,9 @@ function Empathy() {
     let exitGuard = false
     let lastDir   = 0
     let reverseTimer = 0
+    let stepLock  = false
     const REVERSE_DEBOUNCE = 150
+    const STEP_INTERVAL    = 280
     const SNAP     = 80
 
     const show = (idx: number) => {
@@ -208,6 +210,7 @@ function Empathy() {
       if (!active) return
       active = false
       lastDir = 0
+      stepLock = false
       clearTimeout(reverseTimer)
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
@@ -227,14 +230,19 @@ function Empathy() {
           if (n < 0 || n >= N) { unlock(); return }
           show(n)
           lastDir = dir
+          stepLock = true
+          setTimeout(() => { stepLock = false }, STEP_INTERVAL)
         }, REVERSE_DEBOUNCE)
         return
       }
+      if (stepLock) { e.preventDefault(); return }
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
       e.preventDefault()
       show(next)
       lastDir = dir
+      stepLock = true
+      setTimeout(() => { stepLock = false }, STEP_INTERVAL)
     }
 
     let touchY    = 0
