@@ -170,8 +170,9 @@ function Empathy() {
     let cur       = -1
     let active    = false
     let exitGuard = false
-    let cooldown  = false
-    const COOLDOWN = 700
+    let lastDir   = 0
+    let reverseTimer = 0
+    const REVERSE_DEBOUNCE = 150
     const SNAP     = 80
 
     const show = (idx: number) => {
@@ -206,7 +207,8 @@ function Empathy() {
     function unlock() {
       if (!active) return
       active = false
-      cooldown = false
+      lastDir = 0
+      clearTimeout(reverseTimer)
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
       exitGuard = true
@@ -215,14 +217,24 @@ function Empathy() {
     function onWheel(e: WheelEvent) {
       if (!active) return
       if (e.deltaY === 0) { e.preventDefault(); return }
-      if (cooldown) { e.preventDefault(); return }
-      const dir  = e.deltaY > 0 ? 1 : -1
+      const dir = e.deltaY > 0 ? 1 : -1
+      if (dir !== lastDir && lastDir !== 0) {
+        e.preventDefault()
+        clearTimeout(reverseTimer)
+        reverseTimer = window.setTimeout(() => {
+          if (!active) return
+          const n = cur + dir
+          if (n < 0 || n >= N) { unlock(); return }
+          show(n)
+          lastDir = dir
+        }, REVERSE_DEBOUNCE)
+        return
+      }
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
       e.preventDefault()
       show(next)
-      cooldown = true
-      setTimeout(() => { cooldown = false }, COOLDOWN)
+      lastDir = dir
     }
 
     let touchY    = 0
@@ -241,13 +253,10 @@ function Empathy() {
       const dy = touchY - e.touches[0].clientY
       if (Math.abs(dy) < 30) return
       touchDone = true
-      if (cooldown) return
       const dir  = dy > 0 ? 1 : -1
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
       show(next)
-      cooldown = true
-      setTimeout(() => { cooldown = false }, COOLDOWN)
     }
 
     let lastSY = window.scrollY
