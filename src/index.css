@@ -1330,8 +1330,8 @@ body {
   z-index: 10;
   transition: opacity 0.2s ease;
 }
-.b-arrow--prev { left: calc(50% - 310px); }
-.b-arrow--next { right: calc(50% - 310px); }
+.b-arrow--prev { left: calc(50% - 368px); }
+.b-arrow--next { right: calc(50% - 368px); }
 .b-arrow--disabled { opacity: 0.25; cursor: default; }
 
 @media (min-width: 640px) {
