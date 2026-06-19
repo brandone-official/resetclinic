@@ -167,7 +167,12 @@ function Empathy() {
 
     const scenes = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
     const bars   = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
-    let cur      = -1
+    let cur       = -1
+    let active    = false
+    let exitGuard = false
+    let cooldown  = false
+    const COOLDOWN = 700
+    const SNAP     = 80
 
     const show = (idx: number) => {
       if (idx === cur) return
@@ -190,17 +195,93 @@ function Empathy() {
       cur = idx
     }
 
-    const onScroll = () => {
-      const scrolled   = -wrap.getBoundingClientRect().top
-      const scrollable = wrap.offsetHeight - window.innerHeight
-      if (scrolled <= 0) { show(0); return }
-      if (scrolled >= scrollable) return
-      show(Math.min(Math.floor((scrolled / scrollable) * N), N - 1))
+    function lock() {
+      if (active) return
+      active = true
+      const sw = window.innerWidth - document.documentElement.clientWidth
+      document.documentElement.style.overflow = 'hidden'
+      if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+    }
+
+    function unlock() {
+      if (!active) return
+      active = false
+      cooldown = false
+      document.documentElement.style.overflow = ''
+      document.documentElement.style.paddingRight = ''
+      exitGuard = true
+    }
+
+    function onWheel(e: WheelEvent) {
+      if (!active) return
+      if (e.deltaY === 0) { e.preventDefault(); return }
+      if (cooldown) { e.preventDefault(); return }
+      const dir  = e.deltaY > 0 ? 1 : -1
+      const next = cur + dir
+      if (next < 0 || next >= N) { unlock(); return }
+      e.preventDefault()
+      show(next)
+      cooldown = true
+      setTimeout(() => { cooldown = false }, COOLDOWN)
+    }
+
+    let touchY    = 0
+    let touchDone = false
+
+    function onTouchStart(e: TouchEvent) {
+      if (!active) return
+      touchY    = e.touches[0].clientY
+      touchDone = false
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (!active) return
+      e.preventDefault()
+      if (touchDone) return
+      const dy = touchY - e.touches[0].clientY
+      if (Math.abs(dy) < 30) return
+      touchDone = true
+      if (cooldown) return
+      const dir  = dy > 0 ? 1 : -1
+      const next = cur + dir
+      if (next < 0 || next >= N) { unlock(); return }
+      show(next)
+      cooldown = true
+      setTimeout(() => { cooldown = false }, COOLDOWN)
+    }
+
+    let lastSY = window.scrollY
+
+    function onScroll() {
+      const sy  = window.scrollY
+      const dir = sy > lastSY ? 1 : -1
+      lastSY    = sy
+      if (active) return
+      if (exitGuard) {
+        if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) exitGuard = false
+        return
+      }
+      const r = wrap.getBoundingClientRect()
+      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
+        window.scrollTo({ top: sy + r.top })
+        show(dir > 0 ? 0 : N - 1)
+        lock()
+      }
     }
 
     show(0)
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    wrap.addEventListener('wheel', onWheel, { passive: false })
+    wrap.addEventListener('touchstart', onTouchStart, { passive: true })
+    wrap.addEventListener('touchmove', onTouchMove, { passive: false })
+
+    return () => {
+      unlock()
+      window.removeEventListener('scroll', onScroll)
+      wrap.removeEventListener('wheel', onWheel)
+      wrap.removeEventListener('touchstart', onTouchStart)
+      wrap.removeEventListener('touchmove', onTouchMove)
+    }
   }, [N])
 
   return (

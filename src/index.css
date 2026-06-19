@@ -352,19 +352,18 @@ body {
 
 /* ── 3. Empathy — D × F 병합 ─────────────── */
 
-/* 스크롤 공간 래퍼 */
+/* 공감 섹션 래퍼 */
 .s-empathy-wrap {
-  height: 600vh;
+  height: 100vh;
+  height: 100dvh;
   position: relative;
   border-top: 1px solid var(--line);
 }
 
 /* 뷰포트 고정 무대 — 배경 색온도 전환 (D) */
 .s-empathy-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100dvh;
+  position: relative;
+  height: 100%;
   overflow: hidden;
   transition: background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
