@@ -170,11 +170,13 @@ function Empathy() {
     let cur       = -1
     let active    = false
     let exitGuard = false
-    let lastDir   = 0
+    let lastDir      = 0
     let reverseTimer = 0
-    let stepLock  = false
+    let gestureActive = false
+    let peakDelta     = 0
+    let gapTimer      = 0
     const REVERSE_DEBOUNCE = 150
-    const STEP_INTERVAL    = 280
+    const GAP_TIMEOUT      = 80
     const SNAP     = 80
 
     const show = (idx: number) => {
@@ -210,7 +212,9 @@ function Empathy() {
       if (!active) return
       active = false
       lastDir = 0
-      stepLock = false
+      gestureActive = false
+      peakDelta = 0
+      clearTimeout(gapTimer)
       clearTimeout(reverseTimer)
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
@@ -220,29 +224,47 @@ function Empathy() {
     function onWheel(e: WheelEvent) {
       if (!active) return
       if (e.deltaY === 0) { e.preventDefault(); return }
+      const absDelta = Math.abs(e.deltaY)
       const dir = e.deltaY > 0 ? 1 : -1
+
       if (dir !== lastDir && lastDir !== 0) {
         e.preventDefault()
         clearTimeout(reverseTimer)
+        gestureActive = false
+        peakDelta = 0
         reverseTimer = window.setTimeout(() => {
           if (!active) return
           const n = cur + dir
           if (n < 0 || n >= N) { unlock(); return }
           show(n)
           lastDir = dir
-          stepLock = true
-          setTimeout(() => { stepLock = false }, STEP_INTERVAL)
+          gestureActive = true
+          peakDelta = absDelta
+          clearTimeout(gapTimer)
+          gapTimer = window.setTimeout(() => { gestureActive = false; peakDelta = 0 }, GAP_TIMEOUT)
         }, REVERSE_DEBOUNCE)
         return
       }
-      if (stepLock) { e.preventDefault(); return }
+
+      let isNewGesture = false
+      if (!gestureActive) {
+        isNewGesture = true
+      } else if (absDelta > peakDelta * 1.5) {
+        isNewGesture = true
+      }
+
+      if (absDelta > peakDelta) peakDelta = absDelta
+      clearTimeout(gapTimer)
+      gapTimer = window.setTimeout(() => { gestureActive = false; peakDelta = 0 }, GAP_TIMEOUT)
+
+      if (!isNewGesture) { e.preventDefault(); return }
+
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
       e.preventDefault()
       show(next)
       lastDir = dir
-      stepLock = true
-      setTimeout(() => { stepLock = false }, STEP_INTERVAL)
+      gestureActive = true
     }
 
     let touchY    = 0
