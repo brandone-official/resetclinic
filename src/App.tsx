@@ -758,7 +758,7 @@ function Trust() {
             <div className="tr-prof-rule" />
             <div className="tr-prof-story">
               <p className="tr-prof-story-lead">
-                10년 이상 다이어트와<br className="mob" />
+                10년 이상 다이어트와 <span className="mob" />
                 대사질환을 진료하며<br />
                 반복해서 확인한 게 하나 있습니다.
               </p>
