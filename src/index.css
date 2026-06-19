@@ -1295,13 +1295,16 @@ body {
   border: none;
   background: none;
   cursor: pointer;
-  color: rgba(26, 26, 26, 0.35);
+  color: #D76618;
   transition: opacity 0.25s ease;
   -webkit-tap-highlight-color: transparent;
 }
 .b-prog-nav:disabled {
   opacity: 0;
   pointer-events: none;
+}
+@media (min-width: 640px) {
+  .b-prog-nav { display: none; }
 }
 
 .b-divider {
