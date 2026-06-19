@@ -176,6 +176,7 @@ function Empathy() {
     let cdDir  = 0
     let cdTm   = 0
     let lastSY = window.scrollY
+    let lastWT = wrap.getBoundingClientRect().top
 
     const SNAP    = 60
     const STEP_CD = 300
@@ -284,14 +285,20 @@ function Empathy() {
         } else if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) {
           cdDir = 0; clearTimeout(cdTm)
         } else {
+          lastWT = wrap.getBoundingClientRect().top
           return
         }
       }
 
       const r = wrap.getBoundingClientRect()
-      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
+      const crossed = (lastWT > 0 && r.top <= 0) || (lastWT < 0 && r.top >= 0)
+      lastWT = r.top
+
+      const inZone = r.top > -SNAP && r.top < SNAP
+      if ((inZone || (crossed && Math.abs(r.top) < SNAP * 4)) && r.bottom > window.innerHeight * 0.8) {
         wrap.scrollIntoView({ behavior: 'instant', block: 'start' })
         lastSY = window.scrollY
+        lastWT = 0
         show(dir > 0 ? 0 : N - 1)
         lock()
       }
