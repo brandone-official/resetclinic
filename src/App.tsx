@@ -763,6 +763,18 @@ function PhilosophySwipe() {
 
   return (
     <div className="tr-ph-swipe">
+      <div className="b-prog" aria-hidden="true">
+        <span className="b-prog-counter">
+          <span className="b-prog-cur">{idx + 1}</span>
+          <span className="b-prog-sep"> / 3</span>
+        </span>
+        <div className="b-prog-bars">
+          {[0, 1, 2].map(i => (
+            <span key={i} className={`b-prog-bar${i <= idx ? ' filled' : ''}`} />
+          ))}
+        </div>
+      </div>
+
       <div className="b-track" ref={trackRef}>
         {PHILOSOPHY.map((item, i) => (
           <div className="b-slide" key={item.num}>
@@ -797,20 +809,6 @@ function PhilosophySwipe() {
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
-
-      <div className="b-nav">
-        <div className="b-dots">
-          {[0, 1, 2].map(i => (
-            <button
-              key={i}
-              className={`b-dot${idx === i ? ' b-active' : ''}`}
-              onClick={() => goTo(i)}
-              aria-label={`${i + 1}번 카드`}
-            />
-          ))}
-        </div>
-        <div className="b-counter">{String(idx + 1).padStart(2, '0')} / 03</div>
-      </div>
     </div>
   )
 }
