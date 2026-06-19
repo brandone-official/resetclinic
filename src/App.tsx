@@ -294,6 +294,7 @@ function Empathy() {
       const dir  = dy > 0 ? 1 : -1
       const next = cur + dir
       if (next < 0 || next >= N) {
+        lastDir = dir
         unlock()
         window.scrollBy({ top: dir * window.innerHeight, behavior: 'smooth' })
         return
@@ -313,7 +314,10 @@ function Empathy() {
         return
       }
       if (exitGuard) {
-        if (dir !== exitDir || Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) {
+        const cleared = exitDir !== 0 && dir !== exitDir
+          ? true
+          : Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2
+        if (cleared) {
           exitGuard = false
           clearTimeout(exitGuardTimer)
         } else {
