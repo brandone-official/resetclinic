@@ -32,6 +32,7 @@ body {
     'Malgun Gothic',
     sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* ── Reveal ──────────────────────────────── */
@@ -356,7 +357,6 @@ body {
   height: 100dvh;
   position: relative;
   border-top: 1px solid var(--line);
-  overflow: hidden;
 }
 
 /* 뷰포트 고정 무대 — 배경 색온도 전환 (D) */
