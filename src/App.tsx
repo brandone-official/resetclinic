@@ -185,6 +185,8 @@ function Empathy() {
     const DWELL    = 150
     let dwellTimer = 0
     let dwellDir   = 1
+    const isPC = matchMedia('(pointer: fine)').matches
+    let lastWrapTop = NaN
 
     function show(idx: number) {
       if (idx === cur) return
@@ -313,15 +315,18 @@ function Empathy() {
       const sy  = window.scrollY
       const dir = sy > lastSY ? 1 : -1
       lastSY    = sy
+      const r = wrap.getBoundingClientRect()
+      const prevWrapTop = lastWrapTop
+      lastWrapTop = r.top
+
       if (active) {
-        const r = wrap.getBoundingClientRect()
         if (r.bottom < 0 || r.top > window.innerHeight) unlock()
         return
       }
       if (exitGuard) {
         const cleared = exitDir !== 0 && dir !== exitDir
           ? true
-          : Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2
+          : Math.abs(r.top) > SNAP * 2
         if (cleared) {
           exitGuard = false
           clearTimeout(exitGuardTimer)
@@ -329,26 +334,37 @@ function Empathy() {
           return
         }
       }
-      const r = wrap.getBoundingClientRect()
-      const inZone = r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8
-      if (inZone) {
-        if (!dwellTimer) {
-          dwellDir = dir
-          dwellTimer = window.setTimeout(() => {
-            dwellTimer = 0
-            if (active || exitGuard) return
-            const sy2 = window.scrollY
-            const r2 = wrap.getBoundingClientRect()
-            if (r2.top > -SNAP && r2.top < SNAP && r2.bottom > window.innerHeight * 0.8) {
-              window.scrollTo({ top: sy2 + r2.top, behavior: 'instant' })
-              show(dwellDir > 0 ? 0 : N - 1)
-              lock()
-            }
-          }, DWELL)
+
+      if (isPC) {
+        if (!isNaN(prevWrapTop) && r.bottom > window.innerHeight * 0.8) {
+          const crossed = (prevWrapTop > 0 && r.top <= 0) || (prevWrapTop < 0 && r.top >= 0)
+          if (crossed) {
+            window.scrollTo({ top: sy + r.top, behavior: 'instant' })
+            show(dir > 0 ? 0 : N - 1)
+            lock()
+          }
         }
       } else {
-        clearTimeout(dwellTimer)
-        dwellTimer = 0
+        const inZone = r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8
+        if (inZone) {
+          if (!dwellTimer) {
+            dwellDir = dir
+            dwellTimer = window.setTimeout(() => {
+              dwellTimer = 0
+              if (active || exitGuard) return
+              const sy2 = window.scrollY
+              const r2 = wrap.getBoundingClientRect()
+              if (r2.top > -SNAP && r2.top < SNAP && r2.bottom > window.innerHeight * 0.8) {
+                window.scrollTo({ top: sy2 + r2.top, behavior: 'instant' })
+                show(dwellDir > 0 ? 0 : N - 1)
+                lock()
+              }
+            }, DWELL)
+          }
+        } else {
+          clearTimeout(dwellTimer)
+          dwellTimer = 0
+        }
       }
     }
 
