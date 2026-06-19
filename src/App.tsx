@@ -770,64 +770,14 @@ function PhilosophySwipe() {
     const readIdx = () =>
       setIdx(Math.round(track.scrollLeft / track.clientWidth))
 
-    let startX = 0
-    let startY = 0
-    let scrollStart = 0
-    let axis: '' | 'x' | 'y' = ''
-
-    const onTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX
-      startY = e.touches[0].clientY
-      scrollStart = track.scrollLeft
-      axis = ''
-    }
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (axis === 'y') return
-      if (!axis) {
-        const dx = Math.abs(e.touches[0].clientX - startX)
-        const dy = Math.abs(e.touches[0].clientY - startY)
-        if (dx < 8 && dy < 8) return
-        axis = dx > dy ? 'x' : 'y'
-        if (axis === 'y') return
-      }
-      track.scrollLeft = scrollStart - (e.touches[0].clientX - startX)
-    }
-
-    const onTouchEnd = () => {
-      if (axis === 'x') {
-        const w = track.clientWidth
-        const target = Math.round(track.scrollLeft / w) * w
-        track.scrollTo({ left: target, behavior: 'smooth' })
-      }
-    }
-
-    track.addEventListener('touchstart', onTouchStart, { passive: true })
-    track.addEventListener('touchmove', onTouchMove, { passive: true })
-    track.addEventListener('touchend', onTouchEnd, { passive: true })
-
     if ('onscrollend' in window) {
       track.addEventListener('scrollend', readIdx, { passive: true })
-      return () => {
-        track.removeEventListener('scrollend', readIdx)
-        track.removeEventListener('touchstart', onTouchStart)
-        track.removeEventListener('touchmove', onTouchMove)
-        track.removeEventListener('touchend', onTouchEnd)
-      }
+      return () => { track.removeEventListener('scrollend', readIdx) }
     } else {
       let timer: ReturnType<typeof setTimeout>
-      const onScroll = () => {
-        clearTimeout(timer)
-        timer = setTimeout(readIdx, 80)
-      }
+      const onScroll = () => { clearTimeout(timer); timer = setTimeout(readIdx, 80) }
       track.addEventListener('scroll', onScroll, { passive: true })
-      return () => {
-        clearTimeout(timer)
-        track.removeEventListener('scroll', onScroll)
-        track.removeEventListener('touchstart', onTouchStart)
-        track.removeEventListener('touchmove', onTouchMove)
-        track.removeEventListener('touchend', onTouchEnd)
-      }
+      return () => { clearTimeout(timer); track.removeEventListener('scroll', onScroll) }
     }
   }, [])
 
@@ -840,12 +790,18 @@ function PhilosophySwipe() {
 
   return (
     <div className="tr-ph-swipe">
-      <div className="b-prog" aria-hidden="true">
+      <div className="b-prog">
         <span className="b-prog-counter">
+          <button className="b-prog-nav" onClick={() => goTo(idx - 1)} disabled={idx === 0} aria-label="이전 카드">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
           <span className="b-prog-cur">{idx + 1}</span>
           <span className="b-prog-sep"> / 3</span>
+          <button className="b-prog-nav" onClick={() => goTo(idx + 1)} disabled={idx === 2} aria-label="다음 카드">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          </button>
         </span>
-        <div className="b-prog-bars">
+        <div className="b-prog-bars" aria-hidden="true">
           {[0, 1, 2].map(i => (
             <span key={i} className={`b-prog-bar${i <= idx ? ' filled' : ''}`} />
           ))}

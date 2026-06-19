@@ -1186,7 +1186,7 @@ body {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  touch-action: pan-y pinch-zoom;
+  touch-action: manipulation;
 }
 .b-track::-webkit-scrollbar { display: none; }
 
@@ -1283,6 +1283,25 @@ body {
 .b-prog-bar.filled {
   background: var(--navy);
   width: 1.5rem;
+}
+
+.b-prog-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgba(26, 26, 26, 0.35);
+  transition: opacity 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.b-prog-nav:disabled {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .b-divider {
