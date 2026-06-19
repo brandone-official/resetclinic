@@ -1270,29 +1270,6 @@ body {
   letter-spacing: 0.06em;
 }
 
-.b-swipe-hint {
-  position: absolute;
-  bottom: 4.75rem; left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  pointer-events: none;
-  color: #1A3270;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.b-swipe-hint.is-visible {
-  opacity: 0.4;
-}
-
-.b-track--nudge {
-  animation: bNudge 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-@keyframes bNudge {
-  0%   { transform: translateX(0); }
-  35%  { transform: translateX(-40px); }
-  100% { transform: translateX(0); }
-}
-
 .b-divider {
   width: 2.5rem;
   height: 2px;
@@ -1301,23 +1278,23 @@ body {
 }
 
 .b-arrow {
-  display: none;
+  display: flex;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   border: none;
-  background: #1A3270;
+  background: rgba(26, 50, 112, 0.55);
   cursor: pointer;
   align-items: center;
   justify-content: center;
   z-index: 10;
   transition: opacity 0.2s ease;
 }
-.b-arrow--prev { left: 1.25rem; }
-.b-arrow--next { right: 1.25rem; }
+.b-arrow--prev { left: 0.625rem; }
+.b-arrow--next { right: 0.625rem; }
 .b-arrow--disabled { opacity: 0.25; cursor: default; }
 
 @media (min-width: 640px) {
@@ -1331,7 +1308,13 @@ body {
 }
 
 @media (min-width: 768px) {
-  .b-arrow { display: flex; }
+  .b-arrow {
+    width: 2.75rem;
+    height: 2.75rem;
+    background: #1A3270;
+  }
+  .b-arrow--prev { left: 1.25rem; }
+  .b-arrow--next { right: 1.25rem; }
 }
 
 /* Part 3: 원장 프로필 — 모바일 기본 */

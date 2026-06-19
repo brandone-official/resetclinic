@@ -727,23 +727,14 @@ const PHIL_SVGS = [PHIL_SVG_01, PHIL_SVG_02, PHIL_SVG_03]
 
 function PhilosophySwipe() {
   const trackRef = useRef<HTMLDivElement>(null)
-  const wrapRef = useRef<HTMLDivElement>(null)
   const [idx, setIdx] = useState(0)
-  const [swiped, setSwiped] = useState(false)
-  const [inView, setInView] = useState(false)
-  const [nudgeDone, setNudgeDone] = useState(false)
-
-  const setActive = (next: number) => {
-    setIdx(next)
-    if (next > 0) setSwiped(true)
-  }
 
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
 
     const readIdx = () =>
-      setActive(Math.round(track.scrollLeft / track.clientWidth))
+      setIdx(Math.round(track.scrollLeft / track.clientWidth))
 
     if ('onscrollend' in window) {
       track.addEventListener('scrollend', readIdx, { passive: true })
@@ -762,52 +753,15 @@ function PhilosophySwipe() {
     }
   }, [])
 
-  useEffect(() => {
-    const wrap = wrapRef.current
-    if (!wrap) return
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setInView(true)
-          setSwiped(false)
-          setNudgeDone(false)
-        } else {
-          setInView(false)
-        }
-      },
-      { threshold: 0.4 },
-    )
-    io.observe(wrap)
-    return () => io.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (!inView || swiped || nudgeDone) return
-    const track = trackRef.current
-    if (!track) return
-    const timer = setTimeout(() => {
-      track.classList.add('b-track--nudge')
-      const onEnd = () => {
-        track.classList.remove('b-track--nudge')
-        setNudgeDone(true)
-        track.removeEventListener('animationend', onEnd)
-      }
-      track.addEventListener('animationend', onEnd, { once: true })
-    }, 1500)
-    return () => clearTimeout(timer)
-  }, [inView, swiped, nudgeDone])
-
   const goTo = (next: number) => {
     const track = trackRef.current
     if (!track) return
     track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' })
-    setActive(next)
+    setIdx(next)
   }
 
-  const showHint = inView && !swiped
-
   return (
-    <div className="tr-ph-swipe" ref={wrapRef}>
+    <div className="tr-ph-swipe">
       <div className="b-track" ref={trackRef}>
         {PHILOSOPHY.map((item, i) => (
           <div className="b-slide" key={item.num}>
@@ -855,18 +809,6 @@ function PhilosophySwipe() {
           ))}
         </div>
         <div className="b-counter">{String(idx + 1).padStart(2, '0')} / 03</div>
-      </div>
-
-      <div className={`b-swipe-hint${showHint ? ' is-visible' : ''}`}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M8 13V4.5a1.5 1.5 0 0 1 3 0V12" />
-          <path d="M11 11.5v-2a1.5 1.5 0 0 1 3 0V12" />
-          <path d="M14 10.5a1.5 1.5 0 0 1 3 0V12" />
-          <path d="M17 11.5a1.5 1.5 0 0 1 3 0V16a6 6 0 0 1-6 6h-2a6 6 0 0 1-5.27-3.13" />
-          <path d="M5 11l-1 1" />
-          <path d="M4 8H2" />
-          <path d="M5 5L4 4" />
-        </svg>
       </div>
     </div>
   )
