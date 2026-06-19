@@ -339,9 +339,10 @@ function Empathy() {
         if (!isNaN(prevWrapTop) && r.bottom > window.innerHeight * 0.8) {
           const crossed = (prevWrapTop > 0 && r.top <= 0) || (prevWrapTop < 0 && r.top >= 0)
           if (crossed) {
-            window.scrollTo({ top: sy + r.top, behavior: 'instant' })
             show(dir > 0 ? 0 : N - 1)
             lock()
+            const snapR = wrap.getBoundingClientRect()
+            window.scrollTo({ top: window.scrollY + snapR.top, behavior: 'instant' })
           }
         }
       } else {
