@@ -165,8 +165,9 @@ function Empathy() {
     const breath = breathRef.current
     if (!wrap || !sticky || !breath) return
 
-    const scenes = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
-    const bars   = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
+    const scenes  = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
+    const bars    = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
+    const counter = wrap.querySelector<HTMLElement>('.emp-counter')!
     let cur       = -1
     let active    = false
     let exitGuard = false
@@ -194,6 +195,7 @@ function Empathy() {
         }
       })
       bars.forEach((b, i) => b.classList.toggle('filled', i <= idx))
+      counter.textContent = `${idx + 1} / ${N}`
       sticky.style.backgroundColor = EMP_CFG[idx].bg
       breath.style.opacity   = '1'
       breath.style.transform = `translate(-50%,-50%) scale(${EMP_CFG[idx].scale})`
@@ -341,9 +343,12 @@ function Empathy() {
         ))}
 
         <div className="emp-prog" aria-hidden="true">
-          {EMPATHY.map((_, i) => (
-            <span key={i} className={`prog-bar${i === 0 ? ' filled' : ''}`} />
-          ))}
+          <span className="emp-counter">1 / {N}</span>
+          <div className="emp-bars">
+            {EMPATHY.map((_, i) => (
+              <span key={i} className={`prog-bar${i === 0 ? ' filled' : ''}`} />
+            ))}
+          </div>
         </div>
 
       </div>
