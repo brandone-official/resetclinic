@@ -250,6 +250,7 @@ function Empathy() {
         const sw = window.innerWidth - document.documentElement.clientWidth
         document.documentElement.style.overflow = 'hidden'
         if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+        window.addEventListener('wheel', onWheel, { passive: false })
       }
     }
 
@@ -294,7 +295,11 @@ function Empathy() {
         reverseTimer = window.setTimeout(() => {
           if (!active) return
           const n = cur + dir
-          if (n < 0 || n >= N) { unlock(); return }
+          if (n < 0 || n >= N) {
+            unlock()
+            if (isPC) window.scrollBy({ top: dir * window.innerHeight, behavior: 'smooth' })
+            return
+          }
           show(n)
           lastDir = dir
           gestureActive = true
@@ -307,7 +312,11 @@ function Empathy() {
       if (gestureActive) { e.preventDefault(); return }
 
       const next = cur + dir
-      if (next < 0 || next >= N) { unlock(); return }
+      if (next < 0 || next >= N) {
+        unlock()
+        if (isPC) window.scrollBy({ top: dir * window.innerHeight, behavior: 'smooth' })
+        return
+      }
       e.preventDefault()
       show(next)
       lastDir = dir
@@ -378,7 +387,9 @@ function Empathy() {
           }
         }
       } else {
-        const inZone = r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8
+        const mSnap = 80
+        const mDwell = 80
+        const inZone = r.top > -mSnap && r.top < mSnap && r.bottom > window.innerHeight * 0.8
         if (inZone) {
           if (!dwellTimer) {
             dwellDir = dir
@@ -387,12 +398,12 @@ function Empathy() {
               if (active || exitGuard) return
               const sy2 = window.scrollY
               const r2 = wrap.getBoundingClientRect()
-              if (r2.top > -SNAP && r2.top < SNAP && r2.bottom > window.innerHeight * 0.8) {
+              if (r2.top > -mSnap && r2.top < mSnap && r2.bottom > window.innerHeight * 0.8) {
                 window.scrollTo({ top: sy2 + r2.top, behavior: 'instant' })
                 show(dwellDir > 0 ? 0 : N - 1)
                 lock()
               }
-            }, DWELL)
+            }, mDwell)
           }
         } else {
           clearTimeout(dwellTimer)
