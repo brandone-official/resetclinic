@@ -176,7 +176,6 @@ function Empathy() {
     let cdDir  = 0
     let cdTm   = 0
     let lastSY = window.scrollY
-    let lastWT = wrap.getBoundingClientRect().top
 
     const SNAP    = 60
     const STEP_CD = 300
@@ -212,12 +211,10 @@ function Empathy() {
       const sw = window.innerWidth - document.documentElement.clientWidth
       document.documentElement.style.overflow = 'hidden'
       if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
-      window.addEventListener('wheel', onWheel, { passive: false })
     }
 
     function unlock(dir: number) {
       if (!locked) return
-      window.removeEventListener('wheel', onWheel)
       locked = false
       busy = false
       clearTimeout(busyTm)
@@ -229,17 +226,34 @@ function Empathy() {
     }
 
     function onWheel(e: WheelEvent) {
-      if (!locked) return
-      if (e.deltaY === 0) { e.preventDefault(); return }
-      const dir  = e.deltaY > 0 ? 1 : -1
-      const next = cur + dir
-      if (next < 0 || next >= N) { unlock(dir); return }
-      e.preventDefault()
-      if (busy) return
-      show(next)
-      busy = true
-      clearTimeout(busyTm)
-      busyTm = window.setTimeout(() => { busy = false }, STEP_CD)
+      if (e.deltaY === 0) return
+      const dir = e.deltaY > 0 ? 1 : -1
+
+      if (locked) {
+        const next = cur + dir
+        if (next < 0 || next >= N) { unlock(dir); return }
+        e.preventDefault()
+        if (busy) return
+        show(next)
+        busy = true
+        clearTimeout(busyTm)
+        busyTm = window.setTimeout(() => { busy = false }, STEP_CD)
+        return
+      }
+
+      if (cdDir !== 0) {
+        if (dir !== cdDir) { cdDir = 0; clearTimeout(cdTm) }
+        else return
+      }
+
+      const r = wrap.getBoundingClientRect()
+      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
+        e.preventDefault()
+        wrap.scrollIntoView({ behavior: 'instant', block: 'start' })
+        lastSY = window.scrollY
+        show(dir > 0 ? 0 : N - 1)
+        lock()
+      }
     }
 
     let touchY    = 0
@@ -285,20 +299,14 @@ function Empathy() {
         } else if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) {
           cdDir = 0; clearTimeout(cdTm)
         } else {
-          lastWT = wrap.getBoundingClientRect().top
           return
         }
       }
 
       const r = wrap.getBoundingClientRect()
-      const crossed = (lastWT > 0 && r.top <= 0) || (lastWT < 0 && r.top >= 0)
-      lastWT = r.top
-
-      const inZone = r.top > -SNAP && r.top < SNAP
-      if ((inZone || (crossed && Math.abs(r.top) < SNAP * 4)) && r.bottom > window.innerHeight * 0.8) {
+      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
         wrap.scrollIntoView({ behavior: 'instant', block: 'start' })
         lastSY = window.scrollY
-        lastWT = 0
         show(dir > 0 ? 0 : N - 1)
         lock()
       }
@@ -309,6 +317,7 @@ function Empathy() {
     }
 
     show(0)
+    window.addEventListener('wheel', onWheel, { passive: false })
     window.addEventListener('scroll', onScroll, { passive: true })
     wrap.addEventListener('touchstart', onTouchStart, { passive: true })
     wrap.addEventListener('touchmove', onTouchMove, { passive: false })
