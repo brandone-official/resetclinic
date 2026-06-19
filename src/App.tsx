@@ -247,7 +247,8 @@ function Empathy() {
       }
 
       function onScroll() {
-        if (locked || exitGuard || (window as any).__rcScrollToTop) return
+        if (locked || exitGuard) return
+        if ((window as any).__rcScrollToTop) { lastWrapTop = wrap.getBoundingClientRect().top; return }
         const r = wrap.getBoundingClientRect()
         const prev = lastWrapTop
         lastWrapTop = r.top
@@ -325,7 +326,8 @@ function Empathy() {
       }
 
       function onScroll() {
-        if (locked || exitGuard || (window as any).__rcScrollToTop) return
+        if (locked || exitGuard) return
+        if ((window as any).__rcScrollToTop) { lastWrapTop = wrap.getBoundingClientRect().top; return }
         const r = wrap.getBoundingClientRect()
         const prev = lastWrapTop
         lastWrapTop = r.top
