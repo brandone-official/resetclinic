@@ -219,13 +219,15 @@ function Empathy() {
       clearTimeout(reverseTimer)
       clearTimeout(safetyTimer)
       const sw = window.innerWidth - document.documentElement.clientWidth
-      document.documentElement.style.overflow = 'hidden'
-      if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
       if (isPC) {
+        const wr = wrap.getBoundingClientRect()
+        window.scrollTo({ top: window.scrollY + wr.top, behavior: 'instant' })
         sticky.style.position = 'fixed'
         sticky.style.inset = '0'
         sticky.style.zIndex = '1000'
       }
+      document.documentElement.style.overflow = 'hidden'
+      if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
       window.addEventListener('wheel', onWheel, { passive: false })
     }
 
@@ -251,6 +253,13 @@ function Empathy() {
       document.documentElement.style.paddingRight = ''
       exitGuard = true
       exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
+      if (isPC) {
+        const wr = wrap.getBoundingClientRect()
+        if (Math.abs(wr.top) > 1) {
+          window.scrollTo({ top: window.scrollY + wr.top, behavior: 'instant' })
+        }
+        lastWrapTop = 0
+      }
     }
 
     function resetGesture() {
