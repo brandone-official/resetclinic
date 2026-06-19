@@ -176,7 +176,7 @@ function Empathy() {
     let gestureActive = false
     let gapTimer      = 0
     const REVERSE_DEBOUNCE = 150
-    const GAP_TIMEOUT      = 80
+    const STEP_INTERVAL    = 350
     const SNAP     = 80
 
     const show = (idx: number) => {
@@ -237,14 +237,10 @@ function Empathy() {
           show(n)
           lastDir = dir
           gestureActive = true
-          clearTimeout(gapTimer)
-          gapTimer = window.setTimeout(() => { gestureActive = false }, GAP_TIMEOUT)
+          gapTimer = window.setTimeout(() => { gestureActive = false }, STEP_INTERVAL)
         }, REVERSE_DEBOUNCE)
         return
       }
-
-      clearTimeout(gapTimer)
-      gapTimer = window.setTimeout(() => { gestureActive = false }, GAP_TIMEOUT)
 
       if (gestureActive) { e.preventDefault(); return }
 
@@ -254,6 +250,7 @@ function Empathy() {
       show(next)
       lastDir = dir
       gestureActive = true
+      gapTimer = window.setTimeout(() => { gestureActive = false }, STEP_INTERVAL)
     }
 
     let touchY    = 0
