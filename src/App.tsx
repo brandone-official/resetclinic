@@ -247,7 +247,7 @@ function Empathy() {
       }
 
       function onScroll() {
-        if (locked || exitGuard) return
+        if (locked || exitGuard || (window as any).__rcScrollToTop) return
         const r = wrap.getBoundingClientRect()
         const prev = lastWrapTop
         lastWrapTop = r.top
@@ -325,7 +325,7 @@ function Empathy() {
       }
 
       function onScroll() {
-        if (locked || exitGuard) return
+        if (locked || exitGuard || (window as any).__rcScrollToTop) return
         const r = wrap.getBoundingClientRect()
         const prev = lastWrapTop
         lastWrapTop = r.top
@@ -1377,7 +1377,11 @@ function ScrollTopBtn() {
   return (
     <button
       className={`scroll-top-btn${visible ? ' is-visible' : ''}`}
-      onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
+      onClick={() => {
+        (window as any).__rcScrollToTop = true
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        setTimeout(() => { (window as any).__rcScrollToTop = false }, 1500)
+      }}
       aria-label="맨 위로 이동"
     >
       <i className="ti ti-chevron-up" />
