@@ -32,7 +32,6 @@ body {
     'Malgun Gothic',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 /* ── Reveal ──────────────────────────────── */
@@ -357,6 +356,7 @@ body {
   height: 100dvh;
   position: relative;
   border-top: 1px solid var(--line);
+  overflow: hidden;
 }
 
 /* 뷰포트 고정 무대 — 배경 색온도 전환 (D) */
@@ -832,6 +832,7 @@ body {
 .s-symptoms {
   background: #07112B;
   color: #e8edf4;
+  overflow-x: hidden;
 }
 
 /* 섹션 헤더 */
@@ -1003,6 +1004,7 @@ body {
   background: #F7F3EE;
   padding: 6rem var(--px);
   text-align: center;
+  overflow-x: hidden;
 }
 
 .st-inner {
