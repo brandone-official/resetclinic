@@ -168,25 +168,20 @@ function Empathy() {
     const scenes  = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
     const bars    = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
     const counter = wrap.querySelector<HTMLElement>('.emp-counter')!
-    let cur       = -1
-    let active    = false
-    let exitGuard = false
-    let exitGuardTimer = 0
-    let exitDir      = 0
-    let lastDir      = 0
-    let reverseTimer = 0
-    let gestureActive = false
-    let gapTimer      = 0
-    let safetyTimer   = 0
-    const REVERSE_DEBOUNCE = 150
-    const STEP_INTERVAL    = 350
-    const SNAP     = 50
-    const SAFETY_MAX = 1200
-    const DWELL    = 150
-    let dwellTimer = 0
-    let dwellDir   = 1
 
-    const show = (idx: number) => {
+    let cur    = -1
+    let locked = false
+    let busy   = false
+    let busyTm = 0
+    let cdDir  = 0
+    let cdTm   = 0
+    let lastSY = window.scrollY
+
+    const SNAP    = 60
+    const STEP_CD = 300
+    const EXIT_CD = 600
+
+    function show(idx: number) {
       if (idx === cur) return
       const prev = cur
       scenes.forEach((s, i) => {
@@ -209,88 +204,54 @@ function Empathy() {
     }
 
     function lock() {
-      if (active) return
-      active = true
-      lastDir = 0
-      gestureActive = false
-      clearTimeout(gapTimer)
-      clearTimeout(reverseTimer)
-      clearTimeout(safetyTimer)
+      if (locked) return
+      locked = true
+      busy = false
+      clearTimeout(busyTm)
       const sw = window.innerWidth - document.documentElement.clientWidth
       document.documentElement.style.overflow = 'hidden'
       if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
       window.addEventListener('wheel', onWheel, { passive: false })
     }
 
-    function unlock() {
-      if (!active) return
+    function unlock(dir: number) {
+      if (!locked) return
       window.removeEventListener('wheel', onWheel)
-      exitDir = lastDir
-      active = false
-      lastDir = 0
-      gestureActive = false
-      clearTimeout(gapTimer)
-      clearTimeout(reverseTimer)
-      clearTimeout(safetyTimer)
-      clearTimeout(exitGuardTimer)
-      clearTimeout(dwellTimer)
-      dwellTimer = 0
+      locked = false
+      busy = false
+      clearTimeout(busyTm)
+      clearTimeout(cdTm)
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
-      exitGuard = true
-      exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
-    }
-
-    function resetGesture() {
-      gestureActive = false
-      clearTimeout(safetyTimer)
+      cdDir = dir
+      cdTm = window.setTimeout(() => { cdDir = 0 }, EXIT_CD)
     }
 
     function onWheel(e: WheelEvent) {
-      if (!active) return
+      if (!locked) return
       if (e.deltaY === 0) { e.preventDefault(); return }
-      const dir = e.deltaY > 0 ? 1 : -1
-
-      if (dir !== lastDir && lastDir !== 0) {
-        e.preventDefault()
-        clearTimeout(reverseTimer)
-        resetGesture()
-        reverseTimer = window.setTimeout(() => {
-          if (!active) return
-          const n = cur + dir
-          if (n < 0 || n >= N) { unlock(); return }
-          show(n)
-          lastDir = dir
-          gestureActive = true
-          gapTimer = window.setTimeout(() => { resetGesture() }, STEP_INTERVAL)
-          safetyTimer = window.setTimeout(() => { resetGesture() }, SAFETY_MAX)
-        }, REVERSE_DEBOUNCE)
-        return
-      }
-
-      if (gestureActive) { e.preventDefault(); return }
-
+      const dir  = e.deltaY > 0 ? 1 : -1
       const next = cur + dir
-      if (next < 0 || next >= N) { unlock(); return }
+      if (next < 0 || next >= N) { unlock(dir); return }
       e.preventDefault()
+      if (busy) return
       show(next)
-      lastDir = dir
-      gestureActive = true
-      gapTimer = window.setTimeout(() => { resetGesture() }, STEP_INTERVAL)
-      safetyTimer = window.setTimeout(() => { resetGesture() }, SAFETY_MAX)
+      busy = true
+      clearTimeout(busyTm)
+      busyTm = window.setTimeout(() => { busy = false }, STEP_CD)
     }
 
     let touchY    = 0
     let touchDone = false
 
     function onTouchStart(e: TouchEvent) {
-      if (!active) return
+      if (!locked) return
       touchY    = e.touches[0].clientY
       touchDone = false
     }
 
     function onTouchMove(e: TouchEvent) {
-      if (!active) return
+      if (!locked) return
       e.preventDefault()
       if (touchDone) return
       const dy = touchY - e.touches[0].clientY
@@ -299,73 +260,62 @@ function Empathy() {
       const dir  = dy > 0 ? 1 : -1
       const next = cur + dir
       if (next < 0 || next >= N) {
-        lastDir = dir
-        unlock()
+        unlock(dir)
         window.scrollBy({ top: dir * window.innerHeight, behavior: 'smooth' })
         return
       }
       show(next)
     }
 
-    let lastSY = window.scrollY
-
     function onScroll() {
       const sy  = window.scrollY
       const dir = sy > lastSY ? 1 : -1
       lastSY    = sy
-      if (active) {
+
+      if (locked) {
         const r = wrap.getBoundingClientRect()
-        if (r.bottom < 0 || r.top > window.innerHeight) unlock()
+        if (r.bottom < 0 || r.top > window.innerHeight) unlock(dir)
         return
       }
-      if (exitGuard) {
-        const cleared = exitDir !== 0 && dir !== exitDir
-          ? true
-          : Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2
-        if (cleared) {
-          exitGuard = false
-          clearTimeout(exitGuardTimer)
+
+      if (cdDir !== 0) {
+        if (dir !== cdDir) {
+          cdDir = 0; clearTimeout(cdTm)
+        } else if (Math.abs(wrap.getBoundingClientRect().top) > SNAP * 2) {
+          cdDir = 0; clearTimeout(cdTm)
         } else {
           return
         }
       }
+
       const r = wrap.getBoundingClientRect()
-      const inZone = r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8
-      if (inZone) {
-        if (!dwellTimer) {
-          dwellDir = dir
-          dwellTimer = window.setTimeout(() => {
-            dwellTimer = 0
-            if (active || exitGuard) return
-            const sy2 = window.scrollY
-            const r2 = wrap.getBoundingClientRect()
-            if (r2.top > -SNAP && r2.top < SNAP && r2.bottom > window.innerHeight * 0.8) {
-              window.scrollTo({ top: sy2 + r2.top, behavior: 'instant' })
-              show(dwellDir > 0 ? 0 : N - 1)
-              lock()
-            }
-          }, DWELL)
-        }
-      } else {
-        clearTimeout(dwellTimer)
-        dwellTimer = 0
+      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
+        window.scrollTo({ top: sy + r.top, behavior: 'instant' })
+        show(dir > 0 ? 0 : N - 1)
+        lock()
       }
+    }
+
+    function onVisibility() {
+      if (document.hidden && locked) unlock(0)
     }
 
     show(0)
     window.addEventListener('scroll', onScroll, { passive: true })
     wrap.addEventListener('touchstart', onTouchStart, { passive: true })
     wrap.addEventListener('touchmove', onTouchMove, { passive: false })
+    document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
-      clearTimeout(exitGuardTimer)
-      clearTimeout(safetyTimer)
-      clearTimeout(dwellTimer)
-      unlock()
-      window.removeEventListener('scroll', onScroll)
+      clearTimeout(busyTm)
+      clearTimeout(cdTm)
       window.removeEventListener('wheel', onWheel)
+      document.documentElement.style.overflow = ''
+      document.documentElement.style.paddingRight = ''
+      window.removeEventListener('scroll', onScroll)
       wrap.removeEventListener('touchstart', onTouchStart)
       wrap.removeEventListener('touchmove', onTouchMove)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [N])
 
