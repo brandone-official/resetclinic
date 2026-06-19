@@ -278,14 +278,14 @@ function Empathy() {
 
     function onTouchMove(e: TouchEvent) {
       if (!active) return
-      e.preventDefault()
-      if (touchDone) return
+      if (touchDone) { e.preventDefault(); return }
       const dy = touchY - e.touches[0].clientY
-      if (Math.abs(dy) < 30) return
+      if (Math.abs(dy) < 30) { e.preventDefault(); return }
       touchDone = true
       const dir  = dy > 0 ? 1 : -1
       const next = cur + dir
       if (next < 0 || next >= N) { unlock(); return }
+      e.preventDefault()
       show(next)
     }
 
