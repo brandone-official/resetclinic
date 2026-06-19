@@ -1593,6 +1593,19 @@ body {
   border: none;
 }
 
+.tr-yt-sub-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+.tr-yt-iframe-wrap.tr-yt-sub {
+  flex: 1;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .tr-yt-more {
   display: inline-block;
   background: #D76618;
@@ -1615,6 +1628,17 @@ body {
     margin-left: calc(-1 * var(--px));
     margin-right: calc(-1 * var(--px));
     width: calc(100% + var(--px) * 2);
+  }
+  .tr-yt-sub-row {
+    margin-left: calc(-1 * var(--px));
+    margin-right: calc(-1 * var(--px));
+    width: calc(100% + var(--px) * 2);
+    gap: 2px;
+  }
+  .tr-yt-iframe-wrap.tr-yt-sub {
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
   }
 }
 

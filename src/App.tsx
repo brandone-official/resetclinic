@@ -926,12 +926,32 @@ function Trust() {
           <p className="tr-yt-desc">갱년기 다이어트, <span className="mob" />왜 안 되는지부터 설명합니다.</p>
           <div className="tr-yt-iframe-wrap">
             <iframe
-              src="https://www.youtube.com/embed/1h25HpZfNEQ"
-              title="리셋다이어트 유튜브 영상"
+              src="https://www.youtube.com/embed/nUM2M4_rF0E"
+              title="리셋다이어트 유튜브 메인 영상"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="tr-yt-iframe"
             />
+          </div>
+          <div className="tr-yt-sub-row">
+            <div className="tr-yt-iframe-wrap tr-yt-sub">
+              <iframe
+                src="https://www.youtube.com/embed/1h25HpZfNEQ"
+                title="리셋다이어트 유튜브 보조 영상 1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="tr-yt-iframe"
+              />
+            </div>
+            <div className="tr-yt-iframe-wrap tr-yt-sub">
+              <iframe
+                src="https://www.youtube.com/embed/tevlolLxysc"
+                title="리셋다이어트 유튜브 보조 영상 2"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="tr-yt-iframe"
+              />
+            </div>
           </div>
           <a
             href="https://www.youtube.com/@리셋다이어트"
