@@ -1379,8 +1379,8 @@ function ScrollTopBtn() {
       className={`scroll-top-btn${visible ? ' is-visible' : ''}`}
       onClick={() => {
         (window as any).__rcScrollToTop = true
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-        setTimeout(() => { (window as any).__rcScrollToTop = false }, 1500)
+        window.scrollTo({ top: 0, behavior: 'instant' })
+        setTimeout(() => { (window as any).__rcScrollToTop = false }, 300)
       }}
       aria-label="맨 위로 이동"
     >
