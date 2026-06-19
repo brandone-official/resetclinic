@@ -1177,6 +1177,7 @@ function HomePage() {
         <VisitGuide />
       </main>
       <SiteFooter />
+      {!showSurvey && <ScrollTopBtn />}
       {!showSurvey && <QuickMenu onSurvey={() => setShowSurvey(true)} />}
       {showSurvey && (
         <div style={{ position:'fixed', inset:0, zIndex:1000 }}>
@@ -1184,6 +1185,44 @@ function HomePage() {
         </div>
       )}
     </>
+  )
+}
+
+// ── ScrollTopBtn — 맨 위로 스크롤 ────────────────────
+function ScrollTopBtn() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    let lastY = window.scrollY
+    let ticking = false
+
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const y = window.scrollY
+        const pastHero = y > window.innerHeight
+        const scrollingUp = y < lastY
+        const atTop = y < 10
+
+        setVisible(pastHero && scrollingUp && !atTop)
+        lastY = y
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <button
+      className={`scroll-top-btn${visible ? ' is-visible' : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="맨 위로 이동"
+    >
+      <i className="ti ti-chevron-up" />
+    </button>
   )
 }
 

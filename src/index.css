@@ -2652,3 +2652,61 @@ br.pc { display: none; }
     box-shadow: 0 4px 20px rgba(254,229,0,.45);
   }
 }
+
+/* ── Scroll Top Button ───────────────────── */
+.scroll-top-btn {
+  position: fixed;
+  z-index: 899;
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .3s cubic-bezier(.22,1,.36,1),
+              transform .3s cubic-bezier(.22,1,.36,1),
+              box-shadow .3s cubic-bezier(.22,1,.36,1);
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+  padding: 0;
+}
+
+.scroll-top-btn.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scroll-top-btn:active {
+  transform: scale(.92);
+}
+
+@media (min-width: 640px) {
+  .scroll-top-btn {
+    bottom: 152px;
+    right: 32px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .scroll-top-btn:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,.15);
+    transform: translateY(-2px);
+  }
+
+  .scroll-top-btn.is-visible:active {
+    transform: scale(.93);
+  }
+}
