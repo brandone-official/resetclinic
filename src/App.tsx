@@ -210,29 +210,16 @@ function Empathy() {
       cur = idx
     }
 
-    function lock() {
-      if (active) return
+    function lockShared() {
       active = true
       lastDir = 0
       gestureActive = false
       clearTimeout(gapTimer)
       clearTimeout(reverseTimer)
       clearTimeout(safetyTimer)
-      const sw = window.innerWidth - document.documentElement.clientWidth
-      if (isPC) {
-        const wr = wrap.getBoundingClientRect()
-        window.scrollTo({ top: window.scrollY + wr.top, behavior: 'instant' })
-        sticky.style.position = 'fixed'
-        sticky.style.inset = '0'
-        sticky.style.zIndex = '1000'
-      }
-      document.documentElement.style.overflow = 'hidden'
-      if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
-      window.addEventListener('wheel', onWheel, { passive: false })
     }
 
-    function unlock() {
-      if (!active) return
+    function unlockShared() {
       window.removeEventListener('wheel', onWheel)
       exitDir = lastDir
       active = false
@@ -244,21 +231,49 @@ function Empathy() {
       clearTimeout(exitGuardTimer)
       clearTimeout(dwellTimer)
       dwellTimer = 0
+    }
+
+    function lock() {
+      if (active) return
+      lockShared()
+      if (isPC) {
+        const sw = window.innerWidth - document.documentElement.clientWidth
+        const wr = wrap.getBoundingClientRect()
+        window.scrollTo({ top: window.scrollY + wr.top, behavior: 'instant' })
+        sticky.style.position = 'fixed'
+        sticky.style.inset = '0'
+        sticky.style.zIndex = '1000'
+        document.documentElement.style.overflow = 'hidden'
+        if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+        window.addEventListener('wheel', onWheel, { passive: false })
+      } else {
+        const sw = window.innerWidth - document.documentElement.clientWidth
+        document.documentElement.style.overflow = 'hidden'
+        if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+      }
+    }
+
+    function unlock() {
+      if (!active) return
+      unlockShared()
       if (isPC) {
         sticky.style.position = ''
         sticky.style.inset = ''
         sticky.style.zIndex = ''
-      }
-      document.documentElement.style.overflow = ''
-      document.documentElement.style.paddingRight = ''
-      exitGuard = true
-      exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
-      if (isPC) {
+        document.documentElement.style.overflow = ''
+        document.documentElement.style.paddingRight = ''
+        exitGuard = true
+        exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
         const wr = wrap.getBoundingClientRect()
         if (Math.abs(wr.top) > 1) {
           window.scrollTo({ top: window.scrollY + wr.top, behavior: 'instant' })
         }
         lastWrapTop = 0
+      } else {
+        document.documentElement.style.overflow = ''
+        document.documentElement.style.paddingRight = ''
+        exitGuard = true
+        exitGuardTimer = window.setTimeout(() => { exitGuard = false }, 800)
       }
     }
 
