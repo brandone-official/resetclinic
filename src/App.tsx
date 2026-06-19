@@ -208,13 +208,20 @@ function Empathy() {
     function lock() {
       if (active) return
       active = true
+      lastDir = 0
+      gestureActive = false
+      clearTimeout(gapTimer)
+      clearTimeout(reverseTimer)
+      clearTimeout(safetyTimer)
       const sw = window.innerWidth - document.documentElement.clientWidth
       document.documentElement.style.overflow = 'hidden'
       if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+      window.addEventListener('wheel', onWheel, { passive: false })
     }
 
     function unlock() {
       if (!active) return
+      window.removeEventListener('wheel', onWheel)
       exitDir = lastDir
       active = false
       lastDir = 0
@@ -315,7 +322,7 @@ function Empathy() {
       }
       const r = wrap.getBoundingClientRect()
       if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
-        window.scrollTo({ top: sy + r.top })
+        window.scrollTo({ top: sy + r.top, behavior: 'instant' })
         show(dir > 0 ? 0 : N - 1)
         lock()
       }
@@ -323,7 +330,6 @@ function Empathy() {
 
     show(0)
     window.addEventListener('scroll', onScroll, { passive: true })
-    wrap.addEventListener('wheel', onWheel, { passive: false })
     wrap.addEventListener('touchstart', onTouchStart, { passive: true })
     wrap.addEventListener('touchmove', onTouchMove, { passive: false })
 
@@ -332,7 +338,7 @@ function Empathy() {
       clearTimeout(safetyTimer)
       unlock()
       window.removeEventListener('scroll', onScroll)
-      wrap.removeEventListener('wheel', onWheel)
+      window.removeEventListener('wheel', onWheel)
       wrap.removeEventListener('touchstart', onTouchStart)
       wrap.removeEventListener('touchmove', onTouchMove)
     }
