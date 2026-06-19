@@ -221,6 +221,11 @@ function Empathy() {
       const sw = window.innerWidth - document.documentElement.clientWidth
       document.documentElement.style.overflow = 'hidden'
       if (sw > 0) document.documentElement.style.paddingRight = `${sw}px`
+      if (isPC) {
+        sticky.style.position = 'fixed'
+        sticky.style.inset = '0'
+        sticky.style.zIndex = '1000'
+      }
       window.addEventListener('wheel', onWheel, { passive: false })
     }
 
@@ -237,6 +242,11 @@ function Empathy() {
       clearTimeout(exitGuardTimer)
       clearTimeout(dwellTimer)
       dwellTimer = 0
+      if (isPC) {
+        sticky.style.position = ''
+        sticky.style.inset = ''
+        sticky.style.zIndex = ''
+      }
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
       exitGuard = true
@@ -341,8 +351,6 @@ function Empathy() {
           if (crossed) {
             show(dir > 0 ? 0 : N - 1)
             lock()
-            const snapR = wrap.getBoundingClientRect()
-            window.scrollTo({ top: window.scrollY + snapR.top, behavior: 'instant' })
           }
         }
       } else {
