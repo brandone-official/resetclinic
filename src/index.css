@@ -1197,7 +1197,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 5.5rem 1.5rem 3.25rem;
+  padding: 5.5rem 1.5rem 1.5rem;
   overflow: hidden;
 }
 .b-slide:nth-child(odd)  { background: #FFFFFF; }
@@ -1313,7 +1313,7 @@ body {
 @media (min-width: 640px) {
   .b-slide {
     padding-top: 88px;
-    padding-bottom: 60px;
+    padding-bottom: 32px;
     padding-left: max(80px, calc(50vw - 280px));
     padding-right: max(80px, calc(50vw - 280px));
   }
