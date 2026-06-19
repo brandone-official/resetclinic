@@ -180,8 +180,11 @@ function Empathy() {
     let safetyTimer   = 0
     const REVERSE_DEBOUNCE = 150
     const STEP_INTERVAL    = 350
-    const SNAP     = 80
+    const SNAP     = 50
     const SAFETY_MAX = 1200
+    const DWELL    = 150
+    let dwellTimer = 0
+    let dwellDir   = 1
 
     const show = (idx: number) => {
       if (idx === cur) return
@@ -230,6 +233,8 @@ function Empathy() {
       clearTimeout(reverseTimer)
       clearTimeout(safetyTimer)
       clearTimeout(exitGuardTimer)
+      clearTimeout(dwellTimer)
+      dwellTimer = 0
       document.documentElement.style.overflow = ''
       document.documentElement.style.paddingRight = ''
       exitGuard = true
@@ -325,10 +330,25 @@ function Empathy() {
         }
       }
       const r = wrap.getBoundingClientRect()
-      if (r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8) {
-        window.scrollTo({ top: sy + r.top, behavior: 'instant' })
-        show(dir > 0 ? 0 : N - 1)
-        lock()
+      const inZone = r.top > -SNAP && r.top < SNAP && r.bottom > window.innerHeight * 0.8
+      if (inZone) {
+        if (!dwellTimer) {
+          dwellDir = dir
+          dwellTimer = window.setTimeout(() => {
+            dwellTimer = 0
+            if (active || exitGuard) return
+            const sy2 = window.scrollY
+            const r2 = wrap.getBoundingClientRect()
+            if (r2.top > -SNAP && r2.top < SNAP && r2.bottom > window.innerHeight * 0.8) {
+              window.scrollTo({ top: sy2 + r2.top, behavior: 'instant' })
+              show(dwellDir > 0 ? 0 : N - 1)
+              lock()
+            }
+          }, DWELL)
+        }
+      } else {
+        clearTimeout(dwellTimer)
+        dwellTimer = 0
       }
     }
 
@@ -340,6 +360,7 @@ function Empathy() {
     return () => {
       clearTimeout(exitGuardTimer)
       clearTimeout(safetyTimer)
+      clearTimeout(dwellTimer)
       unlock()
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('wheel', onWheel)
