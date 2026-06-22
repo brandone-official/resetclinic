@@ -160,10 +160,10 @@ function Empathy() {
   const N         = EMPATHY.length
 
   useEffect(() => {
+    if (!wrapRef.current || !stickyRef.current || !breathRef.current) return
     const wrap   = wrapRef.current
     const sticky = stickyRef.current
     const breath = breathRef.current
-    if (!wrap || !sticky || !breath) return
 
     const scenes  = [...wrap.querySelectorAll<HTMLElement>('.emp-scene')]
     const bars    = [...wrap.querySelectorAll<HTMLElement>('.prog-bar')]
@@ -274,6 +274,7 @@ function Empathy() {
           document.documentElement.style.overflow = ''
           document.documentElement.style.paddingRight = ''
         }
+        lastWrapTop = 0
         window.removeEventListener('scroll', onScroll)
         document.removeEventListener('visibilitychange', onVisibility)
       }
@@ -347,6 +348,7 @@ function Empathy() {
       return () => {
         clearTimeout(exitGuardTimer)
         if (locked) document.documentElement.style.overflow = ''
+        lastWrapTop = 0
         window.removeEventListener('scroll', onScroll)
         wrap.removeEventListener('touchstart', onTouchStart)
         wrap.removeEventListener('touchmove', onTouchMove)
