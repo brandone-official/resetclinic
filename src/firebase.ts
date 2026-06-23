@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
-import { getAnalytics, isSupported } from 'firebase/analytics'
+import { type Analytics, getAnalytics, isSupported, logEvent } from 'firebase/analytics'
 
 const app = initializeApp({
   projectId: 'resetclinic',
@@ -16,4 +16,9 @@ const app = initializeApp({
 export const db = getFirestore(app)
 export const auth = getAuth(app)
 
-isSupported().then(yes => { if (yes) getAnalytics(app) })
+let analytics: Analytics | null = null
+isSupported().then(yes => { if (yes) analytics = getAnalytics(app) })
+
+export function track(event: string, params?: Record<string, string>) {
+  if (analytics) logEvent(analytics, event, params)
+}

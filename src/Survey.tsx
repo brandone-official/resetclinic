@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { collection, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
-import { db } from './firebase'
+import { db, track } from './firebase'
 import './survey.css'
 
 // ─── TYPES ──────────────────────────────────────────────────
@@ -287,7 +287,7 @@ export default function Survey({ onClose }: SurveyProps) {
 
               <div className="sv-cta-box">
                 <p>정확한 진단과 맞춤 처방은<br />진료를 통해 이루어집니다.</p>
-                <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" onClick={handleKakaoClick}>
+                <a className="sv-cta-btn" href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" onClick={() => { track('kakao_consult_click', { click_location: 'selftest_result' }); handleKakaoClick() }}>
                   카카오톡 상담하기
                 </a>
               </div>

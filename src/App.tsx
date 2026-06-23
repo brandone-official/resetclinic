@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Survey from './Survey'
+import { track } from './firebase'
 
 const Admin = lazy(() => import('./Admin'))
 
@@ -625,7 +626,7 @@ function SelfTest({ onOpen }: { onOpen: () => void }) {
         </Reveal>
         <Reveal>
           <div className="st-btn-wrap">
-            <button onClick={onOpen} className="st-btn" style={{ border:'none', cursor:'pointer' }}>1분 자가진단 시작하기</button>
+            <button onClick={() => { track('selftest_start', { click_location: 'selftest_section' }); onOpen() }} className="st-btn" style={{ border:'none', cursor:'pointer' }}>1분 자가진단 시작하기</button>
           </div>
         </Reveal>
       </div>
@@ -851,6 +852,24 @@ function PhilosophySwipe() {
 }
 
 function Trust() {
+  useEffect(() => {
+    const played = new Set<string>()
+    const onBlur = () => {
+      setTimeout(() => {
+        const el = document.activeElement
+        if (el instanceof HTMLIFrameElement && el.classList.contains('tr-yt-iframe')) {
+          const id = el.src.match(/embed\/([^?]+)/)?.[1] || ''
+          if (!played.has(id)) {
+            played.add(id)
+            track('youtube_play', { video_title: el.title })
+          }
+        }
+      }, 0)
+    }
+    window.addEventListener('blur', onBlur)
+    return () => window.removeEventListener('blur', onBlur)
+  }, [])
+
   return (
     <section className="s-trust">
 
@@ -999,7 +1018,10 @@ const FAQ_ITEMS = [
 
 function FAQSection() {
   const [open, setOpen] = useState<number | null>(null)
-  const toggle = (i: number) => setOpen(open === i ? null : i)
+  const toggle = (i: number) => {
+    if (open !== i) track('faq_click', { question: FAQ_ITEMS[i].q })
+    setOpen(open === i ? null : i)
+  }
 
   return (
     <section className="s-faq">
@@ -1077,6 +1099,7 @@ function KakaoConsult() {
               target="_blank"
               rel="noopener noreferrer"
               className="kk-input-cta"
+              onClick={() => track('kakao_consult_click', { click_location: 'kakao_section' })}
             >
               <span className="kk-input-placeholder">지금 궁금한 것을 물어보세요</span>
               <span className="kk-input-send">→</span>
@@ -1136,7 +1159,7 @@ function VisitGuide() {
           </div>
         </Reveal>
         <Reveal>
-          <a href="https://naver.me/F5Dd4I3m" target="_blank" rel="noopener noreferrer" className="visit-map-btn">
+          <a href="https://naver.me/F5Dd4I3m" target="_blank" rel="noopener noreferrer" className="visit-map-btn" onClick={() => track('naver_map_click', { click_location: 'visit_section' })}>
             네이버 지도에서 보기
           </a>
         </Reveal>
@@ -1382,7 +1405,8 @@ function ScrollTopBtn() {
     <button
       className={`scroll-top-btn${visible ? ' is-visible' : ''}`}
       onClick={() => {
-        (window as any).__rcScrollToTop = true
+        track('scroll_top_click')
+        ;(window as any).__rcScrollToTop = true
         window.scrollTo({ top: 0, behavior: 'instant' })
         setTimeout(() => { (window as any).__rcScrollToTop = false }, 300)
       }}
@@ -1399,13 +1423,13 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
     <>
       {/* PC: 우하단 세로 플로팅 */}
       <div className="qm-pc">
-        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-item qm-pc-kakao" aria-label="카카오톡 상담">
+        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-pc-item qm-pc-kakao" aria-label="카카오톡 상담" onClick={() => track('kakao_consult_click', { click_location: 'quick_menu_pc' })}>
           <span className="qm-pc-pill">
             <span className="qm-pc-label">카카오톡</span>
             <span className="qm-pc-icon"><i className="ti ti-message-circle"></i></span>
           </span>
         </a>
-        <button onClick={onSurvey} className="qm-pc-item qm-pc-survey" aria-label="자가진단">
+        <button onClick={() => { track('selftest_start', { click_location: 'quick_menu_pc' }); onSurvey() }} className="qm-pc-item qm-pc-survey" aria-label="자가진단">
           <span className="qm-pc-pill">
             <span className="qm-pc-label">자가진단</span>
             <span className="qm-pc-icon"><i className="ti ti-clipboard-heart"></i></span>
@@ -1415,15 +1439,15 @@ function QuickMenu({ onSurvey }: { onSurvey: () => void }) {
 
       {/* 모바일: 하단 고정 바 */}
       <nav className="qm-mob">
-        <a href="tel:063-221-7500" className="qm-mob-btn qm-mob-phone">
+        <a href="tel:063-221-7500" className="qm-mob-btn qm-mob-phone" onClick={() => track('phone_click', { click_location: 'quick_menu_mobile' })}>
           <i className="ti ti-phone" />
           <span>전화</span>
         </a>
-        <button onClick={onSurvey} className="qm-mob-btn qm-mob-survey">
+        <button onClick={() => { track('selftest_start', { click_location: 'quick_menu_mobile' }); onSurvey() }} className="qm-mob-btn qm-mob-survey">
           <span className="qm-mob-survey-icon"><i className="ti ti-clipboard-heart" /></span>
           <span>자가진단</span>
         </button>
-        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-mob-btn qm-mob-kakao">
+        <a href="https://pf.kakao.com/_xjxcgpxl" target="_blank" rel="noopener noreferrer" className="qm-mob-btn qm-mob-kakao" onClick={() => track('kakao_consult_click', { click_location: 'quick_menu_mobile' })}>
           <i className="ti ti-message-circle" />
           <span>카카오톡</span>
         </a>
