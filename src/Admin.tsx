@@ -33,11 +33,22 @@ const PRE_LABELS: Record<string, string> = {
 const GA4_MEASUREMENT_ID = 'G-DCPJ4FNNPV'
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'
 
+type GAPeriod = 'today' | 'thisWeek' | 'thisMonth' | 'lastMonth' | 'custom'
+
+const PERIOD_OPTIONS: { key: GAPeriod; label: string }[] = [
+  { key: 'today', label: '오늘' },
+  { key: 'thisWeek', label: '이번 주' },
+  { key: 'thisMonth', label: '이번 달' },
+  { key: 'lastMonth', label: '지난 달' },
+  { key: 'custom', label: '직접 선택' },
+]
+
 const SOURCE_LABELS: Record<string, string> = {
   '(direct)': '직접 접속',
-  '(not set)': '(미설정)',
+  '(not set)': '기타',
   'google': '구글',
-  'naver': '네이버',
+  'naver': '네이버 검색',
+  'naver.com': '네이버 검색',
   'daum': '다음',
   'bing': '빙',
   'yahoo': '야후',
@@ -45,6 +56,7 @@ const SOURCE_LABELS: Record<string, string> = {
   'facebook': '페이스북',
   'kakaotalk': '카카오톡',
   'kakao': '카카오톡',
+  'band': '밴드',
 }
 
 interface DeviceInfo {
@@ -69,7 +81,7 @@ interface SurveyDoc {
 }
 
 interface GA4Data {
-  visitors: { today: number; thisWeek: number; thisMonth: number }
+  visitors: number
   sources: Array<{ source: string; count: number }>
   conversions: { kakao: number; phone: number; naverMap: number }
 }
@@ -79,6 +91,49 @@ function formatDate(ts: Timestamp | null) {
   const d = ts.toDate()
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+function computeDateRange(period: GAPeriod, customStart: string, customEnd: string) {
+  const now = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const fmt = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+  switch (period) {
+    case 'today': return { startDate: fmt(now), endDate: fmt(now) }
+    case 'thisWeek': {
+      const dow = now.getDay()
+      const toMon = dow === 0 ? 6 : dow - 1
+      const ws = new Date(now); ws.setDate(now.getDate() - toMon)
+      return { startDate: fmt(ws), endDate: fmt(now) }
+    }
+    case 'thisMonth': return { startDate: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-01`, endDate: fmt(now) }
+    case 'lastMonth': {
+      const lm = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      const lmEnd = new Date(now.getFullYear(), now.getMonth(), 0)
+      return { startDate: fmt(lm), endDate: fmt(lmEnd) }
+    }
+    case 'custom': return { startDate: customStart, endDate: customEnd }
+  }
+}
+
+function getSourceLabel(source: string): string {
+  if (SOURCE_LABELS[source]) return SOURCE_LABELS[source]
+  const s = source.toLowerCase()
+  if (s.includes('place.naver') || s.startsWith('pcmap.') || s.includes('place.n')) return '네이버 플레이스'
+  if (s.includes('map.naver')) return '네이버 지도'
+  if (s.includes('blog.naver')) return '네이버 블로그'
+  if (s.includes('cafe.naver')) return '네이버 카페'
+  if (s.includes('search.naver')) return '네이버 검색'
+  if (s.includes('naver')) return '네이버'
+  if (s.includes('kakao')) return '카카오톡'
+  if (s.includes('google')) return '구글'
+  if (s.includes('youtube')) return '유튜브'
+  if (s.includes('instagram')) return '인스타그램'
+  if (s.includes('facebook') || s.includes('fb.')) return '페이스북'
+  if (s.includes('band.us')) return '밴드'
+  if (s.includes('twitter') || s.includes('x.com') || s === 't.co') return 'X(트위터)'
+  if (s.includes('daum')) return '다음'
+  if (s.includes('bing')) return '빙'
+  return source
 }
 
 async function findGA4PropertyId(token: string): Promise<string> {
@@ -132,33 +187,30 @@ export default function Admin() {
   const [exporting, setExporting] = useState(false)
   const [exportResult, setExportResult] = useState<{ url?: string; error?: string } | null>(null)
   const [gaToken, setGaToken] = useState<string | null>(null)
+  const [gaPropertyId, setGaPropertyId] = useState<string | null>(null)
   const [gaData, setGaData] = useState<GA4Data | null>(null)
   const [gaLoading, setGaLoading] = useState(false)
   const [gaError, setGaError] = useState('')
+  const [gaPeriod, setGaPeriod] = useState<GAPeriod>('thisMonth')
+  const [gaCustomStart, setGaCustomStart] = useState('')
+  const [gaCustomEnd, setGaCustomEnd] = useState('')
+  const [gaExporting, setGaExporting] = useState(false)
+  const [gaExportResult, setGaExportResult] = useState<{ url?: string; error?: string } | null>(null)
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
       setAuthLoading(false)
       if (u) {
-        if (ADMIN_EMAILS.includes(u.email || '')) {
-          setUser(u)
-          setDenied(false)
-        } else {
-          setDenied(true)
-          signOut(auth)
-        }
-      } else {
-        setUser(null)
-      }
+        if (ADMIN_EMAILS.includes(u.email || '')) { setUser(u); setDenied(false) }
+        else { setDenied(true); signOut(auth) }
+      } else { setUser(null) }
     })
   }, [])
 
-  useEffect(() => {
-    if (user) loadData()
-  }, [user])
+  useEffect(() => { if (user) loadData() }, [user])
 
   useEffect(() => {
-    if (user && gaToken && !gaData && !gaLoading) fetchGA4(gaToken)
+    if (user && gaToken && !gaPropertyId && !gaLoading) initGA4(gaToken)
   }, [user, gaToken])
 
   async function loadData() {
@@ -166,48 +218,45 @@ export default function Admin() {
     try {
       const snap = await getDocs(query(collection(db, 'surveyResults'), orderBy('createdAt', 'desc')))
       setDocs(snap.docs.map(d => ({ id: d.id, ...d.data() }) as SurveyDoc))
-    } catch (e) {
-      console.error('Failed to load survey data:', e)
-    } finally {
-      setLoading(false)
-    }
+    } catch (e) { console.error('Failed to load survey data:', e) }
+    finally { setLoading(false) }
   }
 
-  async function fetchGA4(token: string) {
+  async function initGA4(token: string) {
     setGaLoading(true)
     setGaError('')
     try {
-      const propertyId = await findGA4PropertyId(token)
-      const now = new Date()
-      const pad = (n: number) => String(n).padStart(2, '0')
-      const dow = now.getDay()
-      const toMon = dow === 0 ? 6 : dow - 1
-      const ws = new Date(now); ws.setDate(now.getDate() - toMon)
-      const weekStart = `${ws.getFullYear()}-${pad(ws.getMonth() + 1)}-${pad(ws.getDate())}`
-      const monthStart = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-01`
+      const pid = await findGA4PropertyId(token)
+      setGaPropertyId(pid)
+      await fetchGA4Data(token, pid)
+    } catch (e: any) {
+      setGaError(e?.message || 'GA4 데이터를 불러오는 중 오류가 발생했습니다')
+      setGaLoading(false)
+    }
+  }
 
-      const [tR, wR, mR, sR, eR] = await Promise.all([
+  async function fetchGA4Data(token: string, propertyId: string, period?: GAPeriod, cStart?: string, cEnd?: string) {
+    const p = period ?? gaPeriod
+    const cs = cStart ?? gaCustomStart
+    const ce = cEnd ?? gaCustomEnd
+    setGaLoading(true)
+    setGaError('')
+    try {
+      const dateRange = computeDateRange(p, cs, ce)
+      const [vR, sR, eR] = await Promise.all([
         runGA4Report(token, propertyId, {
-          dateRanges: [{ startDate: 'today', endDate: 'today' }],
+          dateRanges: [dateRange],
           metrics: [{ name: 'activeUsers' }],
         }),
         runGA4Report(token, propertyId, {
-          dateRanges: [{ startDate: weekStart, endDate: 'today' }],
-          metrics: [{ name: 'activeUsers' }],
-        }),
-        runGA4Report(token, propertyId, {
-          dateRanges: [{ startDate: monthStart, endDate: 'today' }],
-          metrics: [{ name: 'activeUsers' }],
-        }),
-        runGA4Report(token, propertyId, {
-          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          dateRanges: [dateRange],
           dimensions: [{ name: 'sessionSource' }],
           metrics: [{ name: 'sessions' }],
           orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
-          limit: 10,
+          limit: 20,
         }),
         runGA4Report(token, propertyId, {
-          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          dateRanges: [dateRange],
           dimensions: [{ name: 'eventName' }],
           metrics: [{ name: 'eventCount' }],
           dimensionFilter: {
@@ -219,24 +268,27 @@ export default function Admin() {
         }),
       ])
 
-      const val = (r: any) => parseInt(r.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
-      const sources = (sR.rows || []).map((row: any) => ({
-        source: row.dimensionValues[0].value as string,
-        count: parseInt(row.metricValues[0].value, 10) || 0,
-      }))
+      const visitors = parseInt(vR.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
+      const merged: Record<string, number> = {}
+      for (const row of sR.rows || []) {
+        const label = getSourceLabel(row.dimensionValues[0].value)
+        merged[label] = (merged[label] || 0) + (parseInt(row.metricValues[0].value, 10) || 0)
+      }
+      const sources = Object.entries(merged)
+        .map(([source, count]) => ({ source, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10)
       const evts: Record<string, number> = {}
       for (const row of eR.rows || []) evts[row.dimensionValues[0].value] = parseInt(row.metricValues[0].value, 10) || 0
 
       setGaData({
-        visitors: { today: val(tR), thisWeek: val(wR), thisMonth: val(mR) },
+        visitors,
         sources,
         conversions: { kakao: evts['kakao_consult_click'] || 0, phone: evts['phone_click'] || 0, naverMap: evts['naver_map_click'] || 0 },
       })
     } catch (e: any) {
       setGaError(e?.message || 'GA4 데이터를 불러오는 중 오류가 발생했습니다')
-    } finally {
-      setGaLoading(false)
-    }
+    } finally { setGaLoading(false) }
   }
 
   async function handleLoadGA4() {
@@ -249,11 +301,16 @@ export default function Admin() {
       const token = credential?.accessToken
       if (!token) throw new Error('인증 토큰을 가져올 수 없습니다')
       setGaToken(token)
-      await fetchGA4(token)
+      await initGA4(token)
     } catch (e: any) {
       if (e?.code === 'auth/popup-closed-by-user') return
       setGaError(e?.message || 'GA4 연동 중 오류가 발생했습니다')
     }
+  }
+
+  function handlePeriodChange(p: GAPeriod) {
+    setGaPeriod(p)
+    if (p !== 'custom' && gaToken && gaPropertyId) fetchGA4Data(gaToken, gaPropertyId, p)
   }
 
   async function handleLogin() {
@@ -274,11 +331,11 @@ export default function Admin() {
 
   function handleLogout() {
     signOut(auth)
-    setDocs([])
-    setVisibleCount(PAGE_SIZE)
-    setGaData(null)
-    setGaToken(null)
-    setGaError('')
+    setDocs([]); setVisibleCount(PAGE_SIZE)
+    setGaData(null); setGaToken(null); setGaPropertyId(null)
+    setGaError(''); setGaPeriod('thisMonth')
+    setGaCustomStart(''); setGaCustomEnd('')
+    setGaExportResult(null)
   }
 
   function loadPickerApi(): Promise<void> {
@@ -295,90 +352,151 @@ export default function Admin() {
     })
   }
 
+  async function pickFolder(token: string): Promise<string> {
+    await loadPickerApi()
+    return new Promise<string>((resolve, reject) => {
+      const gp = (window as any).google.picker
+      const view = new gp.DocsView(gp.ViewId.FOLDERS).setSelectFolderEnabled(true)
+      new gp.PickerBuilder()
+        .addView(view)
+        .setOAuthToken(token)
+        .setDeveloperKey('AIzaSyBS21dyXNLlQPdm2XiVBW1LtoT-PoInK7s')
+        .setAppId(PICKER_APP_ID)
+        .setCallback((data: any) => {
+          if (data.action === gp.Action.PICKED) resolve(data.docs[0].id)
+          else if (data.action === gp.Action.CANCEL) reject(new Error('cancel'))
+        })
+        .setTitle('저장할 폴더를 선택하세요')
+        .build()
+        .setVisible(true)
+    })
+  }
+
+  async function getExportToken(): Promise<string> {
+    const provider = new GoogleAuthProvider()
+    EXPORT_SCOPES.forEach(s => provider.addScope(s))
+    provider.setCustomParameters({ login_hint: user!.email! })
+    const result = await signInWithPopup(auth, provider)
+    const credential = GoogleAuthProvider.credentialFromResult(result)
+    const token = credential?.accessToken
+    if (!token) throw new Error('인증 토큰을 가져올 수 없습니다')
+    return token
+  }
+
+  async function createSheet(token: string, title: string, sheetName: string, folderId: string) {
+    const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        properties: { title },
+        sheets: [{ properties: { title: sheetName } }],
+      }),
+    })
+    if (!createRes.ok) throw new Error('스프레드시트 생성 실패')
+    const { spreadsheetId } = await createRes.json()
+    await fetch(
+      `https://www.googleapis.com/drive/v3/files/${spreadsheetId}?addParents=${folderId}&removeParents=root`,
+      { method: 'PATCH', headers: { 'Authorization': `Bearer ${token}` } }
+    )
+    return spreadsheetId
+  }
+
+  async function handleGA4Export() {
+    if (!gaData) return
+    setGaExporting(true)
+    setGaExportResult(null)
+    try {
+      const token = await getExportToken()
+      const folderId = await pickFolder(token)
+      const today = new Date()
+      const pad = (n: number) => String(n).padStart(2, '0')
+      const dateStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
+      const { startDate, endDate } = computeDateRange(gaPeriod, gaCustomStart, gaCustomEnd)
+      const periodStr = startDate === endDate ? startDate : `${startDate} ~ ${endDate}`
+
+      const sheetName = 'GA4 분석'
+      const spreadsheetId = await createSheet(token, `리셋클리닉 GA4 분석_${dateStr}`, sheetName, folderId)
+
+      const rows: (string | number)[][] = [
+        ['리셋클리닉 GA4 방문자 분석'],
+        [],
+        ['기간', periodStr],
+        ['방문자 수', gaData.visitors],
+        [],
+        ['유입 경로', '세션 수'],
+        ...gaData.sources.map(s => [s.source, s.count]),
+        [],
+        ['전환 항목', '클릭 수'],
+        ['카카오톡 클릭', gaData.conversions.kakao],
+        ['전화 클릭', gaData.conversions.phone],
+        ['네이버 지도 클릭', gaData.conversions.naverMap],
+      ]
+
+      const writeRes = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(sheetName + '!A1')}?valueInputOption=RAW`,
+        {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ range: `${sheetName}!A1`, majorDimension: 'ROWS', values: rows }),
+        }
+      )
+      if (!writeRes.ok) throw new Error('데이터 입력 실패')
+
+      const convHeaderRow = 7 + gaData.sources.length
+      await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 }, cell: { userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }, fields: 'userEnteredFormat(textFormat)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 2, endRowIndex: 4 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat(textFormat.bold)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 5, endRowIndex: 6 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: convHeaderRow, endRowIndex: convHeaderRow + 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { autoResizeDimensions: { dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 2 } } },
+          ]
+        }),
+      })
+
+      setGaExportResult({ url: `https://docs.google.com/spreadsheets/d/${spreadsheetId}` })
+    } catch (e: any) {
+      if (e?.code === 'auth/popup-closed-by-user' || e?.message === 'cancel') { /* cancelled */ }
+      else setGaExportResult({ error: e?.message || '내보내기 중 오류가 발생했습니다' })
+    } finally { setGaExporting(false) }
+  }
+
   async function handleExport() {
     setExporting(true)
     setExportResult(null)
     try {
-      const provider = new GoogleAuthProvider()
-      EXPORT_SCOPES.forEach(s => provider.addScope(s))
-      provider.setCustomParameters({ login_hint: user!.email! })
-      const result = await signInWithPopup(auth, provider)
-      const credential = GoogleAuthProvider.credentialFromResult(result)
-      const token = credential?.accessToken
-      if (!token) throw new Error('인증 토큰을 가져올 수 없습니다')
-
-      await loadPickerApi()
-      const folderId = await new Promise<string>((resolve, reject) => {
-        const gp = (window as any).google.picker
-        const view = new gp.DocsView(gp.ViewId.FOLDERS).setSelectFolderEnabled(true)
-        new gp.PickerBuilder()
-          .addView(view)
-          .setOAuthToken(token)
-          .setDeveloperKey('AIzaSyBS21dyXNLlQPdm2XiVBW1LtoT-PoInK7s')
-          .setAppId(PICKER_APP_ID)
-          .setCallback((data: any) => {
-            if (data.action === gp.Action.PICKED) resolve(data.docs[0].id)
-            else if (data.action === gp.Action.CANCEL) reject(new Error('cancel'))
-          })
-          .setTitle('저장할 폴더를 선택하세요')
-          .build()
-          .setVisible(true)
-      })
-
+      const token = await getExportToken()
+      const folderId = await pickFolder(token)
       const today = new Date()
       const pad = (n: number) => String(n).padStart(2, '0')
       const dateStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
 
-      const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          properties: { title: `리셋클리닉 자가진단 결과_${dateStr}` },
-          sheets: [{ properties: { title: '설문결과' } }],
-        }),
-      })
-      if (!createRes.ok) throw new Error('스프레드시트 생성 실패')
-      const { spreadsheetId } = await createRes.json()
-
-      await fetch(
-        `https://www.googleapis.com/drive/v3/files/${spreadsheetId}?addParents=${folderId}&removeParents=root`,
-        { method: 'PATCH', headers: { 'Authorization': `Bearer ${token}` } }
-      )
+      const sheetName = '설문결과'
+      const spreadsheetId = await createSheet(token, `리셋클리닉 자가진단 결과_${dateStr}`, sheetName, folderId)
 
       const rows: (string | number)[][] = [SHEET_HEADERS]
       for (const d of docs) {
         rows.push([
-          formatDate(d.createdAt),
-          d.preAnswers?.age || '',
-          d.preAnswers?.menopause || '',
-          d.preAnswers?.hrt || '',
-          d.resultLabel || '미판별',
-          d.kakaoClicked ? 'O' : 'X',
-          d.mainAnswers?.q1?.text || '',
-          d.mainAnswers?.q2?.text || '',
-          d.mainAnswers?.q3?.text || '',
-          d.mainAnswers?.q4?.text || '',
-          d.mainAnswers?.q5?.text || '',
-          d.mainAnswers?.q6?.text || '',
-          d.mainAnswers?.q7?.text || '',
-          d.mainAnswers?.q8?.text || '',
-          d.deviceInfo?.deviceType || '',
-          d.deviceInfo?.os || '',
-          d.deviceInfo?.browser || '',
-          d.durationSec != null ? d.durationSec : '',
-          d.referrer || '',
-          d.utmParams?.utm_source || '',
-          d.utmParams?.utm_medium || '',
-          d.utmParams?.utm_campaign || '',
+          formatDate(d.createdAt), d.preAnswers?.age || '', d.preAnswers?.menopause || '',
+          d.preAnswers?.hrt || '', d.resultLabel || '미판별', d.kakaoClicked ? 'O' : 'X',
+          d.mainAnswers?.q1?.text || '', d.mainAnswers?.q2?.text || '', d.mainAnswers?.q3?.text || '',
+          d.mainAnswers?.q4?.text || '', d.mainAnswers?.q5?.text || '', d.mainAnswers?.q6?.text || '',
+          d.mainAnswers?.q7?.text || '', d.mainAnswers?.q8?.text || '',
+          d.deviceInfo?.deviceType || '', d.deviceInfo?.os || '', d.deviceInfo?.browser || '',
+          d.durationSec != null ? d.durationSec : '', d.referrer || '',
+          d.utmParams?.utm_source || '', d.utmParams?.utm_medium || '', d.utmParams?.utm_campaign || '',
         ])
       }
 
       const writeRes = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent('설문결과!A1')}?valueInputOption=RAW`,
+        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(sheetName + '!A1')}?valueInputOption=RAW`,
         {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ range: '설문결과!A1', majorDimension: 'ROWS', values: rows }),
+          body: JSON.stringify({ range: `${sheetName}!A1`, majorDimension: 'ROWS', values: rows }),
         }
       )
       if (!writeRes.ok) throw new Error('데이터 입력 실패')
@@ -388,24 +506,9 @@ export default function Admin() {
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           requests: [
-            {
-              repeatCell: {
-                range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 },
-                cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } },
-                fields: 'userEnteredFormat(textFormat.bold,backgroundColor)',
-              }
-            },
-            {
-              updateSheetProperties: {
-                properties: { sheetId: 0, gridProperties: { frozenRowCount: 1 } },
-                fields: 'gridProperties.frozenRowCount',
-              }
-            },
-            {
-              autoResizeDimensions: {
-                dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 22 },
-              }
-            },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { updateSheetProperties: { properties: { sheetId: 0, gridProperties: { frozenRowCount: 1 } }, fields: 'gridProperties.frozenRowCount' } },
+            { autoResizeDimensions: { dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 22 } } },
           ]
         }),
       })
@@ -414,9 +517,7 @@ export default function Admin() {
     } catch (e: any) {
       if (e?.code === 'auth/popup-closed-by-user' || e?.message === 'cancel') { /* cancelled */ }
       else setExportResult({ error: e?.message || '내보내기 중 오류가 발생했습니다' })
-    } finally {
-      setExporting(false)
-    }
+    } finally { setExporting(false) }
   }
 
   // ── Auth screens ──
@@ -478,7 +579,36 @@ export default function Admin() {
       ) : (
         <div className="adm-body">
           {/* ── GA4 Analytics ── */}
-          <h2 className="adm-group-title">방문자 분석</h2>
+          <div className="adm-ga-header">
+            <h2 className="adm-group-title">방문자 분석</h2>
+            {gaData && (
+              <div className="adm-ga-actions">
+                <button className="adm-btn adm-btn-ga-action" onClick={() => gaToken && gaPropertyId && fetchGA4Data(gaToken, gaPropertyId)} disabled={gaLoading}>
+                  새로고침
+                </button>
+                <button className="adm-btn adm-btn-ga-action adm-ga-export-btn" onClick={handleGA4Export} disabled={gaExporting || gaLoading}>
+                  {gaExporting ? '내보내는 중...' : '내보내기'}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {gaExportResult && (
+            <div className={`adm-export-msg ${gaExportResult.error ? 'adm-export-error' : 'adm-export-success'}`}>
+              {gaExportResult.url ? (
+                <>
+                  <span>스프레드시트가 생성되었습니다.</span>
+                  <a href={gaExportResult.url} target="_blank" rel="noopener noreferrer">열기</a>
+                  <button onClick={() => setGaExportResult(null)}>✕</button>
+                </>
+              ) : (
+                <>
+                  <span>{gaExportResult.error}</span>
+                  <button onClick={() => setGaExportResult(null)}>✕</button>
+                </>
+              )}
+            </div>
+          )}
 
           {!gaData && !gaLoading && (
             <div className="adm-ga-connect">
@@ -487,40 +617,49 @@ export default function Admin() {
             </div>
           )}
 
-          {gaLoading && (
+          {gaLoading && !gaData && (
             <div className="adm-ga-connect">
               <p className="adm-loading">GA4 데이터 로딩 중...</p>
             </div>
           )}
 
           {gaData && (
-            <>
-              <div className="adm-cards">
-                <div className="adm-card">
-                  <p className="adm-card-label">오늘 방문자</p>
-                  <p className="adm-card-value">{gaData.visitors.today}</p>
+            <div style={{ opacity: gaLoading ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+              <div className="adm-period-bar">
+                <div className="adm-period-pills">
+                  {PERIOD_OPTIONS.map(({ key, label }) => (
+                    <button key={key} className={`adm-period-pill ${gaPeriod === key ? 'active' : ''}`} onClick={() => handlePeriodChange(key)} disabled={gaLoading}>
+                      {label}
+                    </button>
+                  ))}
                 </div>
-                <div className="adm-card">
-                  <p className="adm-card-label">이번 주 방문자</p>
-                  <p className="adm-card-value">{gaData.visitors.thisWeek}</p>
-                </div>
-                <div className="adm-card">
-                  <p className="adm-card-label">이번 달 방문자</p>
-                  <p className="adm-card-value">{gaData.visitors.thisMonth}</p>
-                </div>
+                {gaPeriod === 'custom' && (
+                  <div className="adm-period-custom">
+                    <input type="date" value={gaCustomStart} onChange={e => setGaCustomStart(e.target.value)} />
+                    <span className="adm-period-sep">~</span>
+                    <input type="date" value={gaCustomEnd} onChange={e => setGaCustomEnd(e.target.value)} />
+                    <button className="adm-btn adm-period-apply" onClick={() => gaToken && gaPropertyId && fetchGA4Data(gaToken, gaPropertyId)} disabled={!gaCustomStart || !gaCustomEnd || gaLoading}>
+                      조회
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="adm-ga-summary">
+                <span className="adm-ga-visitor-label">방문자 수</span>
+                <span className="adm-ga-visitor-value">{gaData.visitors}</span>
+                <span className="adm-ga-visitor-unit">명</span>
               </div>
 
               <div className="adm-section">
-                <h2 className="adm-section-title">유입 경로별 방문자 <span className="adm-section-sub">최근 30일</span></h2>
+                <h2 className="adm-section-title">유입 경로별 방문자</h2>
                 {gaData.sources.length === 0 ? (
                   <p className="adm-empty">데이터가 없습니다</p>
                 ) : (
                   <div className="adm-dist">
                     {gaData.sources.map(({ source, count }) => (
                       <div key={source} className="adm-dist-row">
-                        <span className="adm-dist-label" style={{ color: '#1A3270' }}>
-                          {SOURCE_LABELS[source] || source}
-                        </span>
+                        <span className="adm-dist-label" style={{ color: '#1A3270' }}>{source}</span>
                         <div className="adm-dist-bar-wrap">
                           <div className="adm-dist-bar" style={{
                             width: `${(count / gaData.sources[0].count) * 100}%`,
@@ -535,7 +674,7 @@ export default function Admin() {
               </div>
 
               <div className="adm-section">
-                <h2 className="adm-section-title">전환 행동 <span className="adm-section-sub">최근 30일</span></h2>
+                <h2 className="adm-section-title">전환 행동</h2>
                 <div className="adm-conv-cards">
                   <div className="adm-conv-card">
                     <p className="adm-conv-label">카카오톡 클릭</p>
@@ -551,15 +690,12 @@ export default function Admin() {
                   </div>
                 </div>
               </div>
-
-              <button className="adm-btn adm-btn-ga-refresh" onClick={() => fetchGA4(gaToken!)}>새로고침</button>
-            </>
+            </div>
           )}
 
           {/* ── Self-diagnosis Analytics ── */}
           <h2 className="adm-group-title">자가진단 분석</h2>
 
-          {/* Summary Cards */}
           <div className="adm-cards">
             <div className="adm-card">
               <p className="adm-card-label">총 응답 수</p>
@@ -576,7 +712,6 @@ export default function Admin() {
             </div>
           </div>
 
-          {/* Type Distribution */}
           <div className="adm-section">
             <h2 className="adm-section-title">유형별 분포</h2>
             {totalCount === 0 ? (
@@ -596,7 +731,6 @@ export default function Admin() {
             )}
           </div>
 
-          {/* Response List */}
           <div className="adm-section">
             <h2 className="adm-section-title">
               개별 응답 <span className="adm-section-count">{totalCount}건</span>
