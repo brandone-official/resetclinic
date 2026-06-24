@@ -663,7 +663,7 @@ export default function Admin() {
               </div>
 
               <div className="adm-section">
-                <h2 className="adm-section-title">유입 경로별 방문자</h2>
+                <h2 className="adm-section-title">유입 경로별 방문 수</h2>
                 {gaData.sources.length === 0 ? (
                   <p className="adm-empty">데이터가 없습니다</p>
                 ) : (
@@ -677,7 +677,7 @@ export default function Admin() {
                             backgroundColor: '#4285F4',
                           }} />
                         </div>
-                        <span className="adm-dist-count">{count}건</span>
+                        <span className="adm-dist-count">{count}회</span>
                       </div>
                     ))}
                   </div>
