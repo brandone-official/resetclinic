@@ -30,6 +30,23 @@ const PRE_LABELS: Record<string, string> = {
   age: '연령대', menopause: '월경·완경 상태', hrt: '호르몬 치료(HRT)',
 }
 
+const GA4_MEASUREMENT_ID = 'G-DCPJ4FNNPV'
+const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'
+
+const SOURCE_LABELS: Record<string, string> = {
+  '(direct)': '직접 접속',
+  '(not set)': '(미설정)',
+  'google': '구글',
+  'naver': '네이버',
+  'daum': '다음',
+  'bing': '빙',
+  'yahoo': '야후',
+  'instagram': '인스타그램',
+  'facebook': '페이스북',
+  'kakaotalk': '카카오톡',
+  'kakao': '카카오톡',
+}
+
 interface DeviceInfo {
   deviceType: string
   os: string
@@ -51,11 +68,56 @@ interface SurveyDoc {
   utmParams?: Record<string, string> | null
 }
 
+interface GA4Data {
+  visitors: { today: number; thisWeek: number; thisMonth: number }
+  sources: Array<{ source: string; count: number }>
+  conversions: { kakao: number; phone: number; naverMap: number }
+}
+
 function formatDate(ts: Timestamp | null) {
   if (!ts) return '-'
   const d = ts.toDate()
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+async function findGA4PropertyId(token: string): Promise<string> {
+  const res = await fetch(
+    'https://analyticsadmin.googleapis.com/v1beta/accountSummaries',
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  if (!res.ok) {
+    if (res.status === 403) throw new Error('Google Analytics Admin API를 Cloud Console에서 활성화해주세요')
+    throw new Error('GA4 계정 정보를 가져올 수 없습니다')
+  }
+  const data = await res.json()
+  for (const account of data.accountSummaries || []) {
+    for (const prop of account.propertySummaries || []) {
+      const sRes = await fetch(
+        `https://analyticsadmin.googleapis.com/v1beta/${prop.property}/dataStreams`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      if (!sRes.ok) continue
+      const streams = await sRes.json()
+      if ((streams.dataStreams || []).some(
+        (s: any) => s.webStreamData?.measurementId === GA4_MEASUREMENT_ID
+      )) return prop.property.replace('properties/', '')
+    }
+  }
+  throw new Error('GA4 속성을 찾을 수 없습니다')
+}
+
+async function runGA4Report(token: string, propertyId: string, body: object) {
+  const res = await fetch(
+    `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }
+  )
+  if (!res.ok) throw new Error('GA4 리포트 요청 실패')
+  return res.json()
 }
 
 export default function Admin() {
@@ -69,6 +131,10 @@ export default function Admin() {
   const [selectedDoc, setSelectedDoc] = useState<SurveyDoc | null>(null)
   const [exporting, setExporting] = useState(false)
   const [exportResult, setExportResult] = useState<{ url?: string; error?: string } | null>(null)
+  const [gaToken, setGaToken] = useState<string | null>(null)
+  const [gaData, setGaData] = useState<GA4Data | null>(null)
+  const [gaLoading, setGaLoading] = useState(false)
+  const [gaError, setGaError] = useState('')
 
   useEffect(() => {
     return onAuthStateChanged(auth, (u) => {
@@ -91,6 +157,10 @@ export default function Admin() {
     if (user) loadData()
   }, [user])
 
+  useEffect(() => {
+    if (user && gaToken && !gaData && !gaLoading) fetchGA4(gaToken)
+  }, [user, gaToken])
+
   async function loadData() {
     setLoading(true)
     try {
@@ -103,10 +173,97 @@ export default function Admin() {
     }
   }
 
+  async function fetchGA4(token: string) {
+    setGaLoading(true)
+    setGaError('')
+    try {
+      const propertyId = await findGA4PropertyId(token)
+      const now = new Date()
+      const pad = (n: number) => String(n).padStart(2, '0')
+      const dow = now.getDay()
+      const toMon = dow === 0 ? 6 : dow - 1
+      const ws = new Date(now); ws.setDate(now.getDate() - toMon)
+      const weekStart = `${ws.getFullYear()}-${pad(ws.getMonth() + 1)}-${pad(ws.getDate())}`
+      const monthStart = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-01`
+
+      const [tR, wR, mR, sR, eR] = await Promise.all([
+        runGA4Report(token, propertyId, {
+          dateRanges: [{ startDate: 'today', endDate: 'today' }],
+          metrics: [{ name: 'activeUsers' }],
+        }),
+        runGA4Report(token, propertyId, {
+          dateRanges: [{ startDate: weekStart, endDate: 'today' }],
+          metrics: [{ name: 'activeUsers' }],
+        }),
+        runGA4Report(token, propertyId, {
+          dateRanges: [{ startDate: monthStart, endDate: 'today' }],
+          metrics: [{ name: 'activeUsers' }],
+        }),
+        runGA4Report(token, propertyId, {
+          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'sessionSource' }],
+          metrics: [{ name: 'sessions' }],
+          orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+          limit: 10,
+        }),
+        runGA4Report(token, propertyId, {
+          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'eventName' }],
+          metrics: [{ name: 'eventCount' }],
+          dimensionFilter: {
+            filter: {
+              fieldName: 'eventName',
+              inListFilter: { values: ['kakao_consult_click', 'phone_click', 'naver_map_click'] },
+            },
+          },
+        }),
+      ])
+
+      const val = (r: any) => parseInt(r.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
+      const sources = (sR.rows || []).map((row: any) => ({
+        source: row.dimensionValues[0].value as string,
+        count: parseInt(row.metricValues[0].value, 10) || 0,
+      }))
+      const evts: Record<string, number> = {}
+      for (const row of eR.rows || []) evts[row.dimensionValues[0].value] = parseInt(row.metricValues[0].value, 10) || 0
+
+      setGaData({
+        visitors: { today: val(tR), thisWeek: val(wR), thisMonth: val(mR) },
+        sources,
+        conversions: { kakao: evts['kakao_consult_click'] || 0, phone: evts['phone_click'] || 0, naverMap: evts['naver_map_click'] || 0 },
+      })
+    } catch (e: any) {
+      setGaError(e?.message || 'GA4 데이터를 불러오는 중 오류가 발생했습니다')
+    } finally {
+      setGaLoading(false)
+    }
+  }
+
+  async function handleLoadGA4() {
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.addScope(GA_SCOPE)
+      provider.setCustomParameters({ login_hint: user!.email! })
+      const result = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential?.accessToken
+      if (!token) throw new Error('인증 토큰을 가져올 수 없습니다')
+      setGaToken(token)
+      await fetchGA4(token)
+    } catch (e: any) {
+      if (e?.code === 'auth/popup-closed-by-user') return
+      setGaError(e?.message || 'GA4 연동 중 오류가 발생했습니다')
+    }
+  }
+
   async function handleLogin() {
     setLoginError('')
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider())
+      const provider = new GoogleAuthProvider()
+      provider.addScope(GA_SCOPE)
+      const result = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      if (credential?.accessToken) setGaToken(credential.accessToken)
     } catch (e: unknown) {
       const code = (e as { code?: string }).code
       if (code === 'auth/popup-closed-by-user') return
@@ -119,6 +276,9 @@ export default function Admin() {
     signOut(auth)
     setDocs([])
     setVisibleCount(PAGE_SIZE)
+    setGaData(null)
+    setGaToken(null)
+    setGaError('')
   }
 
   function loadPickerApi(): Promise<void> {
@@ -278,7 +438,7 @@ export default function Admin() {
     return (
       <div className="adm-center">
         <div className="adm-box">
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8, color: '#1A3270' }}>자가진단 대시보드</h1>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8, color: '#1A3270' }}>데이터 대시보드</h1>
           <p style={{ color: '#999', marginBottom: 28, fontSize: '0.9rem' }}>관리자 로그인이 필요합니다</p>
           <button className="adm-btn adm-btn-google" onClick={handleLogin}>Google로 로그인</button>
           {loginError && <p style={{ color: '#D76618', fontSize: '0.85rem', marginTop: 16 }}>{loginError}</p>}
@@ -306,7 +466,7 @@ export default function Admin() {
   return (
     <div className="adm">
       <header className="adm-header">
-        <h1>자가진단 대시보드</h1>
+        <h1>데이터 대시보드</h1>
         <div className="adm-header-right">
           <span className="adm-user">{user.email}</span>
           <button className="adm-btn adm-btn-logout" onClick={handleLogout}>로그아웃</button>
@@ -317,6 +477,88 @@ export default function Admin() {
         <div className="adm-center" style={{ minHeight: '60vh' }}><p className="adm-loading">데이터 로딩 중...</p></div>
       ) : (
         <div className="adm-body">
+          {/* ── GA4 Analytics ── */}
+          <h2 className="adm-group-title">방문자 분석</h2>
+
+          {!gaData && !gaLoading && (
+            <div className="adm-ga-connect">
+              <button className="adm-btn adm-btn-ga" onClick={handleLoadGA4}>GA4 데이터 불러오기</button>
+              {gaError && <p className="adm-ga-error">{gaError}</p>}
+            </div>
+          )}
+
+          {gaLoading && (
+            <div className="adm-ga-connect">
+              <p className="adm-loading">GA4 데이터 로딩 중...</p>
+            </div>
+          )}
+
+          {gaData && (
+            <>
+              <div className="adm-cards">
+                <div className="adm-card">
+                  <p className="adm-card-label">오늘 방문자</p>
+                  <p className="adm-card-value">{gaData.visitors.today}</p>
+                </div>
+                <div className="adm-card">
+                  <p className="adm-card-label">이번 주 방문자</p>
+                  <p className="adm-card-value">{gaData.visitors.thisWeek}</p>
+                </div>
+                <div className="adm-card">
+                  <p className="adm-card-label">이번 달 방문자</p>
+                  <p className="adm-card-value">{gaData.visitors.thisMonth}</p>
+                </div>
+              </div>
+
+              <div className="adm-section">
+                <h2 className="adm-section-title">유입 경로별 방문자 <span className="adm-section-sub">최근 30일</span></h2>
+                {gaData.sources.length === 0 ? (
+                  <p className="adm-empty">데이터가 없습니다</p>
+                ) : (
+                  <div className="adm-dist">
+                    {gaData.sources.map(({ source, count }) => (
+                      <div key={source} className="adm-dist-row">
+                        <span className="adm-dist-label" style={{ color: '#1A3270' }}>
+                          {SOURCE_LABELS[source] || source}
+                        </span>
+                        <div className="adm-dist-bar-wrap">
+                          <div className="adm-dist-bar" style={{
+                            width: `${(count / gaData.sources[0].count) * 100}%`,
+                            backgroundColor: '#4285F4',
+                          }} />
+                        </div>
+                        <span className="adm-dist-count">{count}건</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="adm-section">
+                <h2 className="adm-section-title">전환 행동 <span className="adm-section-sub">최근 30일</span></h2>
+                <div className="adm-conv-cards">
+                  <div className="adm-conv-card">
+                    <p className="adm-conv-label">카카오톡 클릭</p>
+                    <p className="adm-conv-value">{gaData.conversions.kakao}</p>
+                  </div>
+                  <div className="adm-conv-card">
+                    <p className="adm-conv-label">전화 클릭</p>
+                    <p className="adm-conv-value">{gaData.conversions.phone}</p>
+                  </div>
+                  <div className="adm-conv-card">
+                    <p className="adm-conv-label">네이버 지도 클릭</p>
+                    <p className="adm-conv-value">{gaData.conversions.naverMap}</p>
+                  </div>
+                </div>
+              </div>
+
+              <button className="adm-btn adm-btn-ga-refresh" onClick={() => fetchGA4(gaToken!)}>새로고침</button>
+            </>
+          )}
+
+          {/* ── Self-diagnosis Analytics ── */}
+          <h2 className="adm-group-title">자가진단 분석</h2>
+
           {/* Summary Cards */}
           <div className="adm-cards">
             <div className="adm-card">

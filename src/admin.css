@@ -394,6 +394,104 @@
 .adm-detail-q { font-size: 0.72rem; color: var(--navy); font-weight: 700; letter-spacing: 0.01em; }
 .adm-detail-a { font-size: 0.85rem; line-height: 1.6; word-break: keep-all; color: #444; }
 
+/* ── Group Title ── */
+.adm-group-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  margin-top: 8px;
+  padding-left: 4px;
+}
+.adm-group-title:not(:first-child) {
+  margin-top: 36px;
+}
+
+/* ── GA4 Connect ── */
+.adm-ga-connect {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 28px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+  text-align: center;
+}
+.adm-btn-ga {
+  background: #4285F4;
+  color: #fff;
+  padding: 14px 32px;
+  font-size: 0.92rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  transition: all 0.2s;
+  box-shadow: 0 4px 18px rgba(66,133,244,0.3);
+}
+.adm-btn-ga:hover:not(:disabled) { background: #3367D6; transform: translateY(-1px); }
+.adm-btn-ga:disabled { opacity: 0.5; cursor: not-allowed; }
+.adm-ga-error {
+  color: #D76618;
+  font-size: 0.82rem;
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* ── GA4 Refresh ── */
+.adm-btn-ga-refresh {
+  display: block;
+  margin: 0 auto 20px;
+  background: transparent;
+  color: #999;
+  padding: 8px 20px;
+  font-size: 0.78rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.adm-btn-ga-refresh:hover { color: #4285F4; border-color: #4285F4; }
+
+/* ── Section Sub ── */
+.adm-section-sub {
+  font-weight: 400;
+  color: #bbb;
+  font-size: 0.72rem;
+  margin-left: 4px;
+}
+
+/* ── Conversion Cards ── */
+.adm-conv-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.adm-conv-card {
+  text-align: center;
+  padding: 22px 16px;
+  background: #f7f8fa;
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+.adm-conv-card:hover { transform: translateY(-2px); }
+.adm-conv-label {
+  font-size: 0.72rem;
+  color: #999;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+.adm-conv-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
   .adm-header { padding: 0 16px; height: 50px; }
@@ -413,4 +511,7 @@
   .adm-modal-body { padding: 22px 18px; }
   .adm-detail-item { padding: 10px 14px; }
   .adm-btn-more { padding: 11px 24px; font-size: 0.85rem; }
+  .adm-conv-cards { grid-template-columns: 1fr; gap: 10px; }
+  .adm-conv-card { padding: 18px 14px; }
+  .adm-conv-value { font-size: 1.4rem; }
 }
