@@ -46,9 +46,14 @@ const PERIOD_OPTIONS: { key: GAPeriod; label: string }[] = [
 const SOURCE_LABELS: Record<string, string> = {
   '(direct)': '직접 접속',
   '(not set)': '기타',
+  '(미설정)': '기타',
+  '(직접)': '직접 접속',
   'google': '구글',
   'naver': '네이버 검색',
   'naver.com': '네이버 검색',
+  'm.naver.com': '네이버 검색',
+  'search.naver.com': '네이버 검색',
+  'm.search.naver.com': '네이버 검색',
   'daum': '다음',
   'bing': '빙',
   'yahoo': '야후',
@@ -57,6 +62,9 @@ const SOURCE_LABELS: Record<string, string> = {
   'kakaotalk': '카카오톡',
   'kakao': '카카오톡',
   'band': '밴드',
+  'band.us': '밴드',
+  'youtube.com': '유튜브',
+  'tistory.com': '티스토리',
 }
 
 interface DeviceInfo {
@@ -118,21 +126,24 @@ function computeDateRange(period: GAPeriod, customStart: string, customEnd: stri
 function getSourceLabel(source: string): string {
   if (SOURCE_LABELS[source]) return SOURCE_LABELS[source]
   const s = source.toLowerCase()
-  if (s.includes('place.naver') || s.startsWith('pcmap.') || s.includes('place.n')) return '네이버 플레이스'
-  if (s.includes('map.naver')) return '네이버 지도'
-  if (s.includes('blog.naver')) return '네이버 블로그'
-  if (s.includes('cafe.naver')) return '네이버 카페'
+  if (s.includes('place.naver') || s.startsWith('pcmap.') || s.includes('place.n') || s.includes('m.place.')) return '네이버 플레이스'
+  if (s.includes('map.naver') || s.includes('m.map.')) return '네이버 지도'
+  if (s.includes('blog.naver') || s.includes('m.blog.')) return '네이버 블로그'
+  if (s.includes('cafe.naver') || s.includes('m.cafe.')) return '네이버 카페'
+  if (s.includes('shopping.naver') || s.includes('smartstore.naver')) return '네이버 쇼핑'
   if (s.includes('search.naver')) return '네이버 검색'
   if (s.includes('naver')) return '네이버'
   if (s.includes('kakao')) return '카카오톡'
   if (s.includes('google')) return '구글'
   if (s.includes('youtube')) return '유튜브'
-  if (s.includes('instagram')) return '인스타그램'
-  if (s.includes('facebook') || s.includes('fb.')) return '페이스북'
-  if (s.includes('band.us')) return '밴드'
+  if (s.includes('instagram') || s.includes('l.instagram')) return '인스타그램'
+  if (s.includes('facebook') || s.includes('fb.') || s.includes('l.facebook')) return '페이스북'
+  if (s.includes('band.us') || s === 'band') return '밴드'
   if (s.includes('twitter') || s.includes('x.com') || s === 't.co') return 'X(트위터)'
-  if (s.includes('daum')) return '다음'
+  if (s.includes('tistory')) return '티스토리'
+  if (s.includes('daum') || s.includes('zum.com')) return '다음'
   if (s.includes('bing')) return '빙'
+  if (s.includes('yahoo')) return '야후'
   return source
 }
 
