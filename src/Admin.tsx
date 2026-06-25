@@ -90,7 +90,8 @@ interface SurveyDoc {
 
 interface GA4Data {
   visitors: number
-  sources: Array<{ source: string; count: number }>
+  sessions: number
+  sources: Array<{ source: string; users: number; sessions: number }>
   conversions: { kakao: number; phone: number; naverMap: number }
 }
 
@@ -257,12 +258,12 @@ export default function Admin() {
       const [vR, sR, eR] = await Promise.all([
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
-          metrics: [{ name: 'activeUsers' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
         }),
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
           dimensions: [{ name: 'sessionSource' }],
-          metrics: [{ name: 'sessions' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
           orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
           limit: 20,
         }),
@@ -280,20 +281,24 @@ export default function Admin() {
       ])
 
       const visitors = parseInt(vR.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
-      const merged: Record<string, number> = {}
+      const totalSessions = parseInt(vR.rows?.[0]?.metricValues?.[1]?.value, 10) || 0
+      const merged: Record<string, { users: number; sessions: number }> = {}
       for (const row of sR.rows || []) {
         const label = getSourceLabel(row.dimensionValues[0].value)
-        merged[label] = (merged[label] || 0) + (parseInt(row.metricValues[0].value, 10) || 0)
+        if (!merged[label]) merged[label] = { users: 0, sessions: 0 }
+        merged[label].users += parseInt(row.metricValues[0].value, 10) || 0
+        merged[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
       }
       const sources = Object.entries(merged)
-        .map(([source, count]) => ({ source, count }))
-        .sort((a, b) => b.count - a.count)
+        .map(([source, { users, sessions }]) => ({ source, users, sessions }))
+        .sort((a, b) => b.sessions - a.sessions)
         .slice(0, 10)
       const evts: Record<string, number> = {}
       for (const row of eR.rows || []) evts[row.dimensionValues[0].value] = parseInt(row.metricValues[0].value, 10) || 0
 
       setGaData({
         visitors,
+        sessions: totalSessions,
         sources,
         conversions: { kakao: evts['kakao_consult_click'] || 0, phone: evts['phone_click'] || 0, naverMap: evts['naver_map_click'] || 0 },
       })
@@ -432,10 +437,11 @@ export default function Admin() {
         ['리셋클리닉 GA4 방문자 분석'],
         [],
         ['기간', periodStr],
-        ['방문자 수', gaData.visitors],
+        ['순 방문자 수', gaData.visitors],
+        ['총 방문 수', gaData.sessions],
         [],
-        ['유입 경로', '세션 수'],
-        ...gaData.sources.map(s => [s.source, s.count]),
+        ['유입 경로', '순 방문자 수', '세션 수'],
+        ...gaData.sources.map(s => [s.source, s.users, s.sessions]),
         [],
         ['전환 항목', '클릭 수'],
         ['카카오톡 클릭', gaData.conversions.kakao],
@@ -453,17 +459,17 @@ export default function Admin() {
       )
       if (!writeRes.ok) throw new Error('데이터 입력 실패')
 
-      const convHeaderRow = 7 + gaData.sources.length
+      const convHeaderRow = 8 + gaData.sources.length
       await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           requests: [
             { repeatCell: { range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 }, cell: { userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }, fields: 'userEnteredFormat(textFormat)' } },
-            { repeatCell: { range: { sheetId: 0, startRowIndex: 2, endRowIndex: 4 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat(textFormat.bold)' } },
-            { repeatCell: { range: { sheetId: 0, startRowIndex: 5, endRowIndex: 6 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 2, endRowIndex: 5 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat(textFormat.bold)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 6, endRowIndex: 7 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
             { repeatCell: { range: { sheetId: 0, startRowIndex: convHeaderRow, endRowIndex: convHeaderRow + 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
-            { autoResizeDimensions: { dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 2 } } },
+            { autoResizeDimensions: { dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 3 } } },
           ]
         }),
       })
@@ -656,10 +662,17 @@ export default function Admin() {
                 )}
               </div>
 
-              <div className="adm-ga-summary">
-                <span className="adm-ga-visitor-label">방문자 수</span>
-                <span className="adm-ga-visitor-value">{gaData.visitors}</span>
-                <span className="adm-ga-visitor-unit">명</span>
+              <div className="adm-ga-summary-cards">
+                <div className="adm-ga-summary-card">
+                  <span className="adm-ga-visitor-label">순 방문자 수</span>
+                  <span className="adm-ga-visitor-value">{gaData.visitors}</span>
+                  <span className="adm-ga-visitor-unit">명</span>
+                </div>
+                <div className="adm-ga-summary-card">
+                  <span className="adm-ga-visitor-label">총 방문 수</span>
+                  <span className="adm-ga-visitor-value">{gaData.sessions}</span>
+                  <span className="adm-ga-visitor-unit">회</span>
+                </div>
               </div>
 
               <div className="adm-section">
@@ -668,16 +681,16 @@ export default function Admin() {
                   <p className="adm-empty">데이터가 없습니다</p>
                 ) : (
                   <div className="adm-dist">
-                    {gaData.sources.map(({ source, count }) => (
+                    {gaData.sources.map(({ source, users, sessions }) => (
                       <div key={source} className="adm-dist-row">
                         <span className="adm-dist-label" style={{ color: '#1A3270' }}>{source}</span>
                         <div className="adm-dist-bar-wrap">
                           <div className="adm-dist-bar" style={{
-                            width: `${(count / gaData.sources[0].count) * 100}%`,
+                            width: `${(sessions / gaData.sources[0].sessions) * 100}%`,
                             backgroundColor: '#4285F4',
                           }} />
                         </div>
-                        <span className="adm-dist-count">{count}회</span>
+                        <span className="adm-dist-count">{users}명 / {sessions}회</span>
                       </div>
                     ))}
                   </div>

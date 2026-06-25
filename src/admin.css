@@ -196,7 +196,7 @@
   background-image: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 60%);
 }
 .adm-dist-count {
-  width: 120px;
+  width: 130px;
   font-size: 0.8rem;
   color: #555;
   text-align: right;
@@ -526,14 +526,32 @@
 .adm-period-apply:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ── GA4 Visitor Summary ── */
-.adm-ga-summary {
+.adm-ga-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.adm-ga-summary-card {
   text-align: center;
   padding: 28px 20px;
   background: #fff;
   border-radius: 16px;
   box-shadow: var(--card-shadow);
-  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
 }
+.adm-ga-summary-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.adm-ga-summary-card:first-child::before,
+.adm-ga-summary-card:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.adm-ga-summary-card:first-child::before { background: var(--navy); }
+.adm-ga-summary-card:last-child::before { background: var(--orange); }
 .adm-ga-visitor-label {
   display: block;
   font-size: 0.72rem;
@@ -613,5 +631,7 @@
   .adm-period-pill { padding: 6px 12px; font-size: 0.72rem; }
   .adm-period-custom { flex-wrap: wrap; gap: 6px; }
   .adm-period-custom input[type="date"] { flex: 1; min-width: 0; }
+  .adm-ga-summary-cards { grid-template-columns: 1fr; gap: 12px; }
   .adm-ga-visitor-value { font-size: 2.4rem; }
+  .adm-dist-count { width: 110px; }
 }
