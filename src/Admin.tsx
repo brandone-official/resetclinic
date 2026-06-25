@@ -45,8 +45,6 @@ const PERIOD_OPTIONS: { key: GAPeriod; label: string }[] = [
 
 const SOURCE_LABELS: Record<string, string> = {
   '(direct)': '직접 접속',
-  '(not set)': '기타',
-  '(미설정)': '기타',
   '(직접)': '직접 접속',
   'google': '구글',
   'naver': '네이버 검색',
@@ -55,6 +53,7 @@ const SOURCE_LABELS: Record<string, string> = {
   'search.naver.com': '네이버 검색',
   'm.search.naver.com': '네이버 검색',
   'daum': '다음',
+  'daum.net': '다음 검색',
   'bing': '빙',
   'yahoo': '야후',
   'instagram': '인스타그램',
@@ -65,6 +64,9 @@ const SOURCE_LABELS: Record<string, string> = {
   'band.us': '밴드',
   'youtube.com': '유튜브',
   'tistory.com': '티스토리',
+  't.co': '트위터/X',
+  'threads.net': '스레드',
+  'pf.kakao.com': '카카오 채널',
 }
 
 interface DeviceInfo {
@@ -124,7 +126,13 @@ function computeDateRange(period: GAPeriod, customStart: string, customEnd: stri
   }
 }
 
-function getSourceLabel(source: string): string {
+function getSourceLabel(source: string, medium?: string): string {
+  if (source === '(not set)' || source === '(미설정)') {
+    const m = (medium || '').toLowerCase()
+    if (m === 'referral') return '기타 (외부 링크)'
+    if (m === 'organic') return '기타 (검색)'
+    return '기타 (불명)'
+  }
   if (SOURCE_LABELS[source]) return SOURCE_LABELS[source]
   const s = source.toLowerCase()
   if (s.includes('place.naver') || s.startsWith('pcmap.') || s.includes('place.n') || s.includes('m.place.')) return '네이버 플레이스'
@@ -134,13 +142,15 @@ function getSourceLabel(source: string): string {
   if (s.includes('shopping.naver') || s.includes('smartstore.naver')) return '네이버 쇼핑'
   if (s.includes('search.naver')) return '네이버 검색'
   if (s.includes('naver')) return '네이버'
+  if (s.includes('pf.kakao')) return '카카오 채널'
   if (s.includes('kakao')) return '카카오톡'
   if (s.includes('google')) return '구글'
   if (s.includes('youtube')) return '유튜브'
   if (s.includes('instagram') || s.includes('l.instagram')) return '인스타그램'
   if (s.includes('facebook') || s.includes('fb.') || s.includes('l.facebook')) return '페이스북'
   if (s.includes('band.us') || s === 'band') return '밴드'
-  if (s.includes('twitter') || s.includes('x.com') || s === 't.co') return 'X(트위터)'
+  if (s.includes('twitter') || s.includes('x.com') || s === 't.co') return '트위터/X'
+  if (s.includes('threads.net')) return '스레드'
   if (s.includes('tistory')) return '티스토리'
   if (s.includes('daum') || s.includes('zum.com')) return '다음'
   if (s.includes('bing')) return '빙'
@@ -262,10 +272,10 @@ export default function Admin() {
         }),
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
-          dimensions: [{ name: 'sessionSource' }],
+          dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
           metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
           orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
-          limit: 20,
+          limit: 50,
         }),
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
@@ -284,7 +294,9 @@ export default function Admin() {
       const totalSessions = parseInt(vR.rows?.[0]?.metricValues?.[1]?.value, 10) || 0
       const merged: Record<string, { users: number; sessions: number }> = {}
       for (const row of sR.rows || []) {
-        const label = getSourceLabel(row.dimensionValues[0].value)
+        const source = row.dimensionValues[0].value
+        const medium = row.dimensionValues[1].value
+        const label = getSourceLabel(source, medium)
         if (!merged[label]) merged[label] = { users: 0, sessions: 0 }
         merged[label].users += parseInt(row.metricValues[0].value, 10) || 0
         merged[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
