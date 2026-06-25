@@ -272,7 +272,7 @@ export default function Admin() {
         }),
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
-          dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
+          dimensions: [{ name: 'sessionSource' }],
           metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
           orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
           limit: 50,
@@ -292,14 +292,46 @@ export default function Admin() {
 
       const visitors = parseInt(vR.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
       const totalSessions = parseInt(vR.rows?.[0]?.metricValues?.[1]?.value, 10) || 0
+
+      const hasNotSet = (sR.rows || []).some((r: any) => {
+        const v = r.dimensionValues[0].value
+        return v === '(not set)' || v === '(미설정)'
+      })
+      let notSetMediums: Record<string, { users: number; sessions: number }> = {}
+      if (hasNotSet) {
+        const nmR = await runGA4Report(token, propertyId, {
+          dateRanges: [dateRange],
+          dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
+          dimensionFilter: {
+            filter: {
+              fieldName: 'sessionSource',
+              stringFilter: { matchType: 'EXACT', value: '(not set)' },
+            },
+          },
+        })
+        for (const row of nmR.rows || []) {
+          const medium = row.dimensionValues[1].value
+          const label = getSourceLabel('(not set)', medium)
+          if (!notSetMediums[label]) notSetMediums[label] = { users: 0, sessions: 0 }
+          notSetMediums[label].users += parseInt(row.metricValues[0].value, 10) || 0
+          notSetMediums[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
+        }
+      }
+
       const merged: Record<string, { users: number; sessions: number }> = {}
       for (const row of sR.rows || []) {
         const source = row.dimensionValues[0].value
-        const medium = row.dimensionValues[1].value
-        const label = getSourceLabel(source, medium)
+        if (source === '(not set)' || source === '(미설정)') continue
+        const label = getSourceLabel(source)
         if (!merged[label]) merged[label] = { users: 0, sessions: 0 }
         merged[label].users += parseInt(row.metricValues[0].value, 10) || 0
         merged[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
+      }
+      for (const [label, data] of Object.entries(notSetMediums)) {
+        if (!merged[label]) merged[label] = { users: 0, sessions: 0 }
+        merged[label].users += data.users
+        merged[label].sessions += data.sessions
       }
       const sources = Object.entries(merged)
         .map(([source, { users, sessions }]) => ({ source, users, sessions }))
