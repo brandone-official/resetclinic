@@ -293,20 +293,19 @@ export default function Admin() {
       const visitors = parseInt(vR.rows?.[0]?.metricValues?.[0]?.value, 10) || 0
       const totalSessions = parseInt(vR.rows?.[0]?.metricValues?.[1]?.value, 10) || 0
 
-      let notSetUsers = 0
-      let notSetSessions = 0
-      const merged: Record<string, { users: number; sessions: number }> = {}
+      const raw: Record<string, { users: number; sessions: number }> = {}
+      let notSetUsers = 0, notSetSessions = 0
       for (const row of sR.rows || []) {
         const source = row.dimensionValues[0].value
         if (source === '(not set)' || source === '(미설정)') {
-          notSetUsers = parseInt(row.metricValues[0].value, 10) || 0
-          notSetSessions = parseInt(row.metricValues[1].value, 10) || 0
+          notSetUsers += parseInt(row.metricValues[0].value, 10) || 0
+          notSetSessions += parseInt(row.metricValues[1].value, 10) || 0
           continue
         }
         const label = getSourceLabel(source)
-        if (!merged[label]) merged[label] = { users: 0, sessions: 0 }
-        merged[label].users += parseInt(row.metricValues[0].value, 10) || 0
-        merged[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
+        if (!raw[label]) raw[label] = { users: 0, sessions: 0 }
+        raw[label].users += parseInt(row.metricValues[0].value, 10) || 0
+        raw[label].sessions += parseInt(row.metricValues[1].value, 10) || 0
       }
 
       if (notSetSessions > 0) {
@@ -321,37 +320,48 @@ export default function Admin() {
             },
           },
         })
-        const ratios: { label: string; sessions: number }[] = []
-        let rawTotal = 0
+        const mediumRatios: { label: string; s: number }[] = []
+        let mediumTotal = 0
         for (const row of nmR.rows || []) {
           const medium = row.dimensionValues[1].value
           const label = getSourceLabel('(not set)', medium)
           const s = parseInt(row.metricValues[0].value, 10) || 0
-          ratios.push({ label, sessions: s })
-          rawTotal += s
+          mediumRatios.push({ label, s })
+          mediumTotal += s
         }
-        if (ratios.length === 0) {
-          const label = getSourceLabel('(not set)')
-          merged[label] = { users: notSetUsers, sessions: notSetSessions }
+        if (mediumRatios.length === 0) {
+          raw[getSourceLabel('(not set)')] = { users: notSetUsers, sessions: notSetSessions }
         } else {
-          let assignedS = 0, assignedU = 0
-          for (let i = 0; i < ratios.length; i++) {
-            const r = ratios[i]
-            const isLast = i === ratios.length - 1
-            const s = isLast ? notSetSessions - assignedS : Math.round(notSetSessions * r.sessions / rawTotal)
-            const u = isLast ? notSetUsers - assignedU : Math.round(notSetUsers * r.sessions / rawTotal)
-            if (!merged[r.label]) merged[r.label] = { users: 0, sessions: 0 }
-            merged[r.label].sessions += s
-            merged[r.label].users += u
-            assignedS += s
-            assignedU += u
+          let aS = 0, aU = 0
+          for (let i = 0; i < mediumRatios.length; i++) {
+            const m = mediumRatios[i]
+            const isLast = i === mediumRatios.length - 1
+            const s = isLast ? notSetSessions - aS : Math.round(notSetSessions * m.s / mediumTotal)
+            const u = isLast ? notSetUsers - aU : Math.round(notSetUsers * m.s / mediumTotal)
+            if (!raw[m.label]) raw[m.label] = { users: 0, sessions: 0 }
+            raw[m.label].sessions += s
+            raw[m.label].users += u
+            aS += s; aU += u
           }
         }
       }
-      const sources = Object.entries(merged)
-        .map(([source, { users, sessions }]) => ({ source, users, sessions }))
-        .sort((a, b) => b.sessions - a.sessions)
-        .slice(0, 10)
+
+      const rawEntries = Object.entries(raw).sort((a, b) => b[1].sessions - a[1].sessions)
+      let rawTotalU = 0, rawTotalS = 0
+      for (const [, v] of rawEntries) { rawTotalU += v.users; rawTotalS += v.sessions }
+
+      const sources: { source: string; users: number; sessions: number }[] = []
+      let sumU = 0, sumS = 0
+      for (const [label, v] of rawEntries) {
+        const u = rawTotalU > 0 ? Math.round(visitors * v.users / rawTotalU) : 0
+        const s = rawTotalS > 0 ? Math.round(totalSessions * v.sessions / rawTotalS) : 0
+        sources.push({ source: label, users: u, sessions: s })
+        sumU += u; sumS += s
+      }
+      if (sources.length > 0) {
+        sources[0].users += visitors - sumU
+        sources[0].sessions += totalSessions - sumS
+      }
       const evts: Record<string, number> = {}
       for (const row of eR.rows || []) evts[row.dimensionValues[0].value] = parseInt(row.metricValues[0].value, 10) || 0
 
