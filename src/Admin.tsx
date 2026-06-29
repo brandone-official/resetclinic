@@ -34,11 +34,12 @@ const PRE_LABELS: Record<string, string> = {
 const GA4_MEASUREMENT_ID = 'G-DCPJ4FNNPV'
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'
 
-type GAPeriod = 'today' | 'thisWeek' | 'thisMonth' | 'lastMonth' | 'custom'
+type GAPeriod = 'today' | 'thisWeek' | 'lastWeek' | 'thisMonth' | 'lastMonth' | 'custom'
 
 const PERIOD_OPTIONS: { key: GAPeriod; label: string }[] = [
   { key: 'today', label: '오늘' },
   { key: 'thisWeek', label: '이번 주' },
+  { key: 'lastWeek', label: '지난 주' },
   { key: 'thisMonth', label: '이번 달' },
   { key: 'lastMonth', label: '지난 달' },
   { key: 'custom', label: '직접 선택' },
@@ -123,6 +124,13 @@ function computeDateRange(period: GAPeriod, customStart: string, customEnd: stri
       const toMon = dow === 0 ? 6 : dow - 1
       const ws = new Date(now); ws.setDate(now.getDate() - toMon)
       return { startDate: fmt(ws), endDate: fmt(now) }
+    }
+    case 'lastWeek': {
+      const dow = now.getDay()
+      const toMon = dow === 0 ? 6 : dow - 1
+      const lwEnd = new Date(now); lwEnd.setDate(now.getDate() - toMon - 1)
+      const lwStart = new Date(lwEnd); lwStart.setDate(lwEnd.getDate() - 6)
+      return { startDate: fmt(lwStart), endDate: fmt(lwEnd) }
     }
     case 'thisMonth': return { startDate: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-01`, endDate: fmt(now) }
     case 'lastMonth': {
