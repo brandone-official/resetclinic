@@ -575,6 +575,31 @@
   margin-left: 4px;
 }
 
+/* ── Daily Chart & Table ── */
+.adm-daily-chart {
+  margin-bottom: 24px;
+}
+.adm-daily-table-wrap {
+  overflow-x: auto;
+  max-height: 320px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid #f0f1f3;
+}
+.adm-daily-table th {
+  position: sticky;
+  top: 0;
+  background: #f7f8fa;
+  z-index: 1;
+}
+.adm-daily-table td {
+  text-align: center;
+}
+.adm-daily-table th:first-child,
+.adm-daily-table td:first-child {
+  text-align: left;
+}
+
 /* ── Conversion Cards ── */
 .adm-conv-cards {
   display: grid;

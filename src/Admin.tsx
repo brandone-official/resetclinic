@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User } from 'firebase/auth'
 import { collection, getDocs, query, orderBy, Timestamp } from 'firebase/firestore'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 import { auth, db } from './firebase'
 import './admin.css'
 
@@ -90,11 +91,18 @@ interface SurveyDoc {
   utmParams?: Record<string, string> | null
 }
 
+interface DailyRow {
+  date: string
+  visitors: number
+  sessions: number
+}
+
 interface GA4Data {
   visitors: number
   sessions: number
   sources: Array<{ source: string; users: number; sessions: number }>
   conversions: { kakao: number; phone: number; naverMap: number }
+  daily: DailyRow[]
 }
 
 function formatDate(ts: Timestamp | null) {
@@ -265,7 +273,7 @@ export default function Admin() {
     setGaError('')
     try {
       const dateRange = computeDateRange(p, cs, ce)
-      const [vR, sR, eR] = await Promise.all([
+      const [vR, sR, eR, dR] = await Promise.all([
         runGA4Report(token, propertyId, {
           dateRanges: [dateRange],
           metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
@@ -287,6 +295,12 @@ export default function Admin() {
               inListFilter: { values: ['kakao_consult_click', 'phone_click', 'naver_map_click'] },
             },
           },
+        }),
+        runGA4Report(token, propertyId, {
+          dateRanges: [dateRange],
+          dimensions: [{ name: 'date' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
+          orderBys: [{ dimension: { dimensionName: 'date' }, desc: false }],
         }),
       ])
 
@@ -365,11 +379,22 @@ export default function Admin() {
       const evts: Record<string, number> = {}
       for (const row of eR.rows || []) evts[row.dimensionValues[0].value] = parseInt(row.metricValues[0].value, 10) || 0
 
+      const daily: DailyRow[] = (dR.rows || []).map((row: any) => {
+        const raw = row.dimensionValues[0].value
+        const formatted = `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`
+        return {
+          date: formatted,
+          visitors: parseInt(row.metricValues[0].value, 10) || 0,
+          sessions: parseInt(row.metricValues[1].value, 10) || 0,
+        }
+      })
+
       setGaData({
         visitors,
         sessions: totalSessions,
         sources,
         conversions: { kakao: evts['kakao_consult_click'] || 0, phone: evts['phone_click'] || 0, naverMap: evts['naver_map_click'] || 0 },
+        daily,
       })
     } catch (e: any) {
       setGaError(e?.message || 'GA4 데이터를 불러오는 중 오류가 발생했습니다')
@@ -509,6 +534,10 @@ export default function Admin() {
         ['순 방문자 수', gaData.visitors],
         ['총 방문 수', gaData.sessions],
         [],
+        ['일별 추이'],
+        ['날짜', '순 방문자 수', '총 방문 수'],
+        ...gaData.daily.map(d => [d.date, d.visitors, d.sessions]),
+        [],
         ['유입 경로', '순 방문자 수', '세션 수'],
         ...gaData.sources.map(s => [s.source, s.users, s.sessions]),
         [],
@@ -528,7 +557,9 @@ export default function Admin() {
       )
       if (!writeRes.ok) throw new Error('데이터 입력 실패')
 
-      const convHeaderRow = 8 + gaData.sources.length
+      const dailyHeaderRow = 7
+      const sourceHeaderRow = 7 + 1 + gaData.daily.length + 1
+      const convHeaderRow = sourceHeaderRow + 1 + gaData.sources.length + 1
       await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -536,7 +567,9 @@ export default function Admin() {
           requests: [
             { repeatCell: { range: { sheetId: 0, startRowIndex: 0, endRowIndex: 1 }, cell: { userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }, fields: 'userEnteredFormat(textFormat)' } },
             { repeatCell: { range: { sheetId: 0, startRowIndex: 2, endRowIndex: 5 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat(textFormat.bold)' } },
-            { repeatCell: { range: { sheetId: 0, startRowIndex: 6, endRowIndex: 7 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: 6, endRowIndex: 7 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat(textFormat.bold)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: dailyHeaderRow, endRowIndex: dailyHeaderRow + 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
+            { repeatCell: { range: { sheetId: 0, startRowIndex: sourceHeaderRow, endRowIndex: sourceHeaderRow + 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
             { repeatCell: { range: { sheetId: 0, startRowIndex: convHeaderRow, endRowIndex: convHeaderRow + 1 }, cell: { userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.94, green: 0.94, blue: 0.94 } } }, fields: 'userEnteredFormat(textFormat.bold,backgroundColor)' } },
             { autoResizeDimensions: { dimensions: { sheetId: 0, dimension: 'COLUMNS', startIndex: 0, endIndex: 3 } } },
           ]
@@ -743,6 +776,45 @@ export default function Admin() {
                   <span className="adm-ga-visitor-unit">회</span>
                 </div>
               </div>
+
+              {gaPeriod !== 'today' && gaData.daily.length > 1 && (
+                <div className="adm-section">
+                  <h2 className="adm-section-title">일별 추이</h2>
+                  <div className="adm-daily-chart">
+                    <ResponsiveContainer width="100%" height={260}>
+                      <LineChart data={gaData.daily} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f1f3" />
+                        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#999' }} tickFormatter={v => v.slice(5)} />
+                        <YAxis tick={{ fontSize: 11, fill: '#999' }} allowDecimals={false} />
+                        <Tooltip
+                          contentStyle={{ borderRadius: 10, border: '1px solid #e0e0e0', fontSize: '0.82rem' }}
+                          labelFormatter={v => `${v}`}
+                          formatter={(value, name) => [value, name === 'visitors' ? '순 방문자 수' : '총 방문 수']}
+                        />
+                        <Legend formatter={v => v === 'visitors' ? '순 방문자 수' : '총 방문 수'} />
+                        <Line type="monotone" dataKey="visitors" stroke="#D76618" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+                        <Line type="monotone" dataKey="sessions" stroke="#1A3270" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="adm-daily-table-wrap">
+                    <table className="adm-table adm-daily-table">
+                      <thead>
+                        <tr><th>날짜</th><th>순 방문자 수(명)</th><th>총 방문 수(회)</th></tr>
+                      </thead>
+                      <tbody>
+                        {[...gaData.daily].reverse().map(row => (
+                          <tr key={row.date}>
+                            <td>{row.date}</td>
+                            <td>{row.visitors}</td>
+                            <td>{row.sessions}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
               <div className="adm-section">
                 <h2 className="adm-section-title">유입 경로별 방문 수</h2>
